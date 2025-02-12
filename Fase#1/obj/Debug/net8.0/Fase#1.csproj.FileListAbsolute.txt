@@ -1,0 +1,15 @@
+/home/farot/Escritorio/EDD lab/-EDD-1S2025_202307820/Fase#1/bin/Debug/net8.0/Fase#1
+/home/farot/Escritorio/EDD lab/-EDD-1S2025_202307820/Fase#1/bin/Debug/net8.0/Fase#1.deps.json
+/home/farot/Escritorio/EDD lab/-EDD-1S2025_202307820/Fase#1/bin/Debug/net8.0/Fase#1.runtimeconfig.json
+/home/farot/Escritorio/EDD lab/-EDD-1S2025_202307820/Fase#1/bin/Debug/net8.0/Fase#1.dll
+/home/farot/Escritorio/EDD lab/-EDD-1S2025_202307820/Fase#1/bin/Debug/net8.0/Fase#1.pdb
+/home/farot/Escritorio/EDD lab/-EDD-1S2025_202307820/Fase#1/obj/Debug/net8.0/Fase#1.GeneratedMSBuildEditorConfig.editorconfig
+/home/farot/Escritorio/EDD lab/-EDD-1S2025_202307820/Fase#1/obj/Debug/net8.0/Fase#1.AssemblyInfoInputs.cache
+/home/farot/Escritorio/EDD lab/-EDD-1S2025_202307820/Fase#1/obj/Debug/net8.0/Fase#1.AssemblyInfo.cs
+/home/farot/Escritorio/EDD lab/-EDD-1S2025_202307820/Fase#1/obj/Debug/net8.0/Fase#1.csproj.CoreCompileInputs.cache
+/home/farot/Escritorio/EDD lab/-EDD-1S2025_202307820/Fase#1/obj/Debug/net8.0/Fase#1.sourcelink.json
+/home/farot/Escritorio/EDD lab/-EDD-1S2025_202307820/Fase#1/obj/Debug/net8.0/Fase#1.dll
+/home/farot/Escritorio/EDD lab/-EDD-1S2025_202307820/Fase#1/obj/Debug/net8.0/refint/Fase#1.dll
+/home/farot/Escritorio/EDD lab/-EDD-1S2025_202307820/Fase#1/obj/Debug/net8.0/Fase#1.pdb
+/home/farot/Escritorio/EDD lab/-EDD-1S2025_202307820/Fase#1/obj/Debug/net8.0/Fase#1.genruntimeconfig.cache
+/home/farot/Escritorio/EDD lab/-EDD-1S2025_202307820/Fase#1/obj/Debug/net8.0/ref/Fase#1.dll
