@@ -1,8 +1,16 @@
 {
   "version": 2,
-  "dgSpecHash": "Vk2f8jtSJZ5ljuSX4InOD5jcS5Wg6W83IA9aHZZEirzCWEJ8KB0AsgXMcBt0N4+yElTxpT4VMNty+fBMNAI0KQ==",
+  "dgSpecHash": "jUXN3hIPp5Y=",
   "success": true,
-  "projectFilePath": "/home/farot/Escritorio/EDD lab/-EDD-1S2025_202307820/Fase#1/Fase#1.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "/home/farot/Documentos/lab EDD/-EDD-1S2025_202307820/Fase#1/Fase#1.csproj",
+  "expectedPackageFiles": [
+    "/home/farot/.nuget/packages/atksharp/3.24.24.95/atksharp.3.24.24.95.nupkg.sha512",
+    "/home/farot/.nuget/packages/cairosharp/3.24.24.95/cairosharp.3.24.24.95.nupkg.sha512",
+    "/home/farot/.nuget/packages/gdksharp/3.24.24.95/gdksharp.3.24.24.95.nupkg.sha512",
+    "/home/farot/.nuget/packages/giosharp/3.24.24.95/giosharp.3.24.24.95.nupkg.sha512",
+    "/home/farot/.nuget/packages/glibsharp/3.24.24.95/glibsharp.3.24.24.95.nupkg.sha512",
+    "/home/farot/.nuget/packages/gtksharp/3.24.24.95/gtksharp.3.24.24.95.nupkg.sha512",
+    "/home/farot/.nuget/packages/pangosharp/3.24.24.95/pangosharp.3.24.24.95.nupkg.sha512"
+  ],
   "logs": []
 }
