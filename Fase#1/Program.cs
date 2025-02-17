@@ -3,8 +3,8 @@
 class Program{
     public static void Main(string[] args){
         Application.Init();
-        InicioS win = new InicioS();
-        win.ShowAll();
+        InicioS Patata = new InicioS();
+        Patata.ShowAll();
         Application.Run();
     }
 }

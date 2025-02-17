@@ -3,11 +3,11 @@ namespace Repuestos
     public class Repuesto
     {
         public int Id { get; set; }
-        public string NRepuesto { get; set; }
-        public string Descripcion { get; set; }
+        public char NRepuesto { get; set; }
+        public char Descripcion { get; set; }
         public double Precio { get; set; }
 
-        public Repuesto(int id, string repuesto, string descripcion, double precio)
+        public Repuesto(int id, char repuesto, char descripcion, double precio)
         {
             Id = id;
             NRepuesto = repuesto;

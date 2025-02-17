@@ -16,6 +16,11 @@ public class Masivo : Window
         ApplyFont(button1, "Arial 20");
         fixedContainer.Put(button1, 200, 250);
 
+        Button button2 = new Button("Regresar");
+        button2.Clicked += Regresar;
+        ApplyFont(button2, "Arial 20");
+        fixedContainer.Put(button2, 200, 300);
+
         Add(fixedContainer);
     }
 
@@ -28,6 +33,17 @@ public class Masivo : Window
         /*FileChooserDialog fileChooser = new FileChooserDialog("Seleccione el archivo a cargar", this, FileChooserAction.Open, "Cancelar", ResponseType.Cancel, "Abrir", ResponseType.Accept);
         fileChooser.Run();
         fileChooser.Destroy();*/
+    }
+
+    private void Regresar(object? sender, EventArgs e)
+    {
+        MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Regresando");
+        Console.WriteLine("Regresando");
+        md.Run();
+        md.Destroy();
+        Menus menus = new Menus();
+        menus.ShowAll();
+        this.Hide();
     }
 
     private EventBox CreateStyledLabel(string text, string font)

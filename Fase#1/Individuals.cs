@@ -59,7 +59,24 @@ public class Individuals : Window
         ApplyFont(button, "Arial 20");
         fixedContainer.Put(button, 170, 400);
 
+        Button button1 = new Button("Regresar");
+        button1.Clicked += OnShowButtonClicked1;
+        button1.SetSizeRequest(100, 50);
+        ApplyFont(button1, "Arial 20");
+        fixedContainer.Put(button1, 170, 470);
+
         Add(fixedContainer);
+    }
+
+    private void OnShowButtonClicked1(object? sender, EventArgs e)
+    {
+        MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Regresando");
+        Console.WriteLine("Regresando");
+        md.Run();
+        md.Destroy();
+        Menus menus = new Menus();
+        menus.ShowAll();
+        this.Hide();
     }
 
     private EventBox CreateStyledLabel(string text, string font)

@@ -26,6 +26,7 @@ public class InicioS : Window
         fixedContainer.Put(Contras, 100, 250);
 
         Contrasenas = new Entry();
+        Contrasenas.Visibility = false;
         ApplyFont(Contrasenas, "Arial 12");
         fixedContainer.Put(Contrasenas, 250, 250);
 

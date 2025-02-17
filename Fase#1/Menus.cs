@@ -4,7 +4,7 @@ public class Menus : Window
 {
     public Menus() : base("Menu del usuario")
     {
-        SetDefaultSize(500, 700);
+        SetDefaultSize(500, 600);
         SetPosition(WindowPosition.Center);
 
         Fixed fixedContainer = new Fixed();
@@ -83,7 +83,7 @@ public class Menus : Window
         Console.WriteLine("Ingreso individual");
         md.Run();
         md.Destroy();
-        Individuals individup = new Individuals();
+        MenuIngresos individup = new MenuIngresos();
         individup.ShowAll();
         this.Hide();
     }
@@ -94,6 +94,9 @@ public class Menus : Window
         Console.WriteLine("Gestión de Usuarios");
         md.Run();
         md.Destroy();
+        Gestion gest = new Gestion();
+        gest.ShowAll();
+        this.Hide();
     }
 
     private void Generaciones(object? sender, EventArgs e)
