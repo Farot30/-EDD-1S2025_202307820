@@ -1,6 +1,6 @@
 namespace Repuestos
 {
-    public class Repuesto
+    public unsafe struct Repuesto
     {
         public int Id { get; set; }
         public char NRepuesto { get; set; }

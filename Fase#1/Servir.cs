@@ -1,15 +1,24 @@
 using Gtk;
+using List;
+using Usuarios;
+using ListaDobleUnsafe;
+using System.Threading.Tasks;
 
 public class Servir : Window
 {
-
     private Entry Idss;
     private Entry ID_respuesto;
     private Entry ID_Vehículo;
     private Entry Detalles;
     private Entry Costo;
-    public Servir() : base("Servicios")
+
+    private ListaDoblementeEnlazada listaAutos;
+    private ListaSimple<Usuario> lista;
+
+    public unsafe Servir(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos) : base("Servicios")
     {
+        this.listaAutos = listaAutos;
+        this.lista = lista;
         SetDefaultSize(500, 600);
         SetPosition(WindowPosition.Center);
 
@@ -66,33 +75,36 @@ public class Servir : Window
         fixedContainer.Put(Regreso, 260, 400);
 
         Add(fixedContainer);
-    
     }
 
-    private void OnShowButtonClicked(object? sender, EventArgs e){
-        if(string.IsNullOrEmpty(Idss.Text) || 
-        string.IsNullOrEmpty(ID_respuesto.Text) || 
-        string.IsNullOrEmpty(ID_Vehículo.Text) || 
-        string.IsNullOrEmpty(Detalles.Text) || 
-        string.IsNullOrEmpty (Costo.Text)){
-            MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Favor de llenar todos los campos");
-            md.Run();
-            md.Destroy();
-        }else{
-            MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Guardando");
-            Console.WriteLine("Guardando");
-            md.Run();
-            md.Destroy();
+    private unsafe void OnShowButtonClicked(object? sender, EventArgs e)
+    {
+        if (string.IsNullOrEmpty(Idss.Text) || 
+            string.IsNullOrEmpty(ID_respuesto.Text) || 
+            string.IsNullOrEmpty(ID_Vehículo.Text) || 
+            string.IsNullOrEmpty(Detalles.Text) || 
+            string.IsNullOrEmpty(Costo.Text))
+        {
+            using (MessageDialog md1 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Favor de llenar todos los campos"))
+            {
+                md1.Run();
+                md1.Destroy();
+            }
+        }
+        else
+        {
+            using (MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Guardando"))
+            {
+                Console.WriteLine("Guardando");
+                md.Run();
+                md.Destroy();
+            }
         }
     }
 
-    private void Regresar(object? sender, EventArgs e)
+    private unsafe void Regresar(object? sender, EventArgs e)
     {
-        MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Regresando");
-        Console.WriteLine("Regresando");
-        md.Run();
-        md.Destroy();
-        Menus menus = new Menus();
+        Menus menus = new Menus(lista, listaAutos);
         menus.ShowAll();
         this.Hide();
     }

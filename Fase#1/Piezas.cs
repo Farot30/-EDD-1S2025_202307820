@@ -1,4 +1,8 @@
 using Gtk;
+using List;
+using Usuarios;
+using ListaDobleUnsafe;
+using System.Threading.Tasks;
 
 public class Piezas : Window
 {
@@ -7,8 +11,13 @@ public class Piezas : Window
     private Entry Descripcion;
     private Entry Costo;
 
-    public Piezas() : base("Ingreso de Repuestos")
+    private ListaSimple<Usuario> lista;
+    private ListaDoblementeEnlazada listaAutos;
+
+    public unsafe Piezas(ListaSimple<Usuario> lista, ListaDoblementeEnlazada ListaAutos) : base("Ingreso de Repuestos")
     {
+        this.listaAutos = ListaAutos;
+        this.lista = lista;
         SetDefaultSize(500, 600);
         SetPosition(WindowPosition.Center);
 
@@ -58,35 +67,30 @@ public class Piezas : Window
         fixedContainer.Put(Regreso, 250, 350);
 
         Add(fixedContainer);
-
     }
 
-    private void OnShowButtonClicked(object? sender, EventArgs e)
+    private unsafe void OnShowButtonClicked(object? sender, EventArgs e)
     {
-        if(string.IsNullOrEmpty(IDs1.Text) || 
-        string.IsNullOrEmpty(Repuesto.Text) || 
-        string.IsNullOrEmpty(Descripcion.Text) || 
-        string.IsNullOrEmpty(Costo.Text))
+        if (string.IsNullOrEmpty(IDs1.Text) || 
+            string.IsNullOrEmpty(Repuesto.Text) || 
+            string.IsNullOrEmpty(Descripcion.Text) || 
+            string.IsNullOrEmpty(Costo.Text))
         {
-            MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Favor de llenar todos los campos");
-            md.Run();
-            md.Destroy();
+            MessageDialog md1 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Favor de llenar todos los campos");
+            md1.Run();
+            md1.Destroy();
         }
         else
         {
-            MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Guardado");
-            md.Run();
-            md.Destroy();
+            MessageDialog md1 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Guardado");
+            md1.Run();
+            md1.Destroy();
         }
     }
 
-    private void Regresar(object? sender, EventArgs e)
+    private unsafe void Regresar(object? sender, EventArgs e)
     {
-        MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Regresando");
-        Console.WriteLine("Regresando");
-        md.Run();
-        md.Destroy();
-        Menus menus = new Menus();
+        Menus menus = new Menus(lista, listaAutos);
         menus.ShowAll();
         this.Hide();
     }

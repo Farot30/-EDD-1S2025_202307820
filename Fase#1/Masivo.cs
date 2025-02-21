@@ -1,8 +1,16 @@
 using Gtk;
+using List;
+using Usuarios;
+using ListaDobleUnsafe;
 
 public class Masivo : Window
 {
-    public Masivo() : base("Cargas masivas"){
+    private ListaSimple<Usuario> lista;
+    private ListaDoblementeEnlazada listaAutos;
+    public unsafe Masivo(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos) : base("Cargas masivas"){
+        
+        this.listaAutos = listaAutos;
+        this.lista = lista;
         SetDefaultSize(500, 400);
         SetPosition(WindowPosition.Center);
 
@@ -24,7 +32,7 @@ public class Masivo : Window
         Add(fixedContainer);
     }
 
-    private void Cargaras(object? sender, EventArgs e)
+    private unsafe void Cargaras(object? sender, EventArgs e)
     {
         MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Aquí se cargará el archivo en teoría");
         Console.WriteLine("Se debe de cargar un archivo");
@@ -35,13 +43,9 @@ public class Masivo : Window
         fileChooser.Destroy();*/
     }
 
-    private void Regresar(object? sender, EventArgs e)
+    private unsafe void Regresar(object? sender, EventArgs e)
     {
-        MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Regresando");
-        Console.WriteLine("Regresando");
-        md.Run();
-        md.Destroy();
-        Menus menus = new Menus();
+        Menus menus = new Menus(lista, listaAutos);
         menus.ShowAll();
         this.Hide();
     }

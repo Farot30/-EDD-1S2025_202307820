@@ -1,9 +1,16 @@
 ﻿using Gtk;
+using System;
+using List;
+using Usuarios;
+using ListaDobleUnsafe;
 
 class Program{
-    public static void Main(string[] args){
+
+    static unsafe void Main(){
         Application.Init();
-        InicioS Patata = new InicioS();
+        ListaSimple<Usuario> listaUsuarios = new ListaSimple<Usuario>();
+        ListaDoblementeEnlazada listaAutos = new ListaDoblementeEnlazada();
+        InicioS Patata = new InicioS(listaUsuarios, listaAutos);
         Patata.ShowAll();
         Application.Run();
     }

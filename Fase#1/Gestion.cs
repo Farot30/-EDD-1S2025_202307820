@@ -1,12 +1,18 @@
 using Gtk;
-
+using List;
+using Usuarios;
+using ListaDobleUnsafe;
 public class Gestion : Window
 {
     private Entry ID_Vision;
     private Entry ID_Edisicón;
     private Entry ID_Eliminación;
-    public Gestion() : base("Gestionar los Usuarios")
+    private ListaSimple<Usuario> lista;
+    private ListaDoblementeEnlazada listaAutos;
+    public unsafe Gestion(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos) : base("Gestionar los Usuarios")
     {
+        this.listaAutos = listaAutos;
+        this.lista = lista;
         SetDefaultSize(500, 375);
         SetPosition(WindowPosition.Center);
 
@@ -54,7 +60,7 @@ public class Gestion : Window
         Add(fixedContainer);
     }
 
-    private void VerUsuario(object? sender, EventArgs e)
+    private unsafe void VerUsuario(object? sender, EventArgs e)
     {
         MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "entrando a ver usuario");
         Console.WriteLine("entrando a ver usuario");
@@ -62,7 +68,7 @@ public class Gestion : Window
         md.Destroy();
     }
 
-    private void EditarUsuario(object? sender, EventArgs e)
+    private unsafe void EditarUsuario(object? sender, EventArgs e)
     {
         MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "entrando a editar usuario");
         Console.WriteLine("entrando a editar usuario");
@@ -70,7 +76,7 @@ public class Gestion : Window
         md.Destroy();
     }
 
-    private void EliminarUsuario(object? sender, EventArgs e)
+    private unsafe void EliminarUsuario(object? sender, EventArgs e)
     {
         MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "entrando a eliminar usuario");
         Console.WriteLine("entrando a eliminar usuario");
@@ -78,13 +84,9 @@ public class Gestion : Window
         md.Destroy();
     }
 
-    private void Regresar(object? sender, EventArgs e)
+    private unsafe void Regresar(object? sender, EventArgs e)
     {
-        MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Regresando");
-        Console.WriteLine("Regresando");
-        md.Run();
-        md.Destroy();
-        Menus menus = new Menus();
+        Menus menus = new Menus(lista, listaAutos);
         menus.ShowAll();
         this.Hide();
     }

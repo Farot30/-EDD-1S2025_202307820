@@ -1,4 +1,8 @@
 using Gtk;
+using List;
+using Usuarios;
+using Vehiculos;
+using ListaDobleUnsafe;
 
 public class Autos : Window
 {
@@ -7,8 +11,13 @@ public class Autos : Window
     private Entry Marcas;
     private Entry Modelos;
     private Entry Placas;
-    public Autos() : base("Ingreso de vehículos"){
-        
+    private ListaSimple<Usuario> lista;
+    private ListaDoblementeEnlazada listaAutos;
+
+    public unsafe Autos(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos) : base("Ingreso de vehículos")
+    {
+        this.lista = lista;
+        this.listaAutos = listaAutos;
         SetDefaultSize(500, 600);
         SetPosition(WindowPosition.Center);
 
@@ -65,7 +74,6 @@ public class Autos : Window
         fixedContainer.Put(button1, 250, 400);
 
         Add(fixedContainer);
-
     }
 
     private EventBox CreateStyledLabel(string text, string font)
@@ -94,35 +102,89 @@ public class Autos : Window
         }
     }
 
-    private void Regresar(object? sender, EventArgs e)
+    private unsafe void Regresar(object? sender, EventArgs e)
     {
         MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Regresando");
         Console.WriteLine("Regresando");
         md.Run();
         md.Destroy();
-        Menus menus = new Menus();
+        Menus menus = new Menus(lista, listaAutos);
         menus.ShowAll();
         this.Hide();
     }
 
-    private void OnShowButtonClicked(object? sender, EventArgs e)
+    private unsafe void OnShowButtonClicked(object? sender, EventArgs e)
     {
         if (string.IsNullOrWhiteSpace(ids.Text) || 
-        string.IsNullOrWhiteSpace(ids_Usuario.Text) || 
-        string.IsNullOrWhiteSpace(Marcas.Text) || 
-        string.IsNullOrWhiteSpace(Modelos.Text) || 
-        string.IsNullOrWhiteSpace(Placas.Text))
+            string.IsNullOrWhiteSpace(ids_Usuario.Text) || 
+            string.IsNullOrWhiteSpace(Marcas.Text) || 
+            string.IsNullOrWhiteSpace(Modelos.Text) || 
+            string.IsNullOrWhiteSpace(Placas.Text))
         {
-            MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Error, ButtonsType.Ok, "Por favor llene todos los campos");
-            md.Run();
-            md.Destroy();
+            MessageDialog md3 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Error, ButtonsType.Ok, "Por favor llene todos los campos");
+            md3.Run();
+            md3.Destroy();
         }
         else
         {
-            MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Guardado");
-            md.Run();
-            md.Destroy();
+            if (int.TryParse(ids.Text, out int id) && int.TryParse(ids_Usuario.Text, out int idUsuario) && int.TryParse(Modelos.Text, out int modelos))
+            {
+                // Verificar si el ID ya existe en la lista
+                if (IdExists(id))
+                {
+                    MessageDialog md4 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Warning, ButtonsType.Ok, "El ID ya existe. Por favor, ingrese otro ID.");
+                    md4.Run();
+                    md4.Destroy();
+                    return;
+                }
+                // Verificar si el ID de usuario existe en la lista de usuarios
+                if (!UsuarioExists(idUsuario))
+                {
+                    MessageDialog md2 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Warning, ButtonsType.Ok, "El ID de usuario no existe. Por favor, ingrese un ID de usuario válido.");
+                    md2.Run();
+                    md2.Destroy();
+                    return;
+                }
+
+                listaAutos.Insertar(id, idUsuario, Marcas.Text, modelos, Placas.Text);
+                MessageDialog md1 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Guardado");
+                md1.Run();
+                md1.Destroy();
+                listaAutos.Mostrar();
+            }
+            else
+            {
+                MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Error, ButtonsType.Ok, "ID y ID Usuario deben ser números enteros");
+                md.Run();
+                md.Destroy();
+            }
         }
     }
 
+    private unsafe bool IdExists(int id)
+    {
+        Vehiculos.Node* actual = listaAutos.Head;
+        while (actual != null)
+        {
+            if (actual->Id == id)
+            {
+                return true;
+            }
+            actual = actual->Next;
+        }
+        return false;
+    }
+    private unsafe bool UsuarioExists(int idUsuario)
+    {
+        Nodo<Usuario>* actual = lista.Cabeza;
+        while (actual != null)
+        {
+            if (actual->Data.Id == idUsuario)
+            {
+                return true;
+            }
+            actual = actual->Sig;
+        }
+        return false;
+    }
 }

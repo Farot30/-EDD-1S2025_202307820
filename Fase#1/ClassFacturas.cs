@@ -1,6 +1,6 @@
 namespace Facturas
 {
-    public class Factura
+    public unsafe struct Factura
     {
         public int ID { get; set; }
         public int ID_Orden { get; set; }  

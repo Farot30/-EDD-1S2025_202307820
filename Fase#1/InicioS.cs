@@ -1,12 +1,20 @@
 using Gtk;
+using List;
+using System;
+using Usuarios;
+using ListaDobleUnsafe;
 
 public class InicioS : Window
 {
     private Entry Usuarios;
     private Entry Contrasenas;
+    private ListaDoblementeEnlazada listaAutos;
+    private ListaSimple<Usuario> lista;
 
-    public InicioS() : base("Interfaz Inicio")
+    public unsafe InicioS(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos) : base("Interfaz Inicio")
     {
+        this.listaAutos = listaAutos;
+        this.lista = lista;
         SetDefaultSize(500, 500);
         SetPosition(WindowPosition.Center);
 
@@ -65,7 +73,7 @@ public class InicioS : Window
         }
     }
 
-    private void OnShowButtonClicked(object? sender, System.EventArgs e)
+    private unsafe void OnShowButtonClicked(object? sender, System.EventArgs e)
     {
         if (Usuarios.Text == "root@gmail.com" && Contrasenas.Text == "root123")
         {
@@ -73,15 +81,15 @@ public class InicioS : Window
             Console.WriteLine("Inicio de sesión exitoso");
             md.Run();
             md.Destroy();
-            Menus menus = new Menus();
+            Menus menus = new Menus(lista, listaAutos);
             menus.ShowAll();
             this.Hide();
         }
         else
         {
-            MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Datos errones carnal");
-            md.Run();
-            md.Destroy();
+            MessageDialog md1 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Datos errones carnal");
+            md1.Run();
+            md1.Destroy();
         }
     }
 }

@@ -1,9 +1,19 @@
 using Gtk;
+using Usuarios;
+using List;
+using System;
+using ListaDobleUnsafe;
+using System.Threading.Tasks;
 
 public class MenuIngresos : Window
 {
-    public MenuIngresos () : base ("Menu de ingresos")
+    private ListaDoblementeEnlazada listaAutos;
+    private ListaSimple<Usuario> lista;
+
+    public unsafe MenuIngresos(ListaSimple<Usuario> lista, ListaDoblementeEnlazada ListaAutos) : base("Menu de ingresos")
     {
+        this.listaAutos = ListaAutos;
+        this.lista = lista;
         SetDefaultSize(500, 700);
         SetPosition(WindowPosition.Center);
 
@@ -45,64 +55,45 @@ public class MenuIngresos : Window
         Add(fixedContainer);
     }
 
-    private void Usus1(object? sender, EventArgs e)
+    private unsafe void Usus1(object? sender, EventArgs e)
     {
-        MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "entrando a ingresar usuario");
         Console.WriteLine("entrando a ingresar usuario");
-        md.Run();
-        md.Destroy();
-        Individuals individuals = new Individuals();
+        Individuals individuals = new Individuals(lista, listaAutos);
         individuals.ShowAll();
         this.Hide();
     }
 
-    private void Vehí(object? sender, EventArgs e)
+    private unsafe void Vehí(object? sender, EventArgs e)
     {
-        MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "entrando a ingresar Vehículos");
         Console.WriteLine("entrando a ingresar Vehículos");
-        md.Run();
-        md.Destroy();
-        Autos autos = new Autos();
+        Autos autos = new Autos(lista, listaAutos);
         autos.ShowAll();
         this.Hide();
-
     }
 
-    private void Repuestos(object? sender, EventArgs e)
+    private unsafe void Repuestos(object? sender, EventArgs e)
     {
-        MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "entrando a ingresar Repuestos");
         Console.WriteLine("entrando a ingresar Repuestos");
-        md.Run();
-        md.Destroy();
-        Piezas piezas = new Piezas();
+        Piezas piezas = new Piezas(lista, listaAutos);
         piezas.ShowAll();
         this.Hide();
-
     }
 
-    private void IngresarServicios(object? sender, EventArgs e)
+    private unsafe void IngresarServicios(object? sender, EventArgs e)
     {
-        MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "entrando a ingresar Servicios");
         Console.WriteLine("entrando a ingresar Servicios");
-        md.Run();
-        md.Destroy();
-        Servir servir = new Servir();
+        Servir servir = new Servir(lista, listaAutos);
         servir.ShowAll();
         this.Hide();
-
     }
 
-    private void Regresar(object? sender, EventArgs e)
+    private unsafe void Regresar(object? sender, EventArgs e)
     {
-        MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Regresando");
         Console.WriteLine("Regresando");
-        md.Run();
-        md.Destroy();
-        Menus menus = new Menus();
+        Menus menus = new Menus(lista, listaAutos);
         menus.ShowAll();
         this.Hide();
     }
-
 
     private EventBox CreateStyledLabel(string text, string font)
     {

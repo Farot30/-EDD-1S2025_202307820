@@ -1,15 +1,24 @@
 using Gtk;
+using List;
+using System;
+using Usuarios;
+using ListaDobleUnsafe;
 
 public class Individuals : Window
 {
-
     private Entry ID;
     private Entry Nombres;
     private Entry Apellidos;
     private Entry Correo;
     private Entry Contraseña;
-    public Individuals() : base("Ingresos Individuales") {
-    
+    private ListaSimple<Usuario> lista;
+    private ListaDoblementeEnlazada listaAutos;
+
+    public unsafe Individuals(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos) : base("Ingresos Individuales")
+    {
+        this.listaAutos = listaAutos;
+        this.lista = lista;
+
         SetDefaultSize(500, 600);
         SetPosition(WindowPosition.Center);
 
@@ -68,13 +77,13 @@ public class Individuals : Window
         Add(fixedContainer);
     }
 
-    private void OnShowButtonClicked1(object? sender, EventArgs e)
+    private unsafe void OnShowButtonClicked1(object? sender, EventArgs e)
     {
         MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Regresando");
         Console.WriteLine("Regresando");
         md.Run();
         md.Destroy();
-        Menus menus = new Menus();
+        Menus menus = new Menus(lista, listaAutos);
         menus.ShowAll();
         this.Hide();
     }
@@ -105,7 +114,7 @@ public class Individuals : Window
         }
     }
 
-    private void OnShowButtonClicked(object? sender, System.EventArgs e)
+    private unsafe void OnShowButtonClicked(object? sender, System.EventArgs e)
     {
         if (string.IsNullOrWhiteSpace(ID.Text) || 
             string.IsNullOrWhiteSpace(Nombres.Text) || 
@@ -119,15 +128,36 @@ public class Individuals : Window
         }
         else
         {
-            MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Close, "Usuario guardado con éxito");
-            Console.WriteLine("Usuario guardado con éxito");
-            Console.WriteLine("ID           :" + ID.Text);
-            Console.WriteLine("Nombres      :" + Nombres.Text);
-            Console.WriteLine("Apellidos    :" + Apellidos.Text);
-            Console.WriteLine("Correo       :" + Correo.Text);
-            Console.WriteLine("Contraseña   :" + Contraseña.Text);
-            md.Run();
-            md.Destroy();
+            if (int.TryParse(ID.Text, out int id))
+            {
+                // Verificar si el ID ya existe en la lista
+                Nodo<Usuario>* temp = lista.Cabeza;
+                while (temp != null)
+                {
+                    if (temp->Data.Id == id)
+                    {
+                        MessageDialog md2 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Warning, ButtonsType.Ok, "El ID ya existe. Por favor, ingrese otro ID.");
+                        md2.Run();
+                        md2.Destroy();
+                        return;
+                    }
+                    temp = temp->Sig;
+                }
+
+                // Si el ID no existe, insertar el nuevo usuario
+                MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Close, "Usuario guardado con éxito");
+                md.Run();
+                md.Destroy();
+                lista.Insertar(new Usuario(id, Nombres.Text, Apellidos.Text, Correo.Text, Contraseña.Text));
+                Console.WriteLine("Lista de Usuarios:");
+                lista.Imprimir();
+            }
+            else
+            {
+                MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Error, ButtonsType.Ok, "El ID debe ser un número.");
+                md.Run();
+                md.Destroy();
+            }
         }
     }
 }

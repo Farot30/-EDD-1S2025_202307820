@@ -1,6 +1,6 @@
 namespace Servicios
 {
-    public class Servicio
+    public unsafe struct Servicio
     {
         public int Id { get; set; }
         public string ID_Repuesto { get; set; }

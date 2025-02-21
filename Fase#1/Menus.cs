@@ -1,9 +1,17 @@
 using Gtk;
+using List;
+using Usuarios;
+using ListaDobleUnsafe;
 
 public class Menus : Window
 {
-    public Menus() : base("Menu del usuario")
+    private ListaSimple<Usuario> lista;
+    private ListaDoblementeEnlazada listaAutos;
+    public unsafe Menus(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos) : base("Menu del usuario")
     {
+        this.listaAutos = listaAutos;
+        this.lista = lista;
+
         SetDefaultSize(500, 600);
         SetPosition(WindowPosition.Center);
 
@@ -66,52 +74,43 @@ public class Menus : Window
         }
     }
 
-    private void Cargas(object? sender, EventArgs e)
+    private unsafe void Cargas(object? sender, EventArgs e)
     {
-        MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Carga Masiva");
         Console.WriteLine("Cargas Masivas");
-        md.Run();
-        md.Destroy();
-        Masivo mas = new Masivo();
+        Masivo mas = new Masivo(lista, listaAutos);
         mas.ShowAll();
         this.Hide();
     }
 
-    private void Ingresos(object? sender, EventArgs e)
+    private unsafe void Ingresos(object? sender, EventArgs e)
     {
-        MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Ingreso individual");
         Console.WriteLine("Ingreso individual");
-        md.Run();
-        md.Destroy();
-        MenuIngresos individup = new MenuIngresos();
+        MenuIngresos individup = new MenuIngresos(lista, listaAutos);
         individup.ShowAll();
         this.Hide();
     }
 
-    private void Gestiones(object? sender, EventArgs e)
+    private unsafe void Gestiones(object? sender, EventArgs e)
     {
-        MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Gestión de Usuarios");
         Console.WriteLine("Gestión de Usuarios");
-        md.Run();
-        md.Destroy();
-        Gestion gest = new Gestion();
+        Gestion gest = new Gestion(lista, listaAutos);
         gest.ShowAll();
         this.Hide();
     }
 
-    private void Generaciones(object? sender, EventArgs e)
+    private unsafe void Generaciones(object? sender, EventArgs e)
     {
-        MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Generar Servicio");
         Console.WriteLine("Generar Servicio");
-        md.Run();
-        md.Destroy();
+        Servir serv = new Servir(lista, listaAutos);
+        serv.ShowAll();
+        this.Hide();
     }
 
-    private void Cancelaciones(object? sender, EventArgs e)
+    private unsafe void Cancelaciones(object? sender, EventArgs e)
     {
-        MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Cancelar Factura");
         Console.WriteLine("Cancelar Factura");
-        md.Run();
-        md.Destroy();
+        Factur fact = new Factur(lista, listaAutos);
+        fact.ShowAll();
+        this.Hide();
     }
 }
