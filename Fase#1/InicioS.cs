@@ -10,11 +10,13 @@ public class InicioS : Window
     private Entry Contrasenas;
     private ListaDoblementeEnlazada listaAutos;
     private ListaSimple<Usuario> lista;
+    private ListaCircular.ListaCircular ListaRepuestos;
 
-    public unsafe InicioS(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos) : base("Interfaz Inicio")
+    public unsafe InicioS(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas) : base("Interfaz Inicio")
     {
         this.listaAutos = listaAutos;
         this.lista = lista;
+        this.ListaRepuestos = ListasPiezas;
         SetDefaultSize(500, 500);
         SetPosition(WindowPosition.Center);
 
@@ -81,7 +83,7 @@ public class InicioS : Window
             Console.WriteLine("Inicio de sesión exitoso");
             md.Run();
             md.Destroy();
-            Menus menus = new Menus(lista, listaAutos);
+            Menus menus = new Menus(lista, listaAutos, ListaRepuestos);
             menus.ShowAll();
             this.Hide();
         }

@@ -1,23 +1,38 @@
+using System;
+
 namespace Repuestos
 {
     public unsafe struct Repuesto
     {
-        public int Id { get; set; }
-        public char NRepuesto { get; set; }
-        public char Descripcion { get; set; }
-        public double Precio { get; set; }
+        public int Id;
+        public fixed char Repuestos[20];
+        public fixed char Descripcion[20];
+        public double Precio;
+        public Repuesto* Next;
 
-        public Repuesto(int id, char repuesto, char descripcion, double precio)
+        public Repuesto(int id, string repuestos, string descripcion, double precio)
         {
             Id = id;
-            NRepuesto = repuesto;
-            Descripcion = descripcion;
+            Next = null;
             Precio = precio;
+
+            fixed(char* r = Repuestos)
+            {
+                repuestos.AsSpan().CopyTo(new Span<char>(r, 20));
+            }
+
+            fixed(char* d = Descripcion)
+            {
+                descripcion.AsSpan().CopyTo(new Span<char>(d, 20));
+            }
         }
 
         public override string ToString()
         {
-            return $"Id: {Id}, Nombre Repuesto: {NRepuesto}, Descripcion: {Descripcion}, Precio: {Precio}";
+            fixed(char* ps = Repuestos, pd = Descripcion)
+            {
+                return $"ID: {Id}, Repuestos: {new string(ps)}, Descripcion: {new string(pd)}, Precio: {Precio}";
+            }
         }
     }
 }

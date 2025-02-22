@@ -2,15 +2,19 @@ using Gtk;
 using List;
 using Usuarios;
 using ListaDobleUnsafe;
+using ListaCircular;
+using Repuestos;
 
 public class Masivo : Window
 {
     private ListaSimple<Usuario> lista;
     private ListaDoblementeEnlazada listaAutos;
-    public unsafe Masivo(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos) : base("Cargas masivas"){
+    private ListaCircular.ListaCircular ListaRepuestos;
+    public unsafe Masivo(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas) : base("Cargas masivas"){
         
         this.listaAutos = listaAutos;
         this.lista = lista;
+        this.ListaRepuestos = ListasPiezas;
         SetDefaultSize(500, 400);
         SetPosition(WindowPosition.Center);
 
@@ -45,7 +49,7 @@ public class Masivo : Window
 
     private unsafe void Regresar(object? sender, EventArgs e)
     {
-        Menus menus = new Menus(lista, listaAutos);
+        Menus menus = new Menus(lista, listaAutos, ListaRepuestos);
         menus.ShowAll();
         this.Hide();
     }

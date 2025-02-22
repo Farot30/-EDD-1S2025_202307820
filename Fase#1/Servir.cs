@@ -14,11 +14,13 @@ public class Servir : Window
 
     private ListaDoblementeEnlazada listaAutos;
     private ListaSimple<Usuario> lista;
-
-    public unsafe Servir(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos) : base("Servicios")
+    private ListaCircular.ListaCircular listaRepuestos;
+    public unsafe Servir(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas) : base("Servicios")
     {
         this.listaAutos = listaAutos;
         this.lista = lista;
+        this.listaRepuestos = ListasPiezas;
+
         SetDefaultSize(500, 600);
         SetPosition(WindowPosition.Center);
 
@@ -104,7 +106,7 @@ public class Servir : Window
 
     private unsafe void Regresar(object? sender, EventArgs e)
     {
-        Menus menus = new Menus(lista, listaAutos);
+        Menus menus = new Menus(lista, listaAutos, listaRepuestos);
         menus.ShowAll();
         this.Hide();
     }

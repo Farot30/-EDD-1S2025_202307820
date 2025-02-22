@@ -6,11 +6,13 @@ public class Factur : Window
 {
     private ListaSimple<Usuario> lista;
     private ListaDoblementeEnlazada listaAutos;
+    private ListaCircular.ListaCircular ListaRepuestos;
 
-    public unsafe Factur (ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos) : base ("Facturación"){
+    public unsafe Factur (ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas) : base ("Facturación"){
         
         this.listaAutos = listaAutos;
         this.lista = lista;
+        this.ListaRepuestos = ListasPiezas;
         SetDefaultSize(500, 600);
         SetPosition(WindowPosition.Center);
 
@@ -52,7 +54,7 @@ public class Factur : Window
         Console.WriteLine("Regresando");
         md.Run();
         md.Destroy();
-        Menus menus = new Menus(lista, listaAutos);
+        Menus menus = new Menus(lista, listaAutos, ListaRepuestos);
         menus.ShowAll();
         this.Hide();
     }

@@ -3,6 +3,8 @@ using List;
 using Usuarios;
 using ListaDobleUnsafe;
 using System.Threading.Tasks;
+using Repuestos;
+using ListaCircular;
 
 public class Piezas : Window
 {
@@ -13,11 +15,13 @@ public class Piezas : Window
 
     private ListaSimple<Usuario> lista;
     private ListaDoblementeEnlazada listaAutos;
+    private ListaCircular.ListaCircular listaRepuestos;
 
-    public unsafe Piezas(ListaSimple<Usuario> lista, ListaDoblementeEnlazada ListaAutos) : base("Ingreso de Repuestos")
+    public unsafe Piezas(ListaSimple<Usuario> lista, ListaDoblementeEnlazada ListaAutos, ListaCircular.ListaCircular ListasPiezas) : base("Ingreso de Repuestos")
     {
         this.listaAutos = ListaAutos;
         this.lista = lista;
+        this.listaRepuestos = ListasPiezas;
         SetDefaultSize(500, 600);
         SetPosition(WindowPosition.Center);
 
@@ -82,15 +86,53 @@ public class Piezas : Window
         }
         else
         {
-            MessageDialog md1 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Guardado");
-            md1.Run();
-            md1.Destroy();
+            if(int.TryParse(IDs1.Text, out int id) && 
+                double.TryParse(Costo.Text, out double costo))
+            {
+                // Verificar si el ID ya existe en la lista de repuestos
+                if (IdExists(id))
+                {
+                    MessageDialog md2 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Warning, ButtonsType.Ok, "El ID ya existe. Por favor, ingrese otro ID.");
+                    md2.Run();
+                    md2.Destroy();
+                    return;
+                }
+
+                listaRepuestos.Insertar(id, Repuesto.Text, Descripcion.Text, costo);
+                MessageDialog md1 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Guardado");
+                md1.Run();
+                md1.Destroy();
+                listaRepuestos.Mostrar();
+            }
+            else
+            {
+                MessageDialog md3 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Favor de llenar los campos con el tipo de dato correcto");
+                md3.Run();
+                md3.Destroy();
+            }
         }
+    }
+
+    private unsafe bool IdExists(int id)
+    {
+        Repuesto* actual = listaRepuestos.Head;
+        if (actual == null) return false;
+
+        do
+        {
+            if (actual->Id == id)
+            {
+                return true;
+            }
+            actual = actual->Next;
+        } while (actual != listaRepuestos.Head);
+
+        return false;
     }
 
     private unsafe void Regresar(object? sender, EventArgs e)
     {
-        Menus menus = new Menus(lista, listaAutos);
+        Menus menus = new Menus(lista, listaAutos, listaRepuestos);
         menus.ShowAll();
         this.Hide();
     }

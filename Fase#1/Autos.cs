@@ -13,11 +13,13 @@ public class Autos : Window
     private Entry Placas;
     private ListaSimple<Usuario> lista;
     private ListaDoblementeEnlazada listaAutos;
+    private ListaCircular.ListaCircular ListaRepuestos;
 
-    public unsafe Autos(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos) : base("Ingreso de vehículos")
+    public unsafe Autos(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas) : base("Ingreso de vehículos")
     {
         this.lista = lista;
         this.listaAutos = listaAutos;
+        this.ListaRepuestos = ListasPiezas;
         SetDefaultSize(500, 600);
         SetPosition(WindowPosition.Center);
 
@@ -108,7 +110,7 @@ public class Autos : Window
         Console.WriteLine("Regresando");
         md.Run();
         md.Destroy();
-        Menus menus = new Menus(lista, listaAutos);
+        Menus menus = new Menus(lista, listaAutos, ListaRepuestos);
         menus.ShowAll();
         this.Hide();
     }

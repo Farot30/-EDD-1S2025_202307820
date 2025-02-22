@@ -2,15 +2,18 @@ using Gtk;
 using List;
 using Usuarios;
 using ListaDobleUnsafe;
-
+using Repuestos;
+using ListaCircular;
 public class Menus : Window
 {
     private ListaSimple<Usuario> lista;
     private ListaDoblementeEnlazada listaAutos;
-    public unsafe Menus(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos) : base("Menu del usuario")
+    private ListaCircular.ListaCircular listaRepuestos;
+    public unsafe Menus(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas) : base("Menu del usuario")
     {
         this.listaAutos = listaAutos;
         this.lista = lista;
+        this.listaRepuestos = ListasPiezas;
 
         SetDefaultSize(500, 600);
         SetPosition(WindowPosition.Center);
@@ -77,7 +80,7 @@ public class Menus : Window
     private unsafe void Cargas(object? sender, EventArgs e)
     {
         Console.WriteLine("Cargas Masivas");
-        Masivo mas = new Masivo(lista, listaAutos);
+        Masivo mas = new Masivo(lista, listaAutos, listaRepuestos);
         mas.ShowAll();
         this.Hide();
     }
@@ -85,7 +88,7 @@ public class Menus : Window
     private unsafe void Ingresos(object? sender, EventArgs e)
     {
         Console.WriteLine("Ingreso individual");
-        MenuIngresos individup = new MenuIngresos(lista, listaAutos);
+        MenuIngresos individup = new MenuIngresos(lista, listaAutos, listaRepuestos);
         individup.ShowAll();
         this.Hide();
     }
@@ -93,7 +96,7 @@ public class Menus : Window
     private unsafe void Gestiones(object? sender, EventArgs e)
     {
         Console.WriteLine("Gestión de Usuarios");
-        Gestion gest = new Gestion(lista, listaAutos);
+        Gestion gest = new Gestion(lista, listaAutos, listaRepuestos);
         gest.ShowAll();
         this.Hide();
     }
@@ -101,7 +104,7 @@ public class Menus : Window
     private unsafe void Generaciones(object? sender, EventArgs e)
     {
         Console.WriteLine("Generar Servicio");
-        Servir serv = new Servir(lista, listaAutos);
+        Servir serv = new Servir(lista, listaAutos, listaRepuestos);
         serv.ShowAll();
         this.Hide();
     }
@@ -109,7 +112,7 @@ public class Menus : Window
     private unsafe void Cancelaciones(object? sender, EventArgs e)
     {
         Console.WriteLine("Cancelar Factura");
-        Factur fact = new Factur(lista, listaAutos);
+        Factur fact = new Factur(lista, listaAutos, listaRepuestos);
         fact.ShowAll();
         this.Hide();
     }

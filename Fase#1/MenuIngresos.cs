@@ -4,16 +4,20 @@ using List;
 using System;
 using ListaDobleUnsafe;
 using System.Threading.Tasks;
+using Repuestos;
+using ListaCircular;
 
 public class MenuIngresos : Window
 {
     private ListaDoblementeEnlazada listaAutos;
     private ListaSimple<Usuario> lista;
+    private ListaCircular.ListaCircular listaRepuestos;
 
-    public unsafe MenuIngresos(ListaSimple<Usuario> lista, ListaDoblementeEnlazada ListaAutos) : base("Menu de ingresos")
+    public unsafe MenuIngresos(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas) : base("Menu de ingresos")
     {
-        this.listaAutos = ListaAutos;
+        this.listaAutos = listaAutos;
         this.lista = lista;
+        this.listaRepuestos = ListasPiezas;
         SetDefaultSize(500, 700);
         SetPosition(WindowPosition.Center);
 
@@ -58,7 +62,7 @@ public class MenuIngresos : Window
     private unsafe void Usus1(object? sender, EventArgs e)
     {
         Console.WriteLine("entrando a ingresar usuario");
-        Individuals individuals = new Individuals(lista, listaAutos);
+        Individuals individuals = new Individuals(lista, listaAutos, listaRepuestos);
         individuals.ShowAll();
         this.Hide();
     }
@@ -66,7 +70,7 @@ public class MenuIngresos : Window
     private unsafe void Vehí(object? sender, EventArgs e)
     {
         Console.WriteLine("entrando a ingresar Vehículos");
-        Autos autos = new Autos(lista, listaAutos);
+        Autos autos = new Autos(lista, listaAutos, listaRepuestos);
         autos.ShowAll();
         this.Hide();
     }
@@ -74,7 +78,7 @@ public class MenuIngresos : Window
     private unsafe void Repuestos(object? sender, EventArgs e)
     {
         Console.WriteLine("entrando a ingresar Repuestos");
-        Piezas piezas = new Piezas(lista, listaAutos);
+        Piezas piezas = new Piezas(lista, listaAutos, listaRepuestos);
         piezas.ShowAll();
         this.Hide();
     }
@@ -82,7 +86,7 @@ public class MenuIngresos : Window
     private unsafe void IngresarServicios(object? sender, EventArgs e)
     {
         Console.WriteLine("entrando a ingresar Servicios");
-        Servir servir = new Servir(lista, listaAutos);
+        Servir servir = new Servir(lista, listaAutos, listaRepuestos);
         servir.ShowAll();
         this.Hide();
     }
@@ -90,7 +94,7 @@ public class MenuIngresos : Window
     private unsafe void Regresar(object? sender, EventArgs e)
     {
         Console.WriteLine("Regresando");
-        Menus menus = new Menus(lista, listaAutos);
+        Menus menus = new Menus(lista, listaAutos, listaRepuestos);
         menus.ShowAll();
         this.Hide();
     }

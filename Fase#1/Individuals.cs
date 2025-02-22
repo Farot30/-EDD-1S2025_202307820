@@ -3,6 +3,8 @@ using List;
 using System;
 using Usuarios;
 using ListaDobleUnsafe;
+using Repuestos;
+using ListaCircular;
 
 public class Individuals : Window
 {
@@ -13,11 +15,13 @@ public class Individuals : Window
     private Entry Contraseña;
     private ListaSimple<Usuario> lista;
     private ListaDoblementeEnlazada listaAutos;
+    private ListaCircular.ListaCircular listaRepuestos;
 
-    public unsafe Individuals(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos) : base("Ingresos Individuales")
+    public unsafe Individuals(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas) : base("Ingresos Individuales")
     {
         this.listaAutos = listaAutos;
         this.lista = lista;
+        this.listaRepuestos = ListasPiezas;
 
         SetDefaultSize(500, 600);
         SetPosition(WindowPosition.Center);
@@ -83,7 +87,7 @@ public class Individuals : Window
         Console.WriteLine("Regresando");
         md.Run();
         md.Destroy();
-        Menus menus = new Menus(lista, listaAutos);
+        Menus menus = new Menus(lista, listaAutos, listaRepuestos);
         menus.ShowAll();
         this.Hide();
     }

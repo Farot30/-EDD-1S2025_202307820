@@ -9,10 +9,12 @@ public class Gestion : Window
     private Entry ID_Eliminación;
     private ListaSimple<Usuario> lista;
     private ListaDoblementeEnlazada listaAutos;
-    public unsafe Gestion(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos) : base("Gestionar los Usuarios")
+    private ListaCircular.ListaCircular ListaRepuestos;
+    public unsafe Gestion(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas) : base("Gestionar los Usuarios")
     {
         this.listaAutos = listaAutos;
         this.lista = lista;
+        this.ListaRepuestos = ListasPiezas;
         SetDefaultSize(500, 375);
         SetPosition(WindowPosition.Center);
 
@@ -86,7 +88,7 @@ public class Gestion : Window
 
     private unsafe void Regresar(object? sender, EventArgs e)
     {
-        Menus menus = new Menus(lista, listaAutos);
+        Menus menus = new Menus(lista, listaAutos, ListaRepuestos);
         menus.ShowAll();
         this.Hide();
     }

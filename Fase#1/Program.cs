@@ -10,7 +10,8 @@ class Program{
         Application.Init();
         ListaSimple<Usuario> listaUsuarios = new ListaSimple<Usuario>();
         ListaDoblementeEnlazada listaAutos = new ListaDoblementeEnlazada();
-        InicioS Patata = new InicioS(listaUsuarios, listaAutos);
+        ListaCircular.ListaCircular ListasPiezas = new ListaCircular.ListaCircular();
+        InicioS Patata = new InicioS(listaUsuarios, listaAutos, ListasPiezas);
         Patata.ShowAll();
         Application.Run();
     }
