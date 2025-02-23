@@ -77,7 +77,45 @@ namespace Pila
             graphviz += "    rankdir=TB;\n";  // Definir el flujo de arriba hacia abajo para la pila
             graphviz += "    subgraph cluster_0 {\n";
             graphviz += "        label = \"Pila\";\n";
+
+            //i-terar sobre los nodos de la pila y constructores de los nodos
+            Facturas.Facturas* aux = cima;
+            int ind = 0;
+
+            while(aux != null)
+            {
+                graphviz += $"    node{ind} [label = \"{{<data> ID: {aux->ID} \n ID_Orden: {aux->ID_Orden} \n Total: {aux->Total:C} \n  Siguiente}}\"];\n";
+                aux = aux->Siguiente;
+                ind++;
+            }
+            //Conectar los nodos de la pila en orden
+            aux = cima;
+            for(int i = 0; aux != null && aux->Siguiente != null; i++)
+            {
+                graphviz += $"    n{i}:data -> n{i+1};\n";
+                aux = aux->Siguiente;
+            }
+
+            graphviz += "    }\n";
+            graphviz += "}\n";
             return graphviz;
+        }
+
+        // Método para liberar memoria manualmente
+        public void LiberarMemoria()
+        {
+            Facturas.Facturas* aux = cima;
+            while (aux != null)
+            {
+                Facturas.Facturas* temp = aux;
+                aux = aux->Siguiente;
+                Marshal.FreeHGlobal((IntPtr)temp);
+            }
+        }
+
+        public unsafe Facturas.Facturas* ObtenerUltimaFactura()
+        {
+            return cima;
         }
     }
 }

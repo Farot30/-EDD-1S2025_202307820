@@ -4,33 +4,40 @@ using Usuarios;
 using ListaDobleUnsafe;
 using ListaCircular;
 using Repuestos;
+using Newtonsoft.Json;
+using System.IO;
+using System;
 
 public class Masivo : Window
 {
     private ListaSimple<Usuario> lista;
     private ListaDoblementeEnlazada listaAutos;
     private ListaCircular.ListaCircular ListaRepuestos;
-    public unsafe Masivo(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas) : base("Cargas masivas"){
-        
+    private Cola.Cola colas;
+    private Pila.Pila pilaFacturas;
+
+    public unsafe Masivo(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas, Cola.Cola colas, Pila.Pila pila) : base("Cargas masivas")
+    {
         this.listaAutos = listaAutos;
         this.lista = lista;
         this.ListaRepuestos = ListasPiezas;
+        this.colas = colas;
+        this.pilaFacturas = pila;
+
         SetDefaultSize(500, 400);
         SetPosition(WindowPosition.Center);
 
         Fixed fixedContainer = new Fixed();
 
-        EventBox labelesBox = CreateStyledLabel("Cargas masivas", "Arial 20");
+        Label labelesBox = new Label("Cargas masivas");
         fixedContainer.Put(labelesBox, 160, 50);
 
         Button button1 = new Button("Cargar");
         button1.Clicked += Cargaras;
-        ApplyFont(button1, "Arial 20");
         fixedContainer.Put(button1, 200, 250);
 
         Button button2 = new Button("Regresar");
         button2.Clicked += Regresar;
-        ApplyFont(button2, "Arial 20");
         fixedContainer.Put(button2, 200, 300);
 
         Add(fixedContainer);
@@ -49,30 +56,8 @@ public class Masivo : Window
 
     private unsafe void Regresar(object? sender, EventArgs e)
     {
-        Menus menus = new Menus(lista, listaAutos, ListaRepuestos);
+        Menus menus = new Menus(lista, listaAutos, ListaRepuestos, colas, pilaFacturas);
         menus.ShowAll();
-        this.Hide();
-    }
-
-    private EventBox CreateStyledLabel(string text, string font)
-    {
-        Label label = new Label(text);
-        ApplyFont(label, font);
-        EventBox eventBox = new EventBox();
-        eventBox.Add(label);
-        return eventBox;
-    }
-
-    private void ApplyFont(Widget widget, string fontDescription)
-    {
-        Pango.FontDescription fontDesc = Pango.FontDescription.FromString(fontDescription);
-        if (widget is Label label)
-        {
-            label.ModifyFont(fontDesc);
-        }
-        else if (widget is Button button)
-        {
-            button.Child.ModifyFont(fontDesc);
-        }
+        this.Destroy();
     }
 }

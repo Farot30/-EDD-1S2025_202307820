@@ -11,87 +11,65 @@ public class InicioS : Window
     private ListaDoblementeEnlazada listaAutos;
     private ListaSimple<Usuario> lista;
     private ListaCircular.ListaCircular ListaRepuestos;
+    private Cola.Cola colas;
+    private Pila.Pila pilaFacturas;
 
-    public unsafe InicioS(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas) : base("Interfaz Inicio")
+    public unsafe InicioS(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas, Cola.Cola colas, Pila.Pila pila) : base("Interfaz Inicio")
     {
         this.listaAutos = listaAutos;
         this.lista = lista;
         this.ListaRepuestos = ListasPiezas;
+        this.colas = colas;
+        this.pilaFacturas = pila;
+        
         SetDefaultSize(500, 500);
         SetPosition(WindowPosition.Center);
 
         Fixed fixedContainer = new Fixed();
 
-        EventBox labelesBox = CreateStyledLabel("Inicio de sesión", "Arial 20");
+        Label labelesBox = new Label("Inicio de sesión");
         fixedContainer.Put(labelesBox, 170, 50);
 
-        EventBox SUS = CreateStyledLabel("Usuario:", "Arial 20");
+        Label SUS = new Label("Usuario:");
         fixedContainer.Put(SUS, 100, 150);
 
         Usuarios = new Entry();
-        ApplyFont(Usuarios, "Arial 12");
         fixedContainer.Put(Usuarios, 250, 150);
 
-        EventBox Contras = CreateStyledLabel("Contraseña:", "Arial 20");
+        Label Contras = new Label("Contraseña:");
         fixedContainer.Put(Contras, 100, 250);
 
         Contrasenas = new Entry();
         Contrasenas.Visibility = false;
-        ApplyFont(Contrasenas, "Arial 12");
         fixedContainer.Put(Contrasenas, 250, 250);
 
         Button button = new Button("Iniciar sesión");
         button.Clicked += OnShowButtonClicked;
         button.SetSizeRequest(100, 50); // Aumenta el tamaño del botón
-        ApplyFont(button, "Arial 20"); // Cambia el tamaño de la fuente del texto del botón
         fixedContainer.Put(button, 170, 350);
 
         Add(fixedContainer);
-    }
-
-    private EventBox CreateStyledLabel(string text, string font)
-    {
-        Label label = new Label(text);
-        ApplyFont(label, font);
-        EventBox eventBox = new EventBox();
-        eventBox.Add(label);
-        return eventBox;
-    }
-
-    private void ApplyFont(Widget widget, string fontDescription)
-    {
-        Pango.FontDescription fontDesc = Pango.FontDescription.FromString(fontDescription);
-        if (widget is Label label)
-        {
-            label.ModifyFont(fontDesc);
-        }
-        else if (widget is Button button)
-        {
-            button.Child.ModifyFont(fontDesc);
-        }
-        else if (widget is Entry entry)
-        {
-            entry.ModifyFont(fontDesc);
-        }
     }
 
     private unsafe void OnShowButtonClicked(object? sender, System.EventArgs e)
     {
         if (Usuarios.Text == "root@gmail.com" && Contrasenas.Text == "root123")
         {
-            MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Inicio de sesión exitoso");
-            Console.WriteLine("Inicio de sesión exitoso");
-            md.Run();
-            md.Destroy();
-            Menus menus = new Menus(lista, listaAutos, ListaRepuestos);
+            using (MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Inicio de sesión exitoso"))
+            {
+                Console.WriteLine("Inicio de sesión exitoso");
+                md.Run();
+            }
+            Menus menus = new Menus(lista, listaAutos, ListaRepuestos, colas, pilaFacturas);
             menus.ShowAll();
-            this.Hide();
+            this.Destroy();
         }
         else
         {
-            MessageDialog md1 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Datos errones carnal");
-            md1.Run();
-            md1.Destroy();
+            using (MessageDialog md1 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Datos errones carnal"))
+            {
+                md1.Run();
+            }
         }
     }
 }

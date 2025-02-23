@@ -16,66 +16,63 @@ public class Individuals : Window
     private ListaSimple<Usuario> lista;
     private ListaDoblementeEnlazada listaAutos;
     private ListaCircular.ListaCircular listaRepuestos;
+    private Cola.Cola colas;
+    private Pila.Pila pilaFacturas;
 
-    public unsafe Individuals(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas) : base("Ingresos Individuales")
+    public unsafe Individuals(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas, Cola.Cola colas, Pila.Pila pila) : base("Ingresos Individuales")
     {
         this.listaAutos = listaAutos;
         this.lista = lista;
         this.listaRepuestos = ListasPiezas;
+        this.colas = colas;
+        this.pilaFacturas = pila;
 
         SetDefaultSize(500, 600);
         SetPosition(WindowPosition.Center);
 
         Fixed fixedContainer = new Fixed();
 
-        EventBox labelesBox = CreateStyledLabel("Ingreso de Usuario", "Arial 20");
+        Label labelesBox = new Label("Ingreso de Usuario");
         fixedContainer.Put(labelesBox, 160, 50);
 
-        EventBox ids = CreateStyledLabel("ID:", "Arial 20");
+        Label ids = new Label("ID:");
         fixedContainer.Put(ids, 100, 150);
 
         ID = new Entry();
-        ApplyFont(ID, "Arial 12");
         fixedContainer.Put(ID, 250, 150);
 
-        EventBox nombres = CreateStyledLabel("Nombres:", "Arial 20");
+        Label nombres = new Label("Nombres:");
         fixedContainer.Put(nombres, 100, 200);
 
         Nombres = new Entry();
-        ApplyFont(Nombres, "Arial 12");
         fixedContainer.Put(Nombres, 250, 200);
 
-        EventBox apellidos = CreateStyledLabel("Apellidos:", "Arial 20");
+        Label apellidos = new Label("Apellidos:");
         fixedContainer.Put(apellidos, 100, 250);
 
         Apellidos = new Entry();
-        ApplyFont(Apellidos, "Arial 12");
         fixedContainer.Put(Apellidos, 250, 250);
 
-        EventBox correos = CreateStyledLabel("Correo:", "Arial 20");
+        Label correos = new Label("Correo:");
         fixedContainer.Put(correos, 100, 300);
 
         Correo = new Entry();
-        ApplyFont(Correo, "Arial 12");
         fixedContainer.Put(Correo, 250, 300);
 
-        EventBox contraseñas = CreateStyledLabel("Contraseña:", "Arial 20");
+        Label contraseñas = new Label("Contraseña:");
         fixedContainer.Put(contraseñas, 100, 350);
 
         Contraseña = new Entry();
-        ApplyFont(Contraseña, "Arial 12");
         fixedContainer.Put(Contraseña, 250, 350);
 
         Button button = new Button("Guardar");
         button.Clicked += OnShowButtonClicked;
         button.SetSizeRequest(100, 50);
-        ApplyFont(button, "Arial 20");
         fixedContainer.Put(button, 170, 400);
 
         Button button1 = new Button("Regresar");
         button1.Clicked += OnShowButtonClicked1;
         button1.SetSizeRequest(100, 50);
-        ApplyFont(button1, "Arial 20");
         fixedContainer.Put(button1, 170, 470);
 
         Add(fixedContainer);
@@ -83,39 +80,14 @@ public class Individuals : Window
 
     private unsafe void OnShowButtonClicked1(object? sender, EventArgs e)
     {
-        MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Regresando");
-        Console.WriteLine("Regresando");
-        md.Run();
-        md.Destroy();
-        Menus menus = new Menus(lista, listaAutos, listaRepuestos);
+        using (MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Regresando"))
+        {
+            Console.WriteLine("Regresando");
+            md.Run();
+        }
+        Menus menus = new Menus(lista, listaAutos, listaRepuestos, colas, pilaFacturas);
         menus.ShowAll();
-        this.Hide();
-    }
-
-    private EventBox CreateStyledLabel(string text, string font)
-    {
-        Label label = new Label(text);
-        ApplyFont(label, font);
-        EventBox eventBox = new EventBox();
-        eventBox.Add(label);
-        return eventBox;
-    }
-
-    private void ApplyFont(Widget widget, string fontDescription)
-    {
-        Pango.FontDescription fontDesc = Pango.FontDescription.FromString(fontDescription);
-        if (widget is Label label)
-        {
-            label.ModifyFont(fontDesc);
-        }
-        else if (widget is Button button)
-        {
-            button.Child.ModifyFont(fontDesc);
-        }
-        else if (widget is Entry entry)
-        {
-            entry.ModifyFont(fontDesc);
-        }
+        this.Destroy(); // Cambia this.Hide() por this.Destroy() para destruir la ventana actual
     }
 
     private unsafe void OnShowButtonClicked(object? sender, System.EventArgs e)
@@ -126,9 +98,10 @@ public class Individuals : Window
             string.IsNullOrWhiteSpace(Correo.Text) || 
             string.IsNullOrWhiteSpace(Contraseña.Text))
         {
-            MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Warning, ButtonsType.Ok, "Todos los campos deben estar llenos.");
-            md.Run();
-            md.Destroy();
+            using (MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Warning, ButtonsType.Ok, "Todos los campos deben estar llenos."))
+            {
+                md.Run();
+            }
         }
         else
         {
@@ -140,27 +113,30 @@ public class Individuals : Window
                 {
                     if (temp->Data.Id == id)
                     {
-                        MessageDialog md2 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Warning, ButtonsType.Ok, "El ID ya existe. Por favor, ingrese otro ID.");
-                        md2.Run();
-                        md2.Destroy();
+                        using (MessageDialog md2 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Warning, ButtonsType.Ok, "El ID ya existe. Por favor, ingrese otro ID."))
+                        {
+                            md2.Run();
+                        }
                         return;
                     }
                     temp = temp->Sig;
                 }
 
                 // Si el ID no existe, insertar el nuevo usuario
-                MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Close, "Usuario guardado con éxito");
-                md.Run();
-                md.Destroy();
+                using (MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Close, "Usuario guardado con éxito"))
+                {
+                    md.Run();
+                }
                 lista.Insertar(new Usuario(id, Nombres.Text, Apellidos.Text, Correo.Text, Contraseña.Text));
                 Console.WriteLine("Lista de Usuarios:");
                 lista.Imprimir();
             }
             else
             {
-                MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Error, ButtonsType.Ok, "El ID debe ser un número.");
-                md.Run();
-                md.Destroy();
+                using (MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Error, ButtonsType.Ok, "El ID debe ser un número."))
+                {
+                    md.Run();
+                }
             }
         }
     }

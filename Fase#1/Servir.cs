@@ -3,6 +3,11 @@ using List;
 using Usuarios;
 using ListaDobleUnsafe;
 using System.Threading.Tasks;
+using Cola;
+using Servicios;
+using ListaCircular;
+using Repuestos;
+using Vehiculos;
 
 public class Servir : Window
 {
@@ -15,71 +20,69 @@ public class Servir : Window
     private ListaDoblementeEnlazada listaAutos;
     private ListaSimple<Usuario> lista;
     private ListaCircular.ListaCircular listaRepuestos;
-    public unsafe Servir(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas) : base("Servicios")
+    private Cola.Cola colas;
+    private Pila.Pila pilaFacturas;
+
+    public unsafe Servir(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas, Cola.Cola ListaCola, Pila.Pila pila) : base("Servicios")
     {
         this.listaAutos = listaAutos;
         this.lista = lista;
         this.listaRepuestos = ListasPiezas;
+        this.colas = ListaCola;
+        this.pilaFacturas = pila;
 
         SetDefaultSize(500, 600);
         SetPosition(WindowPosition.Center);
 
         Fixed fixedContainer = new Fixed();
 
-        EventBox labelesBox = CreateStyledLabel("Ingreso de Servicios", "Arial 20");
+        Label labelesBox = new Label("Ingreso de Servicios");
         fixedContainer.Put(labelesBox, 140, 50);
 
-        EventBox ids1 = CreateStyledLabel("ID:", "Arial 20");
+        Label ids1 = new Label("ID:");
         fixedContainer.Put(ids1, 100, 150);
 
         Idss = new Entry();
-        ApplyFont(Idss, "Arial 12");
         fixedContainer.Put(Idss, 260, 150);
 
-        EventBox id_respuesto = CreateStyledLabel("ID Repuesto:", "Arial 20");
+        Label id_respuesto = new Label("ID Repuesto:");
         fixedContainer.Put(id_respuesto, 100, 200);
 
         ID_respuesto = new Entry();
-        ApplyFont(ID_respuesto, "Arial 12");
         fixedContainer.Put(ID_respuesto, 260, 200);
 
-        EventBox id_vehículo = CreateStyledLabel("ID Vehículo:", "Arial 20");
+        Label id_vehículo = new Label("ID Vehículo:");
         fixedContainer.Put(id_vehículo, 100, 250);
 
         ID_Vehículo = new Entry();
-        ApplyFont(ID_Vehículo, "Arial 12");
         fixedContainer.Put(ID_Vehículo, 260, 250);
 
-        EventBox detalles = CreateStyledLabel("Detalles:", "Arial 20");
+        Label detalles = new Label("Detalles:");
         fixedContainer.Put(detalles, 100, 300);
 
         Detalles = new Entry();
-        ApplyFont(Detalles, "Arial 12");
         fixedContainer.Put(Detalles, 260, 300);
 
-        EventBox costo = CreateStyledLabel("Costo:", "Arial 20");
+        Label costo = new Label("Costo:");
         fixedContainer.Put(costo, 100, 350);
         
         Costo = new Entry();
-        ApplyFont(Costo, "Arial 12");
         fixedContainer.Put(Costo, 260, 350);
 
         Button button = new Button("Guardar");
-        button.Clicked += OnShowButtonClicked;
+        button.Clicked += Guardando;
         button.SetSizeRequest(100, 50);
-        ApplyFont(button, "Arial 20");
         fixedContainer.Put(button, 100, 400);
 
         Button Regreso = new Button("Regresar");
         Regreso.Clicked += Regresar;
         Regreso.SetSizeRequest(100, 50);
-        ApplyFont(Regreso, "Arial 20");
         fixedContainer.Put(Regreso, 260, 400);
 
         Add(fixedContainer);
     }
 
-    private unsafe void OnShowButtonClicked(object? sender, EventArgs e)
+    private unsafe void Guardando(object? sender, EventArgs e)
     {
         if (string.IsNullOrEmpty(Idss.Text) || 
             string.IsNullOrEmpty(ID_respuesto.Text) || 
@@ -90,50 +93,125 @@ public class Servir : Window
             using (MessageDialog md1 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Favor de llenar todos los campos"))
             {
                 md1.Run();
-                md1.Destroy();
             }
+            return;
         }
-        else
+
+        if (!int.TryParse(Idss.Text, out int idServicio) ||
+            !int.TryParse(ID_respuesto.Text, out int idRepuesto) ||
+            !int.TryParse(ID_Vehículo.Text, out int idVehiculo) ||
+            !float.TryParse(Costo.Text, out float costo))
         {
-            using (MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Guardando"))
+            using (MessageDialog md1 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Favor de ingresar valores válidos en los campos de ID y Costo"))
             {
-                Console.WriteLine("Guardando");
-                md.Run();
-                md.Destroy();
+                md1.Run();
             }
+            return;
         }
+
+        if (ServicioExiste(idServicio))
+        {
+            using (MessageDialog md1 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "El servicio ya existe"))
+            {
+                md1.Run();
+            }
+            return;
+        }
+
+        if (!RepuestoExiste(idRepuesto))
+        {
+            using (MessageDialog md1 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "El repuesto no existe"))
+            {
+                md1.Run();
+            }
+            return;
+        }
+
+        if (!VehiculoExiste(idVehiculo))
+        {
+            using (MessageDialog md1 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "El vehículo no existe"))
+            {
+                md1.Run();
+            }
+            return;
+        }
+
+        colas.Encolar(idServicio, idRepuesto, idVehiculo, Detalles.Text, costo);
+        colas.Mostrar();
+
+        // Crear una factura y almacenarla en la pila
+        double total = costo + ObtenerCostoRepuesto(idRepuesto);
+        pilaFacturas.Apila(idServicio, idServicio, total);
+
+        using (MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Servicio guardado y factura generada"))
+        {
+            md.Run();
+        }
+    }
+
+    private unsafe double ObtenerCostoRepuesto(int idRepuesto)
+    {
+        Repuesto* actual = listaRepuestos.Head;
+        while (actual != null)
+        {
+            if (actual->Id == idRepuesto)
+            {
+                return actual->Precio;
+            }
+            actual = actual->Next;
+        }
+        return 0;
+    }
+
+    private unsafe bool ServicioExiste(int id)
+    {
+        Servicio* actual = colas.Frente;
+        while (actual != null)
+        {
+            if (actual->Id == id)
+            {
+                return true;
+            }
+            actual = actual->Next;
+        }
+        return false;
+    }
+
+    private unsafe bool RepuestoExiste(int id)
+    {
+        Repuesto* actual = listaRepuestos.Head;
+        if (actual == null) return false;
+
+        do
+        {
+            if (actual->Id == id)
+            {
+                return true;
+            }
+            actual = actual->Next;
+        } while (actual != listaRepuestos.Head);
+
+        return false;
+    }
+
+    private unsafe bool VehiculoExiste(int id)
+    {
+        Vehiculos.Node* actual = listaAutos.Head;
+        while (actual != null)
+        {
+            if (actual->Id == id)
+            {
+                return true;
+            }
+            actual = actual->Next;
+        }
+        return false;
     }
 
     private unsafe void Regresar(object? sender, EventArgs e)
     {
-        Menus menus = new Menus(lista, listaAutos, listaRepuestos);
+        Menus menus = new Menus(lista, listaAutos, listaRepuestos, colas, pilaFacturas);
         menus.ShowAll();
         this.Hide();
-    }
-
-    private EventBox CreateStyledLabel(string text, string font)
-    {
-        Label label = new Label(text);
-        ApplyFont(label, font);
-        EventBox eventBox = new EventBox();
-        eventBox.Add(label);
-        return eventBox;
-    }
-
-    private void ApplyFont(Widget widget, string fontDescription)
-    {
-        Pango.FontDescription fontDesc = Pango.FontDescription.FromString(fontDescription);
-        if (widget is Label label)
-        {
-            label.ModifyFont(fontDesc);
-        }
-        else if (widget is Button button)
-        {
-            button.Child.ModifyFont(fontDesc);
-        }
-        else if (widget is Entry entry)
-        {
-            entry.ModifyFont(fontDesc);
-        }
     }
 }

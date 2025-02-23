@@ -90,6 +90,31 @@ namespace ListaDobleUnsafe
             }
         }
 
+        // Método para generar una gráfica en Graphviz de la lista doblemente enlazada
+        public string GenerarGraphviz()
+        {
+            if (head == null) return string.Empty;
+
+            string graph = "digraph G {\n";
+            graph += "rankdir=LR;\n"; // Dirección de izquierda a derecha
+            graph += "node [shape=record];\n"; // Forma de los nodos
+
+            Node* actual = head;
+            while (actual != null)
+            {
+                graph += $"\"{actual->Id}\" [label=\"{{<prev> | {actual->Id} | <next>}}\"];\n";
+                if (actual->Next != null)
+                {
+                    graph += $"\"{actual->Id}\":next -> \"{actual->Next->Id}\":prev;\n";
+                    graph += $"\"{actual->Next->Id}\":prev -> \"{actual->Id}\":next;\n";
+                }
+                actual = actual->Next;
+            }
+
+            graph += "}\n";
+            return graph;
+        }
+
         // Destructor de la clase
         ~ListaDoblementeEnlazada()
         {

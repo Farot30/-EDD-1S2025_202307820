@@ -8,9 +8,9 @@ namespace List
         private Nodo<T>* cabeza;
 
         public Nodo<T>* Cabeza
-    {
-        get { return cabeza; }
-    }
+        {
+            get { return cabeza; }
+        }
 
         public ListaSimple()
         {
@@ -38,32 +38,34 @@ namespace List
             }
         }
 
-        public void Eliminar(T data)
+        public void Eliminar(int id)
         {
             if (cabeza == null) return;
 
-            if (cabeza->Data.Equals(data))
-            {
-                Nodo<T>* temp = cabeza;
-                cabeza = cabeza->Sig;
-                Marshal.FreeHGlobal((IntPtr)temp);
-                return;
-            }
-
             Nodo<T>* actual = cabeza;
-            while (actual->Sig != null && !actual->Sig->Data.Equals(data))
+            Nodo<T>* anterior = null;
+
+            while (actual != null)
             {
+                Usuarios.Usuario* pUsuario = (Usuarios.Usuario*)(&actual->Data);
+                if (pUsuario->Id == id)
+                {
+                    if (anterior == null)
+                    {
+                        cabeza = actual->Sig;
+                    }
+                    else
+                    {
+                        anterior->Sig = actual->Sig;
+                    }
+                    Marshal.FreeHGlobal((IntPtr)actual);
+                    return;
+                }
+                anterior = actual;
                 actual = actual->Sig;
             }
-
-            if (actual->Sig != null)
-            {
-                Nodo<T>* temp = actual->Sig;
-                actual->Sig = actual->Sig->Sig;
-                Marshal.FreeHGlobal((IntPtr)temp);
-            }
         }
-        public void ModificarUsuario(int id, string nuevoNombre, string nuevoApellido, string nuevoCorreo, string nuevaContrasena)
+        public bool ModificarUsuario(int id, string nuevoNombre, string nuevoApellido, string nuevoCorreo, string nuevaContrasena)
         {
             // se valida que sea tipo usuario
             if (typeof(T) != typeof(Usuarios.Usuario))
@@ -115,11 +117,12 @@ namespace List
                     p[i] = '\0';
 
                     Console.WriteLine("Usuario modificado exitosamente.");
-                    return; // finalizar tras modificar
+                    return true; // finalizar tras modificar
                 }
                 temp = temp->Sig;
             }
             Console.WriteLine("Usuario no encontrado.");
+            return false;
         }
 
 
@@ -132,6 +135,29 @@ namespace List
                 Console.WriteLine(temp->Data);
                 temp = temp->Sig;
             }
+        }
+
+        public string GenerarGraphviz()
+        {
+            if (cabeza == null) return string.Empty;
+
+            string graph = "digraph G {\n";
+            graph += "node [shape=box];\n"; // Cambia la forma de los nodos a cuadrados
+
+            Nodo<T>* temp = cabeza;
+            while (temp != null)
+            {
+                graph += $"\"{temp->Data}\"";
+                if (temp->Sig != null)
+                {
+                    graph += $" -> \"{temp->Sig->Data}\"";
+                }
+                graph += ";\n";
+                temp = temp->Sig;
+            }
+
+            graph += "}\n";
+            return graph;
         }
 
         ~ListaSimple()

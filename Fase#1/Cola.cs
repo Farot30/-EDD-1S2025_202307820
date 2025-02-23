@@ -10,6 +10,9 @@ namespace Cola
 
         private Servicio* final;
 
+        public Servicio* Frente => frente;
+        public Servicio* Final => final;
+
         // Metodo Constructor
         public Cola()
         {
@@ -98,6 +101,29 @@ namespace Cola
                 detalles[i] = servicio->Detalles[i];
             }
             return new string(detalles).TrimEnd('\0');
+        }
+
+        public string GenerarGraphviz()
+        {
+            if (frente == null) return string.Empty;
+
+            string graph = "digraph G {\n";
+            graph += "rankdir=LR;\n"; // Dirección de izquierda a derecha
+
+            Servicio* presente = frente;
+            while (presente != null)
+            {
+                graph += $"\"ID: {presente->Id}, Repuesto: {presente->ID_Repuesto}, Vehículo: {presente->ID_Vehiculo}, Costo: {presente->Costo}\"";
+                if (presente->Next != null)
+                {
+                    graph += $" -> \"ID: {presente->Next->Id}, Repuesto: {presente->Next->ID_Repuesto}, Vehículo: {presente->Next->ID_Vehiculo}, Costo: {presente->Next->Costo}\"";
+                }
+                graph += ";\n";
+                presente = presente->Next;
+            }
+
+            graph += "}\n";
+            return graph;
         }
 
         public void Liberar()
