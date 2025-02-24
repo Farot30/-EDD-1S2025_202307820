@@ -70,24 +70,7 @@ public class Individuals : Window
         button.SetSizeRequest(100, 50);
         fixedContainer.Put(button, 170, 400);
 
-        Button button1 = new Button("Regresar");
-        button1.Clicked += OnShowButtonClicked1;
-        button1.SetSizeRequest(100, 50);
-        fixedContainer.Put(button1, 170, 470);
-
         Add(fixedContainer);
-    }
-
-    private unsafe void OnShowButtonClicked1(object? sender, EventArgs e)
-    {
-        using (MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Regresando"))
-        {
-            Console.WriteLine("Regresando");
-            md.Run();
-        }
-        Menus menus = new Menus(lista, listaAutos, listaRepuestos, colas, pilaFacturas);
-        menus.ShowAll();
-        this.Destroy(); // Cambia this.Hide() por this.Destroy() para destruir la ventana actual
     }
 
     private unsafe void OnShowButtonClicked(object? sender, System.EventArgs e)

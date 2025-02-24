@@ -36,28 +36,127 @@ public class Masivo : Window
         button1.Clicked += Cargaras;
         fixedContainer.Put(button1, 200, 250);
 
-        Button button2 = new Button("Regresar");
-        button2.Clicked += Regresar;
-        fixedContainer.Put(button2, 200, 300);
-
         Add(fixedContainer);
     }
 
     private unsafe void Cargaras(object? sender, EventArgs e)
     {
-        MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Aquí se cargará el archivo en teoría");
-        Console.WriteLine("Se debe de cargar un archivo");
-        md.Run();
-        md.Destroy();
-        /*FileChooserDialog fileChooser = new FileChooserDialog("Seleccione el archivo a cargar", this, FileChooserAction.Open, "Cancelar", ResponseType.Cancel, "Abrir", ResponseType.Accept);
-        fileChooser.Run();
-        fileChooser.Destroy();*/
+        FileChooserDialog fileChooser = new FileChooserDialog(
+            "Selecciona un archivo JSON",
+            this,
+            FileChooserAction.Open,
+            "Cancelar", ResponseType.Cancel,
+            "Abrir", ResponseType.Accept);
+
+        fileChooser.Filter = new FileFilter();
+        fileChooser.Filter.AddPattern("*.json");
+
+        if (fileChooser.Run() == (int)ResponseType.Accept)
+        {
+            string filePath = fileChooser.Filename;
+            fileChooser.Destroy();
+
+            // Verificar que el archivo no sea nulo o vacío
+            if (!string.IsNullOrEmpty(filePath))
+            {
+                DeserializarYGuardar(filePath);
+                ImprimirDatos();
+                using (MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Archivo cargado exitosamente"))
+                {
+                    md.Run();
+                }
+            }
+        }
+        else
+        {
+            fileChooser.Destroy();
+        }
     }
 
-    private unsafe void Regresar(object? sender, EventArgs e)
+    private unsafe void DeserializarYGuardar(string filePath)
     {
-        Menus menus = new Menus(lista, listaAutos, ListaRepuestos, colas, pilaFacturas);
-        menus.ShowAll();
-        this.Destroy();
+        try
+        {
+            string jsonContent = File.ReadAllText(filePath);
+
+            if (string.IsNullOrEmpty(jsonContent))
+            {
+                Console.WriteLine("El archivo JSON está vacío");
+                return;
+            }
+
+            if (filePath.Contains("Usuarios"))
+            {
+                var usuariosTemp = JsonConvert.DeserializeObject<List<UsuarioTemp>>(jsonContent);
+                foreach (var usuarioTemp in usuariosTemp)
+                {
+                    Usuario usuario = new Usuario(usuarioTemp.ID, usuarioTemp.Nombres, usuarioTemp.Apellidos, usuarioTemp.Correo, usuarioTemp.Contrasenia);
+                    lista.Insertar(usuario);
+                }
+            }
+            else if (filePath.Contains("Vehiculos"))
+            {
+                var vehiculosTemp = JsonConvert.DeserializeObject<List<VehiculoTemp>>(jsonContent);
+                foreach (var vehiculoTemp in vehiculosTemp)
+                {
+                    listaAutos.Insertar(vehiculoTemp.ID, vehiculoTemp.ID_Usuario, vehiculoTemp.Marca, int.Parse(vehiculoTemp.Modelo), vehiculoTemp.Placa);
+                }
+            }
+            else if (filePath.Contains("Repuestos"))
+            {
+                var repuestosTemp = JsonConvert.DeserializeObject<List<RepuestoTemp>>(jsonContent);
+                foreach (var repuestoTemp in repuestosTemp)
+                {
+                    Repuesto repuesto = new Repuesto(repuestoTemp.ID, repuestoTemp.Repuesto, repuestoTemp.Descripcion, repuestoTemp.Costo);
+                    string repuestoString = new string(repuesto.Repuestos);
+                    string repuestoDescripcion = new string(repuesto.Descripcion);
+
+                    ListaRepuestos.Insertar(repuesto.Id, repuestoString, repuestoDescripcion, repuesto.Precio);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error al leer el archivo JSON: {ex.Message}");
+        }
     }
+
+    private unsafe void ImprimirDatos()
+    {
+        Console.WriteLine("Usuarios:");
+        lista.Imprimir();
+
+        Console.WriteLine("Vehículos:");
+        listaAutos.Mostrar();
+
+        Console.WriteLine("Repuestos:");
+        ListaRepuestos.Mostrar();
+    }
+}
+
+// Clases temporales para deserializar el JSON
+public class UsuarioTemp
+{
+    public int ID { get; set; }
+    public string Nombres { get; set; }
+    public string Apellidos { get; set; }
+    public string Correo { get; set; }
+    public string Contrasenia { get; set; }
+}
+
+public class VehiculoTemp
+{
+    public int ID { get; set; }
+    public int ID_Usuario { get; set; }
+    public string Marca { get; set; }
+    public string Modelo { get; set; }
+    public string Placa { get; set; }
+}
+
+public class RepuestoTemp
+{
+    public int ID { get; set; }
+    public string Repuesto { get; set; }
+    public string Descripcion { get; set; }
+    public double Costo { get; set; }
 }

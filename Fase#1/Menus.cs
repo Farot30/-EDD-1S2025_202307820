@@ -31,6 +31,7 @@ public class Menus : Window
 
         Button button1 = new Button("Cargas Masivas");
         button1.Clicked += Cargas;
+        button1.SetSizeRequest(100, 50);
         fixedContainer.Put(button1, 150, 100);
 
         Button button2 = new Button("Ingresos individuales");
@@ -53,6 +54,11 @@ public class Menus : Window
         button5.SetSizeRequest(100, 50);
         fixedContainer.Put(button5, 150, 500);
 
+        Button Reportes = new Button("Reportes");
+        Reportes.Clicked += Reportes1;
+        Reportes.SetSizeRequest(100, 50);
+        fixedContainer.Put(Reportes, 150, 600);
+
         Add(fixedContainer);
     }
 
@@ -60,34 +66,58 @@ public class Menus : Window
     {
         Masivo mas = new Masivo(lista, listaAutos, listaRepuestos, colas, pilaFacturas);
         mas.ShowAll();
-        this.Hide();
     }
 
     private unsafe void Ingresos(object? sender, EventArgs e)
     {
         MenuIngresos individup = new MenuIngresos(lista, listaAutos, listaRepuestos, colas, pilaFacturas);
         individup.ShowAll();
-        this.Hide();
     }
 
     private unsafe void Gestiones(object? sender, EventArgs e)
     {
         Gestion gest = new Gestion(lista, listaAutos, listaRepuestos, colas, pilaFacturas);
         gest.ShowAll();
-        this.Hide();
     }
 
     private unsafe void Generaciones(object? sender, EventArgs e)
     {
         Servir serv = new Servir(lista, listaAutos, listaRepuestos, colas, pilaFacturas);
         serv.ShowAll();
-        this.Hide();
     }
 
     private unsafe void Cancelaciones(object? sender, EventArgs e)
     {
         Factur fact = new Factur(lista, listaAutos, listaRepuestos, colas, pilaFacturas);
         fact.ShowAll();
-        this.Hide();
+    }
+
+    private unsafe void Reportes1(object? sender, EventArgs e)
+    {
+        // Generar y guardar las gráficas
+        GenerarYGuardarGrafica("ListaSimple.dot", lista.GenerarGraphviz(), "Lista Simple");
+        GenerarYGuardarGrafica("ListaDoblementeEnlazada.dot", listaAutos.GenerarGraphviz(), "Lista Doblemente Enlazada");
+        GenerarYGuardarGrafica("ListaCircular.dot", listaRepuestos.GenerarGraphviz(), "Lista Circular");
+        GenerarYGuardarGrafica("Cola.dot", colas.GenerarGraphviz(), "Cola");
+        GenerarYGuardarGrafica("Pila.dot", pilaFacturas.GenerarGrafica(), "Pila");
+
+        // Convertir los archivos .dot a imágenes
+        ConvertirDotAImagen("ListaSimple.dot");
+        ConvertirDotAImagen("ListaDoblementeEnlazada.dot");
+        ConvertirDotAImagen("ListaCircular.dot");
+        ConvertirDotAImagen("Cola.dot");
+        ConvertirDotAImagen("Pila.dot");
+
+        Console.WriteLine("Reportes generados y guardados.");
+    }
+
+    private void GenerarYGuardarGrafica(string nombreArchivo, string contenido, string titulo)
+    {
+        Grafica.Grafica.GenerarArchivoDot(nombreArchivo, contenido, titulo);
+    }
+
+    private void ConvertirDotAImagen(string nombreArchivo)
+    {
+        Grafica.Grafica.ConvertirDotAImagen(nombreArchivo);
     }
 }

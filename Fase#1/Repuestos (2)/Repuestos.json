@@ -1,0 +1,62 @@
+[ 
+  { 
+    "ID": 1, 
+    "Repuesto": "Filtro de aceite", 
+    "Detalles": "Filtro de aceite para motor 1.8L", 
+    "Costo": 15.75 
+  }, 
+  { 
+    "ID": 2, 
+    "Repuesto": "Bujías", 
+    "Detalles": "Juego de bujías para motor 2.0L", 
+    "Costo": 30.50 
+  },
+  {
+    "ID": 3,
+    "Repuesto": "Filtro de aire",
+    "Detalles": "Filtro de aire para motor 1.8L",
+    "Costo": 10.25
+  },
+  {
+    "ID": 4,
+    "Repuesto": "Filtro de combustible",
+    "Detalles": "Filtro de combustible para motor 2.0L",
+    "Costo": 20.00
+  },
+  {
+    "ID": 5,
+    "Repuesto": "Pastillas de freno",
+    "Detalles": "Pastillas de freno para eje delantero",
+    "Costo": 50.00
+  },
+  {
+    "ID": 6,
+    "Repuesto": "Discos de freno",
+    "Detalles": "Discos de freno para eje delantero",
+    "Costo": 75.00
+  },
+  {
+    "ID": 7,
+    "Repuesto": "Amortiguadores",
+    "Detalles": "Amortiguadores para eje delantero",
+    "Costo": 100.00
+  },
+  {
+    "ID": 8,
+    "Repuesto": "Correa de distribución",
+    "Detalles": "Correa de distribución para motor 1.8L",
+    "Costo": 80.00
+  },
+  {
+    "ID": 9,
+    "Repuesto": "Correa de accesorios",
+    "Detalles": "Correa de accesorios para motor 2.0L",
+    "Costo": 60.00
+  },
+  {
+    "ID": 10,
+    "Repuesto": "Batería",
+    "Detalles": "Batería de 12V 60Ah",
+    "Costo": 100.00
+  }
+] 

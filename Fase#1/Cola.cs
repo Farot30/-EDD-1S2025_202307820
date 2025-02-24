@@ -109,16 +109,19 @@ namespace Cola
 
             string graph = "digraph G {\n";
             graph += "rankdir=LR;\n"; // Dirección de izquierda a derecha
+            graph += "node [shape=record];\n"; // Forma de los nodos
 
             Servicio* presente = frente;
             while (presente != null)
             {
-                graph += $"\"ID: {presente->Id}, Repuesto: {presente->ID_Repuesto}, Vehículo: {presente->ID_Vehiculo}, Costo: {presente->Costo}\"";
+                // Convertir los detalles a string y agregar saltos de línea
+                string detalles = ObtenerDetalles(presente).Replace(", ", "\\n");
+                string label = $"ID: {presente->Id}\\nID Repuesto: {presente->ID_Repuesto}\\nID Vehículo: {presente->ID_Vehiculo}\\nDetalles: {detalles}\\nCosto: {presente->Costo}";
+                graph += $"\"{presente->Id}\" [label=\"{label}\"];\n";
                 if (presente->Next != null)
                 {
-                    graph += $" -> \"ID: {presente->Next->Id}, Repuesto: {presente->Next->ID_Repuesto}, Vehículo: {presente->Next->ID_Vehiculo}, Costo: {presente->Next->Costo}\"";
+                    graph += $"\"{presente->Id}\" -> \"{presente->Next->Id}\";\n";
                 }
-                graph += ";\n";
                 presente = presente->Next;
             }
 

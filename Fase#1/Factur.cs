@@ -50,11 +50,6 @@ public class Factur : Window
         Total2 = new Label("Aquí va el total");
         fixedContainer.Put(Total2, 250, 350);
 
-        Button button = new Button("Regresar");
-        button.Clicked += Regresar;
-        button.SetSizeRequest(100, 50);
-        fixedContainer.Put(button, 190, 400);
-
         Add(fixedContainer);
 
         // Obtener la última factura de la pila y actualizar los labels
@@ -76,12 +71,5 @@ public class Factur : Window
             ID_ORDEN2.Text = "No hay facturas";
             Total2.Text = "No hay facturas";
         }
-    }
-
-    private unsafe void Regresar(object? sender, EventArgs e)
-    {
-        Menus menus = new Menus(lista, listaAutos, ListaRepuestos, colas, pilaFacturas);
-        menus.ShowAll();
-        this.Hide();
     }
 }

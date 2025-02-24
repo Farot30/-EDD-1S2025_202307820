@@ -31,7 +31,7 @@ public class Servir : Window
         this.colas = ListaCola;
         this.pilaFacturas = pila;
 
-        SetDefaultSize(500, 600);
+        SetDefaultSize(500, 550);
         SetPosition(WindowPosition.Center);
 
         Fixed fixedContainer = new Fixed();
@@ -73,11 +73,6 @@ public class Servir : Window
         button.Clicked += Guardando;
         button.SetSizeRequest(100, 50);
         fixedContainer.Put(button, 100, 400);
-
-        Button Regreso = new Button("Regresar");
-        Regreso.Clicked += Regresar;
-        Regreso.SetSizeRequest(100, 50);
-        fixedContainer.Put(Regreso, 260, 400);
 
         Add(fixedContainer);
     }
@@ -142,6 +137,7 @@ public class Servir : Window
         // Crear una factura y almacenarla en la pila
         double total = costo + ObtenerCostoRepuesto(idRepuesto);
         pilaFacturas.Apila(idServicio, idServicio, total);
+        pilaFacturas.Mostrar();
 
         using (MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Servicio guardado y factura generada"))
         {
@@ -206,12 +202,5 @@ public class Servir : Window
             actual = actual->Next;
         }
         return false;
-    }
-
-    private unsafe void Regresar(object? sender, EventArgs e)
-    {
-        Menus menus = new Menus(lista, listaAutos, listaRepuestos, colas, pilaFacturas);
-        menus.ShowAll();
-        this.Hide();
     }
 }

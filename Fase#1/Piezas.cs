@@ -64,11 +64,6 @@ public class Piezas : Window
         button.SetSizeRequest(100, 50);
         fixedContainer.Put(button, 100, 350);
 
-        Button Regreso = new Button("Regresar");
-        Regreso.Clicked += Regresar;
-        Regreso.SetSizeRequest(100, 50);
-        fixedContainer.Put(Regreso, 250, 350);
-
         Add(fixedContainer);
     }
 
@@ -133,10 +128,4 @@ public class Piezas : Window
         return false;
     }
 
-    private unsafe void Regresar(object? sender, EventArgs e)
-    {
-        Menus menus = new Menus(lista, listaAutos, listaRepuestos, colas, pilaFacturas);
-        menus.ShowAll();
-        this.Hide();
-    }
 }

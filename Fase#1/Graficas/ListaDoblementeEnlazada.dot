@@ -1,0 +1,11 @@
+digraph G {
+label="Lista Doblemente Enlazada";
+labelloc="t";
+rankdir=LR;
+node [shape=record];
+"1" [label="ID: 1\nID Usuario: 1\nMarca: BMW"];
+"1" -> "2";
+"2" -> "1";
+"2" [label="ID: 2\nID Usuario: 2\nMarca: Toyota"];
+
+}

@@ -55,11 +55,6 @@ public class Gestion : Window
         ID_Eliminación = new Entry();
         fixedContainer.Put(ID_Eliminación, 90, 275);
 
-        Button button = new Button("Regresar");
-        button.Clicked += Regresar;
-        button.SetSizeRequest(100, 50);
-        fixedContainer.Put(button, 190, 325);
-
         Add(fixedContainer);
     }
 
@@ -127,7 +122,6 @@ public class Gestion : Window
             }
             EdicionUsuario ediciones = new EdicionUsuario(lista, listaAutos, ListaRepuestos, colas, pilaFacturas);
             ediciones.ShowAll();
-            this.Hide(); // Cambia this.Hide() por this.Hide() para destruir la ventana actual
         }
         catch (Exception ex)
         {
@@ -180,12 +174,5 @@ public class Gestion : Window
                 md.Run();
             }
         }
-    }
-
-    private unsafe void Regresar(object? sender, EventArgs e)
-    {
-        Menus menus = new Menus(lista, listaAutos, ListaRepuestos, colas, pilaFacturas);
-        menus.ShowAll();
-        this.Hide();
     }
 }

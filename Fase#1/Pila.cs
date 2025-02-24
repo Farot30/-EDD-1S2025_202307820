@@ -78,21 +78,22 @@ namespace Pila
             graphviz += "    subgraph cluster_0 {\n";
             graphviz += "        label = \"Pila\";\n";
 
-            //i-terar sobre los nodos de la pila y constructores de los nodos
+            // Iterar sobre los nodos de la pila y constructores de los nodos
             Facturas.Facturas* aux = cima;
             int ind = 0;
 
-            while(aux != null)
+            while (aux != null)
             {
-                graphviz += $"    node{ind} [label = \"{{<data> ID: {aux->ID} \n ID_Orden: {aux->ID_Orden} \n Total: {aux->Total:C} \n  Siguiente}}\"];\n";
+                graphviz += $"    node{ind} [label = \"{{ID: {aux->ID}\\nID_Orden: {aux->ID_Orden}\\nTotal: {aux->Total:C}}}\"];\n";
                 aux = aux->Siguiente;
                 ind++;
             }
-            //Conectar los nodos de la pila en orden
+
+            // Conectar los nodos de la pila en orden
             aux = cima;
-            for(int i = 0; aux != null && aux->Siguiente != null; i++)
+            for (int i = 0; aux != null && aux->Siguiente != null; i++)
             {
-                graphviz += $"    n{i}:data -> n{i+1};\n";
+                graphviz += $"    node{i} -> node{i + 1};\n";
                 aux = aux->Siguiente;
             }
 

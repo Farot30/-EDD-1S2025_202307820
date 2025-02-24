@@ -141,22 +141,23 @@ namespace List
         {
             if (cabeza == null) return string.Empty;
 
-            string graph = "digraph G {\n";
-            graph += "node [shape=box];\n"; // Cambia la forma de los nodos a cuadrados
+            string graph = "rankdir=LR;\n"; // Dirección de izquierda a derecha
+            graph += "node [shape=box];\n"; // Forma de los nodos
 
-            Nodo<T>* temp = cabeza;
-            while (temp != null)
+            Nodo<T>* actual = cabeza;
+            int index = 0;
+            while (actual != null)
             {
-                graph += $"\"{temp->Data}\"";
-                if (temp->Sig != null)
+                // Convertir el dato a string y reemplazar los espacios con saltos de línea
+                string data = actual->Data.ToString().Replace(", ", "\\n");
+                graph += $"node{index} [label=\"{data}\"];\n";
+                if (actual->Sig != null)
                 {
-                    graph += $" -> \"{temp->Sig->Data}\"";
+                    graph += $"node{index} -> node{index + 1};\n";
                 }
-                graph += ";\n";
-                temp = temp->Sig;
+                actual = actual->Sig;
+                index++;
             }
-
-            graph += "}\n";
             return graph;
         }
 

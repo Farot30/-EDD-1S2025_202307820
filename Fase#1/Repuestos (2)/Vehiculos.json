@@ -1,0 +1,72 @@
+[ 
+  { 
+    "ID": 1, 
+    "ID_Usuario": 1, 
+    "Marca": "Toyota", 
+    "Modelo": 2555, 
+    "Placa": "ABC123" 
+  }, 
+  { 
+    "ID": 2, 
+    "ID_Usuario": 2, 
+    "Marca": "Ford", 
+    "Modelo": 6220, 
+    "Placa": "XYZ456" 
+  }, 
+  { 
+    "ID": 3, 
+    "ID_Usuario": 3, 
+    "Marca": "Chevrolet", 
+    "Modelo": 213, 
+    "Placa": "DEF789" 
+  },
+  { 
+    "ID": 4, 
+    "ID_Usuario": 4, 
+    "Marca": "Nissan", 
+    "Modelo": 2134, 
+    "Placa": "GHI101" 
+  },
+  { 
+    "ID": 5, 
+    "ID_Usuario": 5, 
+    "Marca": "Honda", 
+    "Modelo": 2003, 
+    "Placa": "JKL112" 
+  },
+  { 
+    "ID": 6, 
+    "ID_Usuario": 6, 
+    "Marca": "Mazda", 
+    "Modelo": 1099, 
+    "Placa": "MNO131" 
+  },
+  { 
+    "ID": 7, 
+    "ID_Usuario": 7, 
+    "Marca": "Volkswagen", 
+    "Modelo": 1998, 
+    "Placa": "PQR141" 
+  },
+  { 
+    "ID": 8, 
+    "ID_Usuario": 8, 
+    "Marca": "Kia", 
+    "Modelo": 2000, 
+    "Placa": "STU151" 
+  },
+  { 
+    "ID": 9, 
+    "ID_Usuario": 9, 
+    "Marca": "Hyundai", 
+    "Modelo": 2007, 
+    "Placa": "VWX161" 
+  },
+  { 
+    "ID": 10, 
+    "ID_Usuario": 10, 
+    "Marca": "Renault", 
+    "Modelo": 1995, 
+    "Placa": "YZA171" 
+  }
+]

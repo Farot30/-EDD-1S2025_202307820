@@ -1,0 +1,16 @@
+digraph G {
+    node [shape=record];
+    rankdir=TB;
+    subgraph cluster_0 {
+        label = "Pila";
+    node0 [label = "{<data> ID: 2 
+ ID_Orden: 2 
+ Total: 750,00 € 
+  Siguiente}"];
+    node1 [label = "{<data> ID: 1 
+ ID_Orden: 1 
+ Total: 600,00 € 
+  Siguiente}"];
+    n0:data -> n1;
+    }
+}

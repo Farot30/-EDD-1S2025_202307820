@@ -11,7 +11,7 @@ namespace Grafica
         {
             try
             {
-                string carpeta = Path.Combine(Directory.GetCurrentDirectory(), "ListaCircular");
+                string carpeta = Path.Combine(Directory.GetCurrentDirectory(), "Graficas");
                 if (!Directory.Exists(carpeta))
                 {
                     Directory.CreateDirectory(carpeta);
@@ -29,7 +29,18 @@ namespace Grafica
                 }
 
                 string rutaArchivo = Path.Combine(carpeta, nombre);
-                string contenidoConTitulo = $"digraph G {{\nlabel=\"{titulo}\";\nlabelloc=\"t\";\n{contenido}\n}}";
+                string contenidoConTitulo;
+
+                // Verificar si el contenido ya tiene la declaración "digraph G {"
+                if (contenido.TrimStart().StartsWith("digraph G {"))
+                {
+                    contenidoConTitulo = contenido;
+                }
+                else
+                {
+                    contenidoConTitulo = $"digraph G {{\nlabel=\"{titulo}\";\nlabelloc=\"t\";\n{contenido}\n}}";
+                }
+
                 File.WriteAllText(rutaArchivo, contenidoConTitulo);
 
                 Console.WriteLine($"Archivo generado con éxito en: {rutaArchivo}");
@@ -45,7 +56,7 @@ namespace Grafica
         {
             try
             {
-                string carpeta = Path.Combine(Directory.GetCurrentDirectory(), "ListaCircular");
+                string carpeta = Path.Combine(Directory.GetCurrentDirectory(), "Graficas");
                 string archivoDot = Path.Combine(carpeta, nombreReporte);
 
                 if (string.IsNullOrEmpty(archivoDot))
@@ -56,7 +67,7 @@ namespace Grafica
 
                 if (!File.Exists(archivoDot))
                 {
-                    Console.WriteLine($"El archivo {nombreReporte} no existe en la carpeta 'ListaCircular'.");
+                    Console.WriteLine($"El archivo {nombreReporte} no existe en la carpeta 'Graficas'.");
                     return;
                 }
 

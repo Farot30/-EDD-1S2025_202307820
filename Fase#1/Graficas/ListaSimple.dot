@@ -1,0 +1,10 @@
+digraph G {
+label="Lista Simple";
+labelloc="t";
+rankdir=LR;
+node [shape=box];
+node0 [label="ID: 1\nNombre: fasdf\nApellido: fasdfa\nCorreo: fdsa\nContraseña: 123"];
+node0 -> node1;
+node1 [label="ID: 2\nNombre: car\nApellido: dasdf\nCorreo: gfdds\nContraseña: 543"];
+
+}

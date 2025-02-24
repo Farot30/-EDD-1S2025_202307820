@@ -4,7 +4,7 @@ using Vehiculos;
 
 namespace ListaDobleUnsafe
 {
-    public unsafe class ListaDoblementeEnlazada
+    public unsafe class ListaDoblementeEnlazada 
     {
         // apuntador head y tail
         private Node* head;
@@ -95,23 +95,22 @@ namespace ListaDobleUnsafe
         {
             if (head == null) return string.Empty;
 
-            string graph = "digraph G {\n";
-            graph += "rankdir=LR;\n"; // Dirección de izquierda a derecha
+            string graph = "rankdir=LR;\n"; // Dirección de izquierda a derecha
             graph += "node [shape=record];\n"; // Forma de los nodos
 
             Node* actual = head;
             while (actual != null)
             {
-                graph += $"\"{actual->Id}\" [label=\"{{<prev> | {actual->Id} | <next>}}\"];\n";
+                string label = $"ID: {actual->Id}\\nID Usuario: {actual->IdUsuario}\\nMarca: {new string(actual->Marca)}";
+                graph += $"\"{actual->Id}\" [label=\"{label}\"];\n";
                 if (actual->Next != null)
                 {
-                    graph += $"\"{actual->Id}\":next -> \"{actual->Next->Id}\":prev;\n";
-                    graph += $"\"{actual->Next->Id}\":prev -> \"{actual->Id}\":next;\n";
+                    graph += $"\"{actual->Id}\" -> \"{actual->Next->Id}\";\n";
+                    graph += $"\"{actual->Next->Id}\" -> \"{actual->Id}\";\n";
                 }
                 actual = actual->Next;
             }
 
-            graph += "}\n";
             return graph;
         }
 

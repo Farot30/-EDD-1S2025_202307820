@@ -23,7 +23,7 @@ public class MenuIngresos : Window
         this.colas = colas;
         this.pilaFacturas = pila;
 
-        SetDefaultSize(500, 700);
+        SetDefaultSize(500, 500);
         SetPosition(WindowPosition.Center);
 
         Fixed fixedContainer = new Fixed();
@@ -51,11 +51,6 @@ public class MenuIngresos : Window
         button4.SetSizeRequest(100, 50);
         fixedContainer.Put(button4, 140, 400);
 
-        Button button5 = new Button("Regresar");
-        button5.Clicked += Regresar;
-        button5.SetSizeRequest(100, 50);
-        fixedContainer.Put(button5, 190, 500);
-
         Add(fixedContainer);
     }
 
@@ -63,34 +58,23 @@ public class MenuIngresos : Window
     {
         Individuals individuals = new Individuals(lista, listaAutos, listaRepuestos, colas, pilaFacturas);
         individuals.ShowAll();
-        this.Hide();
     }
 
     private unsafe void Vehí(object? sender, EventArgs e)
     {
         Autos autos = new Autos(lista, listaAutos, listaRepuestos, colas, pilaFacturas);
         autos.ShowAll();
-        this.Hide();
     }
 
     private unsafe void Repuestos(object? sender, EventArgs e)
     {
         Piezas piezas = new Piezas(lista, listaAutos, listaRepuestos, colas, pilaFacturas);
         piezas.ShowAll();
-        this.Hide();
     }
 
     private unsafe void IngresarServicios(object? sender, EventArgs e)
     {
         Servir servir = new Servir(lista, listaAutos, listaRepuestos, colas, pilaFacturas);
         servir.ShowAll();
-        this.Hide();
-    }
-
-    private unsafe void Regresar(object? sender, EventArgs e)
-    {
-        Menus menus = new Menus(lista, listaAutos, listaRepuestos, colas, pilaFacturas);
-        menus.ShowAll();
-        this.Hide();
     }
 }

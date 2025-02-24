@@ -66,11 +66,6 @@ namespace Ediciones
             Contraseña = new Entry();
             fixedContainer.Put(Contraseña, 250, 350);
 
-            Button button = new Button("Regresar");
-            button.Clicked += Regresar;
-            button.SetSizeRequest(100, 50);
-            fixedContainer.Put(button, 50, 400);
-
             Button button1 = new Button("Actualizar");
             button1.Clicked += Actualizar;
             button1.SetSizeRequest(100, 50);
@@ -123,11 +118,5 @@ namespace Ediciones
             }
         }
 
-        private unsafe void Regresar(object? sender, EventArgs e)
-        {
-            Gestion menus = new Gestion(lista, listaAutos, ListaRepuestos, colas, pilaFacturas);
-            menus.ShowAll();
-            this.Destroy();
-        }
     }
 }
