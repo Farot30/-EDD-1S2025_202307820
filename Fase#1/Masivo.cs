@@ -29,14 +29,41 @@ public class Masivo : Window
 
         Fixed fixedContainer = new Fixed();
 
-        Label labelesBox = new Label("Cargas masivas");
+        EventBox labelesBox = CreateStyledLabel("Cargas masivas", "Arial 20");
         fixedContainer.Put(labelesBox, 160, 50);
 
         Button button1 = new Button("Cargar");
         button1.Clicked += Cargaras;
+        ApplyFont(button1, "Arial 12");
         fixedContainer.Put(button1, 200, 250);
 
         Add(fixedContainer);
+    }
+
+    private EventBox CreateStyledLabel(string text, string font)
+    {
+        Label label = new Label(text);
+        ApplyFont(label, font);
+        EventBox eventBox = new EventBox();
+        eventBox.Add(label);
+        return eventBox;
+    }
+
+    private void ApplyFont(Widget widget, string fontDescription)
+    {
+        Pango.FontDescription fontDesc = Pango.FontDescription.FromString(fontDescription);
+        if (widget is Label label)
+        {
+            label.ModifyFont(fontDesc);
+        }
+        else if (widget is Button button)
+        {
+            button.Child.ModifyFont(fontDesc);
+        }
+        else if (widget is Entry entry)
+        {
+            entry.ModifyFont(fontDesc);
+        }
     }
 
     private unsafe void Cargaras(object? sender, EventArgs e)

@@ -21,45 +21,77 @@ public class Menus : Window
         this.colas = colas;
         this.pilaFacturas = pila;
 
-        SetDefaultSize(500, 600);
+        SetDefaultSize(500, 650);
         SetPosition(WindowPosition.Center);
 
         Fixed fixedContainer = new Fixed();
 
-        Label labelesBox = new Label("Menu del usuario");
+        EventBox labelesBox = CreateStyledLabel("Menu del usuario", "Arial 20");
         fixedContainer.Put(labelesBox, 160, 50);
 
         Button button1 = new Button("Cargas Masivas");
         button1.Clicked += Cargas;
         button1.SetSizeRequest(100, 50);
+        ApplyFont(button1, "Arial 12");
         fixedContainer.Put(button1, 150, 100);
 
         Button button2 = new Button("Ingresos individuales");
         button2.Clicked += Ingresos;
         button2.SetSizeRequest(100, 50);
+        ApplyFont(button2, "Arial 12");
         fixedContainer.Put(button2, 125, 200);
 
         Button button3 = new Button("Gestión de Usuarios");
         button3.Clicked += Gestiones;
         button3.SetSizeRequest(100, 50);
+        ApplyFont(button3, "Arial 12");
         fixedContainer.Put(button3, 130, 300);
 
         Button button4 = new Button("Generar Servicio");
         button4.Clicked += Generaciones;
         button4.SetSizeRequest(100, 50);
+        ApplyFont(button4, "Arial 12");
         fixedContainer.Put(button4, 150, 400);
 
         Button button5 = new Button("Cancelar Factura");
         button5.Clicked += Cancelaciones;
         button5.SetSizeRequest(100, 50);
+        ApplyFont(button5, "Arial 12");
         fixedContainer.Put(button5, 150, 500);
 
         Button Reportes = new Button("Reportes");
         Reportes.Clicked += Reportes1;
         Reportes.SetSizeRequest(100, 50);
+        ApplyFont(Reportes, "Arial 12");
         fixedContainer.Put(Reportes, 150, 600);
 
         Add(fixedContainer);
+    }
+
+    private EventBox CreateStyledLabel(string text, string font)
+    {
+        Label label = new Label(text);
+        ApplyFont(label, font);
+        EventBox eventBox = new EventBox();
+        eventBox.Add(label);
+        return eventBox;
+    }
+
+    private void ApplyFont(Widget widget, string fontDescription)
+    {
+        Pango.FontDescription fontDesc = Pango.FontDescription.FromString(fontDescription);
+        if (widget is Label label)
+        {
+            label.ModifyFont(fontDesc);
+        }
+        else if (widget is Button button)
+        {
+            button.Child.ModifyFont(fontDesc);
+        }
+        else if (widget is Entry entry)
+        {
+            entry.ModifyFont(fontDesc);
+        }
     }
 
     private unsafe void Cargas(object? sender, EventArgs e)

@@ -28,30 +28,60 @@ public class MenuIngresos : Window
 
         Fixed fixedContainer = new Fixed();
 
-        Label labelesBox = new Label("Menu de ingresos");
+        EventBox labelesBox = CreateStyledLabel("Menu de ingresos", "Arial 20");
         fixedContainer.Put(labelesBox, 160, 50);
 
         Button button1 = new Button("Ingresar Usuario");
         button1.Clicked += Usus1;
         button1.SetSizeRequest(100, 50);
+        ApplyFont(button1, "Arial 12");
         fixedContainer.Put(button1, 150, 100);
 
         Button button2 = new Button("Ingresar Vehículo");
         button2.Clicked += Vehí;
         button2.SetSizeRequest(100, 50);
+        ApplyFont(button2, "Arial 12");
         fixedContainer.Put(button2, 140, 200);
 
         Button button3 = new Button("Repuestos");
         button3.Clicked += Repuestos;
         button3.SetSizeRequest(100, 50);
+        ApplyFont(button3, "Arial 12");
         fixedContainer.Put(button3, 175, 300);
 
         Button button4 = new Button("Ingresar Servicios");
         button4.Clicked += IngresarServicios;
         button4.SetSizeRequest(100, 50);
+        ApplyFont(button4, "12");
         fixedContainer.Put(button4, 140, 400);
 
         Add(fixedContainer);
+    }
+
+    private EventBox CreateStyledLabel(string text, string font)
+    {
+        Label label = new Label(text);
+        ApplyFont(label, font);
+        EventBox eventBox = new EventBox();
+        eventBox.Add(label);
+        return eventBox;
+    }
+
+    private void ApplyFont(Widget widget, string fontDescription)
+    {
+        Pango.FontDescription fontDesc = Pango.FontDescription.FromString(fontDescription);
+        if (widget is Label label)
+        {
+            label.ModifyFont(fontDesc);
+        }
+        else if (widget is Button button)
+        {
+            button.Child.ModifyFont(fontDesc);
+        }
+        else if (widget is Entry entry)
+        {
+            entry.ModifyFont(fontDesc);
+        }
     }
 
     private unsafe void Usus1(object? sender, EventArgs e)

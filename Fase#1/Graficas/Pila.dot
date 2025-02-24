@@ -3,14 +3,8 @@ digraph G {
     rankdir=TB;
     subgraph cluster_0 {
         label = "Pila";
-    node0 [label = "{<data> ID: 2 
- ID_Orden: 2 
- Total: 750,00 € 
-  Siguiente}"];
-    node1 [label = "{<data> ID: 1 
- ID_Orden: 1 
- Total: 600,00 € 
-  Siguiente}"];
-    n0:data -> n1;
+    node0 [label = "{ID: 2\nID_Orden: 2\nTotal: 900,00 €}"];
+    node1 [label = "{ID: 1\nID_Orden: 1\nTotal: 700,00 €}"];
+    node0 -> node1;
     }
 }

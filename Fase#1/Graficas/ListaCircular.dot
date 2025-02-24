@@ -2,7 +2,7 @@ digraph G {
 label="Lista Circular";
 labelloc="t";
 node [shape=box];
-"ID: 1, Repuesto: cabezal, Costo: 100" -> "ID: 2, Repuesto: Pastillas, Costo: 150";
-"ID: 2, Repuesto: Pastillas, Costo: 150" -> "ID: 1, Repuesto: cabezal, Costo: 100";
+"ID: 1, Repuesto: cabezal, Costo: 500" -> "ID: 2, Repuesto: amortiguador, Costo: 300";
+"ID: 2, Repuesto: amortiguador, Costo: 300" -> "ID: 1, Repuesto: cabezal, Costo: 500";
 
 }

@@ -30,45 +30,77 @@ public class Autos : Window
 
         Fixed fixedContainer = new Fixed();
 
-        Label labelesBox = new Label("Ingreso de Vehículos");
+        EventBox labelesBox = CreateStyledLabel("Ingreso de vehículos", "Arial 20");
         fixedContainer.Put(labelesBox, 160, 50);
 
-        Label ids1 = new Label("ID:");
+        EventBox ids1 = CreateStyledLabel("ID:", "Arial 12");
         fixedContainer.Put(ids1, 100, 150);
 
         ids = new Entry();
+        ApplyFont(ids, "Arial 12");
         fixedContainer.Put(ids, 250, 150);
 
-        Label ids_Usuario1 = new Label("ID Usuario:");
+        EventBox ids_Usuario1 = CreateStyledLabel("ID Usuario:", "Arial 12");
         fixedContainer.Put(ids_Usuario1, 100, 200);
 
         ids_Usuario = new Entry();
+        ApplyFont(ids_Usuario, "Arial 12");
         fixedContainer.Put(ids_Usuario, 250, 200);
 
-        Label marcas = new Label("Marca:");
+        EventBox marcas = CreateStyledLabel("Marca:", "Arial 12");
         fixedContainer.Put(marcas, 100, 250);
 
         Marcas = new Entry();
+        ApplyFont(Marcas, "Arial 12");
         fixedContainer.Put(Marcas, 250, 250);
 
-        Label modelos = new Label("Modelo:");
+        EventBox modelos = CreateStyledLabel("Modelo:", "Arial 12");
         fixedContainer.Put(modelos, 100, 300);
 
         Modelos = new Entry();
+        ApplyFont(Modelos, "Arial 12");
         fixedContainer.Put(Modelos, 250, 300);
 
-        Label placas = new Label("Placas:");
+        EventBox placas = CreateStyledLabel("Placas:", "Arial 12");
         fixedContainer.Put(placas, 100, 350);
 
         Placas = new Entry();
+        ApplyFont(Placas, "Arial 12");
         fixedContainer.Put(Placas, 250, 350);
 
         Button button = new Button("Guardar");
         button.Clicked += OnShowButtonClicked;
         button.SetSizeRequest(100, 50);
+        ApplyFont(button, "Arial 12");
         fixedContainer.Put(button, 100, 400);
 
         Add(fixedContainer);
+    }
+
+    private EventBox CreateStyledLabel(string text, string font)
+    {
+        Label label = new Label(text);
+        ApplyFont(label, font);
+        EventBox eventBox = new EventBox();
+        eventBox.Add(label);
+        return eventBox;
+    }
+
+    private void ApplyFont(Widget widget, string fontDescription)
+    {
+        Pango.FontDescription fontDesc = Pango.FontDescription.FromString(fontDescription);
+        if (widget is Label label)
+        {
+            label.ModifyFont(fontDesc);
+        }
+        else if (widget is Button button)
+        {
+            button.Child.ModifyFont(fontDesc);
+        }
+        else if (widget is Entry entry)
+        {
+            entry.ModifyFont(fontDesc);
+        }
     }
 
     private unsafe void OnShowButtonClicked(object? sender, EventArgs e)
