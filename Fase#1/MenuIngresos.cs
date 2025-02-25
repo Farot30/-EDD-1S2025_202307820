@@ -35,25 +35,25 @@ public class MenuIngresos : Window
         button1.Clicked += Usus1;
         button1.SetSizeRequest(100, 50);
         ApplyFont(button1, "Arial 12");
-        fixedContainer.Put(button1, 150, 100);
+        fixedContainer.Put(button1, 180, 100);
 
         Button button2 = new Button("Ingresar Vehículo");
         button2.Clicked += Vehí;
         button2.SetSizeRequest(100, 50);
         ApplyFont(button2, "Arial 12");
-        fixedContainer.Put(button2, 140, 200);
+        fixedContainer.Put(button2, 178, 200);
 
         Button button3 = new Button("Repuestos");
         button3.Clicked += Repuestos;
         button3.SetSizeRequest(100, 50);
         ApplyFont(button3, "Arial 12");
-        fixedContainer.Put(button3, 175, 300);
+        fixedContainer.Put(button3, 195, 300);
 
         Button button4 = new Button("Ingresar Servicios");
         button4.Clicked += IngresarServicios;
         button4.SetSizeRequest(100, 50);
         ApplyFont(button4, "12");
-        fixedContainer.Put(button4, 140, 400);
+        fixedContainer.Put(button4, 175, 400);
 
         Add(fixedContainer);
     }

@@ -37,7 +37,7 @@ public class Servir : Window
         Fixed fixedContainer = new Fixed();
 
         Label labelesBox = new Label("Ingreso de Servicios");
-        fixedContainer.Put(labelesBox, 140, 50);
+        fixedContainer.Put(labelesBox, 180, 50);
 
         Label ids1 = new Label("ID:");
         fixedContainer.Put(ids1, 100, 150);
@@ -202,5 +202,15 @@ public class Servir : Window
             actual = actual->Next;
         }
         return false;
+    }
+
+    private unsafe string ObtenerDetalles(Servicio* servicio)
+    {
+        char[] detalles = new char[50];
+        for (int i = 0; i < 50 && servicio->Detalles[i] != '\0'; i++)
+        {
+            detalles[i] = servicio->Detalles[i];
+        }
+        return new string(detalles).TrimEnd('\0');
     }
 }

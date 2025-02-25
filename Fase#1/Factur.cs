@@ -24,7 +24,7 @@ public class Factur : Window
         this.colas = colas;
         this.pilaFacturas = pila;
 
-        SetDefaultSize(500, 600);
+        SetDefaultSize(500, 400);
         SetPosition(WindowPosition.Center);
 
         Fixed fixedContainer = new Fixed();
@@ -67,9 +67,9 @@ public class Factur : Window
         }
         else
         {
-            ids2.Text = "No hay facturas";
-            ID_ORDEN2.Text = "No hay facturas";
-            Total2.Text = "No hay facturas";
+            ids2.Text = "No hay servicio hecho ";
+            ID_ORDEN2.Text = "No hay servicio hecho";
+            Total2.Text = "No hay servicio hecho";
         }
     }
 }

@@ -80,12 +80,14 @@ namespace Pila
             // Iterar sobre los nodos de la pila y constructores de los nodos
             Facturas.Facturas* aux = cima;
             int ind = 0;
+            int o = 0;
 
             while (aux != null)
             {
-                graphviz += $"    node{ind} [label = \"{{ID: {aux->ID}\\nID_Orden: {aux->ID_Orden}\\nTotal: {aux->Total:C}}}\"];\n";
+                graphviz += $"    node{ind} [label = \"{{Factura {o}\\nID: {aux->ID}\\nID_Orden: {aux->ID_Orden}\\nTotal: {aux->Total:C}}}\"];\n";
                 aux = aux->Siguiente;
                 ind++;
+                o++;
             }
 
             aux = cima;

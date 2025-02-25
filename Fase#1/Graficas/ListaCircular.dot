@@ -1,9 +1,0 @@
-digraph G {
-label="Lista Circular";
-labelloc="t";
-node [shape=box];
-"ID: 1, Repuesto: Filtro de aceite, Costo: 15,75" -> "ID: 2, Repuesto: Bujías de aceite, Costo: 30,5";
-"ID: 2, Repuesto: Bujías de aceite, Costo: 30,5" -> "ID: 3, Repuesto: Filtro de airete, Costo: 10,25";
-"ID: 3, Repuesto: Filtro de airete, Costo: 10,25" -> "ID: 1, Repuesto: Filtro de aceite, Costo: 15,75";
-
-}

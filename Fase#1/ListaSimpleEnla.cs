@@ -137,6 +137,7 @@ namespace List
             }
         }
 
+       
         public string GenerarGraphviz()
         {
             if (cabeza == null) return string.Empty;
@@ -148,8 +149,16 @@ namespace List
             int index = 0;
             while (actual != null)
             {
-                // Convertir el dato a string y reemplazar los espacios con saltos de línea
-                string data = actual->Data.ToString().Replace(", ", "\\n");
+                string data;
+                if (typeof(T) == typeof(Usuarios.Usuario))
+                {
+                    Usuarios.Usuario* pUsuario = (Usuarios.Usuario*)(&actual->Data);
+                    data = $"ID: {pUsuario->Id}\\nNombre: {new string(pUsuario->Nombre)}\\nApellido: {new string(pUsuario->Apellido)}\\nCorreo: {new string(pUsuario->Correo)}";
+                }
+                else
+                {
+                    data = actual->Data.ToString().Replace(", ", "\\n");
+                }
                 graph += $"node{index} [label=\"{data}\"];\n";
                 if (actual->Sig != null)
                 {

@@ -25,7 +25,7 @@ public class Autos : Window
         this.colas = colas;
         this.pilaFacturas = pila;
 
-        SetDefaultSize(500, 600);
+        SetDefaultSize(500, 480);
         SetPosition(WindowPosition.Center);
 
         Fixed fixedContainer = new Fixed();

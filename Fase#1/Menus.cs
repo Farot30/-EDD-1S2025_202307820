@@ -13,7 +13,7 @@ public class Menus : Window
     private Cola.Cola colas;
     private Pila.Pila pilaFacturas;
 
-    public unsafe Menus(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas, Cola.Cola colas, Pila.Pila pila) : base("Menu del usuario")
+    public unsafe Menus(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas, Cola.Cola colas, Pila.Pila pila) : base("Menu")
     {
         this.listaAutos = listaAutos;
         this.lista = lista;
@@ -26,8 +26,8 @@ public class Menus : Window
 
         Fixed fixedContainer = new Fixed();
 
-        EventBox labelesBox = CreateStyledLabel("Menu del usuario", "Arial 20");
-        fixedContainer.Put(labelesBox, 160, 50);
+        EventBox labelesBox = CreateStyledLabel("Menu", "Arial 20");
+        fixedContainer.Put(labelesBox, 210, 50);
 
         Button button1 = new Button("Cargas Masivas");
         button1.Clicked += Cargas;
@@ -39,7 +39,7 @@ public class Menus : Window
         button2.Clicked += Ingresos;
         button2.SetSizeRequest(100, 50);
         ApplyFont(button2, "Arial 12");
-        fixedContainer.Put(button2, 170, 170);
+        fixedContainer.Put(button2, 165, 170);
 
         Button button3 = new Button("Gestión de Usuarios");
         button3.Clicked += Gestiones;
@@ -127,22 +127,25 @@ public class Menus : Window
     private unsafe void Reportes1(object? sender, EventArgs e)
     {
         // Generar y guardar las gráficas
-        GenerarYGuardarGrafica("ListaSimple.dot", lista.GenerarGraphviz(), "Lista Simple");
-        GenerarYGuardarGrafica("ListaDoblementeEnlazada.dot", listaAutos.GenerarGraphviz(), "Lista Doblemente Enlazada");
-        GenerarYGuardarGrafica("ListaCircular.dot", listaRepuestos.GenerarGraphviz(), "Lista Circular");
-        GenerarYGuardarGrafica("Cola.dot", colas.GenerarGraphviz(), "Cola");
-        GenerarYGuardarGrafica("Pila.dot", pilaFacturas.GenerarGrafica(), "Pila");
+        GenerarYGuardarGrafica("Usuarios.dot", lista.GenerarGraphviz(), "Usuarios");
+        GenerarYGuardarGrafica("vehiculos.dot", listaAutos.GenerarGraphviz(), "Vehículos");
+        GenerarYGuardarGrafica("Repuestos.dot", listaRepuestos.GenerarGraphviz(), "Repuestos");
+        GenerarYGuardarGrafica("Cola.dot", colas.GenerarGraphviz(), "Servicios");
+        GenerarYGuardarGrafica("Pila.dot", pilaFacturas.GenerarGrafica(), "Facturas");
         GenerarYGuardarGrafica("Top5Vehículos.dot", listaAutos.GenerarGraphvizTop5Antiguos(), "Top 5 Vehículos más antiguos");
         GenerarYGuardarGrafica("Top5VehiculosmasServicio.dot", colas.GenerarGraphvizTop5VehiculosConMasServicios(), "Top 5 vehículos con más servicios");
+        // Crear una instancia de Servir para generar la matriz dispersa
+        GenerarYGuardarGrafica("MatrizDispersa.dot", colas.GenerarGraphvizMatrizDispersa(), "Matriz Dispersa");
 
         // Convertir los archivos .dot a imágenes
-        ConvertirDotAImagen("ListaSimple.dot");
-        ConvertirDotAImagen("ListaDoblementeEnlazada.dot");
-        ConvertirDotAImagen("ListaCircular.dot");
+        ConvertirDotAImagen("Usuarios.dot");
+        ConvertirDotAImagen("vehiculos.dot");
+        ConvertirDotAImagen("Repuestos.dot");
         ConvertirDotAImagen("Cola.dot");
         ConvertirDotAImagen("Pila.dot");
         ConvertirDotAImagen("Top5Vehículos.dot");
         ConvertirDotAImagen("Top5VehiculosmasServicio.dot");
+        ConvertirDotAImagen("MatrizDispersa.dot");
 
         Console.WriteLine("Reportes generados y guardados.");
     }

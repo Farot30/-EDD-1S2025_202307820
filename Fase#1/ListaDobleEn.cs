@@ -101,7 +101,7 @@ namespace ListaDobleUnsafe
             Node* actual = head;
             while (actual != null)
             {
-                string label = $"ID: {actual->Id}\\nID Usuario: {actual->IdUsuario}\\nMarca: {new string(actual->Marca)}";
+                string label = $"ID: {actual->Id}\\nID Usuario: {actual->IdUsuario}\\nMarca: {new string(actual->Marca)}\\nModelo: {actual->Modelo}\\nPlaca: {new string(actual->Placa)}";
                 graph += $"\"{actual->Id}\" [label=\"{label}\"];\n";
                 if (actual->Next != null)
                 {
