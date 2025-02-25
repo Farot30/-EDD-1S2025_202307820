@@ -129,6 +129,43 @@ namespace Cola
             return graph;
         }
 
+        // Método para generar una gráfica en Graphviz de los 5 vehículos con más servicios
+        public string GenerarGraphvizTop5VehiculosConMasServicios()
+        {
+            if (frente == null) return string.Empty;
+
+            // Crear un diccionario para contar los servicios por vehículo
+            Dictionary<int, int> vehiculoServicios = new Dictionary<int, int>();
+            Servicio* presente = frente;
+            while (presente != null)
+            {
+                if (vehiculoServicios.ContainsKey(presente->ID_Vehiculo))
+                {
+                    vehiculoServicios[presente->ID_Vehiculo]++;
+                }
+                else
+                {
+                    vehiculoServicios[presente->ID_Vehiculo] = 1;
+                }
+                presente = presente->Next;
+            }
+
+            // Ordenar los vehículos por la cantidad de servicios en orden descendente y tomar los 5 primeros
+            var top5Vehiculos = vehiculoServicios.OrderByDescending(v => v.Value).Take(5).ToList();
+
+            string graph = "digraph G {\n";
+            graph += "rankdir=LR;\n"; // Dirección de izquierda a derecha
+            graph += "node [shape=record];\n"; // Forma de los nodos
+
+            foreach (var vehiculo in top5Vehiculos)
+            {
+                graph += $"\"Vehiculo_{vehiculo.Key}\" [label=\"ID Vehículo: {vehiculo.Key}\\nServicios: {vehiculo.Value}\"];\n";
+            }
+
+            graph += "}\n";
+            return graph;
+        }
+
         public void Liberar()
         {
             Servicio* presente = frente;

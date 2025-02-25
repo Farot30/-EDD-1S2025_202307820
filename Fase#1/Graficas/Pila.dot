@@ -1,10 +1,4 @@
 digraph G {
     node [shape=record];
-    rankdir=TB;
-    subgraph cluster_0 {
-        label = "Pila";
-    node0 [label = "{ID: 2\nID_Orden: 2\nTotal: 900,00 €}"];
-    node1 [label = "{ID: 1\nID_Orden: 1\nTotal: 700,00 €}"];
-    node0 -> node1;
-    }
+    NULL [label = "{NULL}"];
 }

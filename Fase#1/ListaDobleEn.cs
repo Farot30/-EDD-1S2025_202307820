@@ -114,6 +114,57 @@ namespace ListaDobleUnsafe
             return graph;
         }
 
+        // Método para generar una gráfica en Graphviz de los 5 vehículos más antiguos
+        public string GenerarGraphvizTop5Antiguos()
+        {
+            if (head == null) return string.Empty;
+
+            // Crear una lista temporal para almacenar los nodos
+            Node*[] nodos = new Node*[100]; // Suponiendo un máximo de 100 nodos
+            int count = 0;
+            Node* actual = head;
+            while (actual != null && count < 100)
+            {
+                nodos[count++] = actual;
+                actual = actual->Next;
+            }
+
+            // Ordenar los nodos por el año del modelo en orden ascendente usando una función de ordenación manual
+            for (int i = 0; i < count - 1; i++)
+            {
+                for (int j = 0; j < count - i - 1; j++)
+                {
+                    if (nodos[j]->Modelo > nodos[j + 1]->Modelo)
+                    {
+                        Node* temp = nodos[j];
+                        nodos[j] = nodos[j + 1];
+                        nodos[j + 1] = temp;
+                    }
+                }
+            }
+
+            // Tomar los 5 vehículos más antiguos
+            int topCount = Math.Min(5, count);
+            Node*[] top5Antiguos = new Node*[topCount];
+            Array.Copy(nodos, top5Antiguos, topCount);
+
+            string graph = "rankdir=LR;\n"; // Dirección de izquierda a derecha
+            graph += "node [shape=record];\n"; // Forma de los nodos
+
+            for (int i = 0; i < topCount; i++)
+            {
+                Node* nodo = top5Antiguos[i];
+                string label = $"ID: {nodo->Id}\\nID Usuario: {nodo->IdUsuario}\\nMarca: {new string(nodo->Marca)}\\nModelo: {nodo->Modelo}\\nPlaca: {new string(nodo->Placa)}";
+                graph += $"\"{nodo->Id}\" [label=\"{label}\"];\n";
+                if (i < topCount - 1)
+                {
+                    graph += $"\"{nodo->Id}\" -> \"{top5Antiguos[i + 1]->Id}\";\n";
+                }
+            }
+
+            return graph;
+        }
+
         // Destructor de la clase
         ~ListaDoblementeEnlazada()
         {

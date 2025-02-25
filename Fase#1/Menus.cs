@@ -21,7 +21,7 @@ public class Menus : Window
         this.colas = colas;
         this.pilaFacturas = pila;
 
-        SetDefaultSize(500, 650);
+        SetDefaultSize(500, 600);
         SetPosition(WindowPosition.Center);
 
         Fixed fixedContainer = new Fixed();
@@ -33,37 +33,37 @@ public class Menus : Window
         button1.Clicked += Cargas;
         button1.SetSizeRequest(100, 50);
         ApplyFont(button1, "Arial 12");
-        fixedContainer.Put(button1, 150, 100);
+        fixedContainer.Put(button1, 180, 100);
 
         Button button2 = new Button("Ingresos individuales");
         button2.Clicked += Ingresos;
         button2.SetSizeRequest(100, 50);
         ApplyFont(button2, "Arial 12");
-        fixedContainer.Put(button2, 125, 200);
+        fixedContainer.Put(button2, 170, 170);
 
         Button button3 = new Button("Gestión de Usuarios");
         button3.Clicked += Gestiones;
         button3.SetSizeRequest(100, 50);
         ApplyFont(button3, "Arial 12");
-        fixedContainer.Put(button3, 130, 300);
+        fixedContainer.Put(button3, 170, 240);
 
         Button button4 = new Button("Generar Servicio");
         button4.Clicked += Generaciones;
         button4.SetSizeRequest(100, 50);
         ApplyFont(button4, "Arial 12");
-        fixedContainer.Put(button4, 150, 400);
+        fixedContainer.Put(button4, 180, 310);
 
         Button button5 = new Button("Cancelar Factura");
         button5.Clicked += Cancelaciones;
         button5.SetSizeRequest(100, 50);
         ApplyFont(button5, "Arial 12");
-        fixedContainer.Put(button5, 150, 500);
+        fixedContainer.Put(button5, 180, 380);
 
         Button Reportes = new Button("Reportes");
         Reportes.Clicked += Reportes1;
         Reportes.SetSizeRequest(100, 50);
         ApplyFont(Reportes, "Arial 12");
-        fixedContainer.Put(Reportes, 150, 600);
+        fixedContainer.Put(Reportes, 210, 450);
 
         Add(fixedContainer);
     }
@@ -132,6 +132,8 @@ public class Menus : Window
         GenerarYGuardarGrafica("ListaCircular.dot", listaRepuestos.GenerarGraphviz(), "Lista Circular");
         GenerarYGuardarGrafica("Cola.dot", colas.GenerarGraphviz(), "Cola");
         GenerarYGuardarGrafica("Pila.dot", pilaFacturas.GenerarGrafica(), "Pila");
+        GenerarYGuardarGrafica("Top5Vehículos.dot", listaAutos.GenerarGraphvizTop5Antiguos(), "Top 5 Vehículos más antiguos");
+        GenerarYGuardarGrafica("Top5VehiculosmasServicio.dot", colas.GenerarGraphvizTop5VehiculosConMasServicios(), "Top 5 vehículos con más servicios");
 
         // Convertir los archivos .dot a imágenes
         ConvertirDotAImagen("ListaSimple.dot");
@@ -139,6 +141,8 @@ public class Menus : Window
         ConvertirDotAImagen("ListaCircular.dot");
         ConvertirDotAImagen("Cola.dot");
         ConvertirDotAImagen("Pila.dot");
+        ConvertirDotAImagen("Top5Vehículos.dot");
+        ConvertirDotAImagen("Top5VehiculosmasServicio.dot");
 
         Console.WriteLine("Reportes generados y guardados.");
     }

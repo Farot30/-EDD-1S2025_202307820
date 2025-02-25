@@ -48,7 +48,6 @@ namespace Pila
             }
         }
 
-        //Metodo para liberar la memoria de la pila
         public void Liberar()
         {
             Facturas.Facturas* presente = cima;
@@ -89,7 +88,6 @@ namespace Pila
                 ind++;
             }
 
-            // Conectar los nodos de la pila en orden
             aux = cima;
             for (int i = 0; aux != null && aux->Siguiente != null; i++)
             {
@@ -100,18 +98,6 @@ namespace Pila
             graphviz += "    }\n";
             graphviz += "}\n";
             return graphviz;
-        }
-
-        // Método para liberar memoria manualmente
-        public void LiberarMemoria()
-        {
-            Facturas.Facturas* aux = cima;
-            while (aux != null)
-            {
-                Facturas.Facturas* temp = aux;
-                aux = aux->Siguiente;
-                Marshal.FreeHGlobal((IntPtr)temp);
-            }
         }
 
         public unsafe Facturas.Facturas* ObtenerUltimaFactura()

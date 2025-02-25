@@ -7,9 +7,7 @@ namespace ListaCircular
     public unsafe class ListaCircular
     {
         private Repuesto* head;
-
         public Repuesto* Head => head;
-
         public ListaCircular()
         {
             head = null;
@@ -23,7 +21,7 @@ namespace ListaCircular
             if (head == null)
             {
                 head = nuevoNodo;
-                head->Next = head; // Apunta a sí mismo
+                head->Next = head;
             }
             else
             {
@@ -55,7 +53,6 @@ namespace ListaCircular
             Repuesto* prev = null;
             do
             {
-                // si el nodo a eliminar es la cabeza de la lista
                 if (temp->Id == id)
                 {
                     if (prev != null)
@@ -98,7 +95,6 @@ namespace ListaCircular
             } while (temp != head);
         }
 
-        // destructor de la clase
         ~ListaCircular()
         {
             if (head == null) return;

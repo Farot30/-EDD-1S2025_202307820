@@ -1,7 +1,5 @@
 digraph G {
-rankdir=LR;
-node [shape=record];
-"1" [label="ID: 1\nID Repuesto: 1\nID Vehículo: 1\nDetalles: valiendo queso\nCosto: 200"];
-"1" -> "2";
-"2" [label="ID: 2\nID Repuesto: 2\nID Vehículo: 2\nDetalles: Hay que cambiarlo ta viejito\nCosto: 600"];
+label="Cola";
+labelloc="t";
+
 }
