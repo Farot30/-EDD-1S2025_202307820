@@ -4,6 +4,7 @@ using Usuarios;
 using ListaDobleUnsafe;
 using Repuestos;
 using ListaCircular;
+using Matriz;
 
 public class Menus : Window
 {
@@ -12,14 +13,16 @@ public class Menus : Window
     private ListaCircular.ListaCircular listaRepuestos;
     private Cola.Cola colas;
     private Pila.Pila pilaFacturas;
+    private Matriz.MatrizDispersa<int> mat;
 
-    public unsafe Menus(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas, Cola.Cola colas, Pila.Pila pila) : base("Menu")
+    public unsafe Menus(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas, Cola.Cola colas, Pila.Pila pila, Matriz.MatrizDispersa<int> matriz) : base("Menu")
     {
         this.listaAutos = listaAutos;
         this.lista = lista;
         this.listaRepuestos = ListasPiezas;
         this.colas = colas;
         this.pilaFacturas = pila;
+        this.mat = matriz;
 
         SetDefaultSize(500, 600);
         SetPosition(WindowPosition.Center);
@@ -102,7 +105,7 @@ public class Menus : Window
 
     private unsafe void Ingresos(object? sender, EventArgs e)
     {
-        MenuIngresos individup = new MenuIngresos(lista, listaAutos, listaRepuestos, colas, pilaFacturas);
+        MenuIngresos individup = new MenuIngresos(lista, listaAutos, listaRepuestos, colas, pilaFacturas, mat);
         individup.ShowAll();
     }
 
@@ -114,7 +117,7 @@ public class Menus : Window
 
     private unsafe void Generaciones(object? sender, EventArgs e)
     {
-        Servir serv = new Servir(lista, listaAutos, listaRepuestos, colas, pilaFacturas);
+        Servir serv = new Servir(lista, listaAutos, listaRepuestos, colas, pilaFacturas, mat);
         serv.ShowAll();
     }
 
@@ -135,7 +138,10 @@ public class Menus : Window
         GenerarYGuardarGrafica("Top5Vehículos.dot", listaAutos.GenerarGraphvizTop5Antiguos(), "Top 5 Vehículos más antiguos");
         GenerarYGuardarGrafica("Top5VehiculosmasServicio.dot", colas.GenerarGraphvizTop5VehiculosConMasServicios(), "Top 5 vehículos con más servicios");
         // Crear una instancia de Servir para generar la matriz dispersa
-        GenerarYGuardarGrafica("MatrizDispersa.dot", colas.GenerarGraphvizMatrizDispersa(), "Matriz Dispersa");
+        Console.WriteLine("Generando matriz dispersa...");
+        mat.mostrar();
+        GenerarYGuardarGrafica("MatrizDispersa.dot", mat.GenerarGraphvizDispersa(), "Matriz dispersa");
+
 
         // Convertir los archivos .dot a imágenes
         ConvertirDotAImagen("Usuarios.dot");

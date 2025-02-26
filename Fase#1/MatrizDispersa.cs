@@ -189,6 +189,98 @@ namespace Matriz
             }
         }
 
+        // Método para generar la representación en Graphviz de la matriz dispersa
+        public string GenerarGraphvizDispersa()
+        {
+            string graph = "digraph G {\n";
+            graph += "node [shape=record];\n";
+            graph += "rankdir=LR;\n";
+
+            // Crear nodos para los encabezados de filas y columnas
+            graph += "node0 [label=\"\"];\n"; // Nodo vacío en la esquina superior izquierda
+
+            NodoEncabezado<int>* x_fila = filas.primero;
+            int filaIndex = 1;
+            bool filaConectada = false; // Bandera para verificar si la conexión ya se realizó
+            while (x_fila != null)
+            {
+                graph += $"nodeF{filaIndex} [label=\"V{x_fila->id}\"];\n";
+                if (!filaConectada)
+                {
+                    graph += $"node0:s -> nodeF{filaIndex}:n;\n";
+                    graph += $"nodeF{filaIndex}:n -> node0:s;\n"; // Conexión bidireccional
+                    filaConectada = true; // Marcar la conexión como realizada
+                }
+                if (x_fila->siguiente != null)
+                {
+                    graph += $"nodeF{filaIndex}:s -> nodeF{filaIndex + 1}:n;\n";
+                    graph += $"nodeF{filaIndex + 1}:n -> nodeF{filaIndex}:s;\n"; // Conexión bidireccional
+                }
+                x_fila = x_fila->siguiente;
+                filaIndex++;
+            }
+
+            NodoEncabezado<int>* y_columna = columnas.primero;
+            int columnaIndex = 1;
+            bool columnaConectada = false; // Bandera para verificar si la conexión ya se realizó
+            while (y_columna != null)
+            {
+                graph += $"nodeC{columnaIndex} [label=\"R{y_columna->id}\"];\n";
+                if (!columnaConectada)
+                {
+                    graph += $"node0 -> nodeC{columnaIndex};\n";
+                    graph += $"nodeC{columnaIndex} -> node0;\n"; // Conexión bidireccional
+                    columnaConectada = true; // Marcar la conexión como realizada
+                }
+                if (y_columna->siguiente != null)
+                {
+                    graph += $"nodeC{columnaIndex} -> nodeC{columnaIndex + 1};\n";
+                    graph += $"nodeC{columnaIndex + 1} -> nodeC{columnaIndex};\n"; // Conexión bidireccional
+                }
+                y_columna = y_columna->siguiente;
+                columnaIndex++;
+            }
+
+            // Crear nodos para los valores de la matriz
+            x_fila = filas.primero;
+            filaIndex = 1;
+            while (x_fila != null)
+            {
+                NodoInterno<int>* interno = x_fila->acceso;
+                while (interno != null)
+                {
+                    int columnaPos = ObtenerPosicionEncabezado(columnas, interno->coordenadaY);
+                    graph += $"nodeF{filaIndex}_C{columnaPos} [label=\"{interno->nombre}\"];\n";
+                    graph += $"nodeF{filaIndex} -> nodeF{filaIndex}_C{columnaPos};\n"; // Conexión desde la parte inferior de la fila al nodo de detalles
+                    graph += $"nodeF{filaIndex}_C{columnaPos} -> nodeF{filaIndex};\n"; // Conexión bidireccional
+                    graph += $"nodeC{columnaPos}:s -> nodeF{filaIndex}_C{columnaPos}:n;\n";
+                    graph += $"nodeF{filaIndex}_C{columnaPos}:n -> nodeC{columnaPos}:s;\n"; // Conexión bidireccional
+                    interno = interno->derecha;
+                }
+                x_fila = x_fila->siguiente;
+                filaIndex++;
+            }
+
+            graph += "}\n";
+            return graph;
+        }
+
+        private unsafe int ObtenerPosicionEncabezado(ListaEncabezado<int> lista, int id)
+        {
+            NodoEncabezado<int>* actual = lista.primero;
+            int posicion = 1;
+            while (actual != null)
+            {
+                if (actual->id == id)
+                {
+                    return posicion;
+                }
+                actual = actual->siguiente;
+                posicion++;
+            }
+            return -1; // No encontrado
+        }
+
         // Destructor para liberar la memoria de los nodos internos y encabezados
         ~MatrizDispersa()
         {

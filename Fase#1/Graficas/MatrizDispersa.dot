@@ -1,5 +1,35 @@
 digraph G {
 node [shape=record];
-rankdir=LR;
-node0 [label=""];
+rankdir=TB;
+splines=ortho;
+node0 [label="", width=0.1, height=0.1];
+subgraph cluster_columnas {
+  rank=same;
+  style=invis;
+  node0;
+  nodeC1 [label="R1"];
+  nodeC2 [label="R3"];
+}
+node0 -> nodeC1 [dir=both];
+nodeC1 -> nodeC2 [dir=both];
+node0 -> nodeF1 [dir=both];
+nodeF1 [label="V1"];
+nodeF1 -> nodeF2 [dir=both];
+subgraph cluster_fila1 {
+  rank=same;
+  style=invis;
+  nodeF1;
+  nodeF1_C1 [label="Detalle:\ngfse", shape=box];
+}
+nodeF2 [label="V2"];
+subgraph cluster_fila2 {
+  rank=same;
+  style=invis;
+  nodeF2;
+  nodeF2_C2 [label="Detalle:\nhtr", shape=box];
+}
+nodeF1 -> nodeF1_C1 [dir=both];
+nodeC1 -> nodeF1_C1 [dir=both];
+nodeF2 -> nodeF2_C2 [dir=both];
+nodeC2 -> nodeF2_C2 [dir=both];
 }

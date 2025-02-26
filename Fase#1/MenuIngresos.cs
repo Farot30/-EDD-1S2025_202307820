@@ -6,6 +6,7 @@ using ListaDobleUnsafe;
 using System.Threading.Tasks;
 using Repuestos;
 using ListaCircular;
+using Matriz;
 
 public class MenuIngresos : Window
 {
@@ -14,14 +15,16 @@ public class MenuIngresos : Window
     private ListaCircular.ListaCircular listaRepuestos;
     private Cola.Cola colas;
     private Pila.Pila pilaFacturas;
+    private MatrizDispersa<int> matriz;
 
-    public unsafe MenuIngresos(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas, Cola.Cola colas, Pila.Pila pila) : base("Menu de ingresos")
+    public unsafe MenuIngresos(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas, Cola.Cola colas, Pila.Pila pila, Matriz.MatrizDispersa<int> matriz) : base("Menu de ingresos")
     {
         this.listaAutos = listaAutos;
         this.lista = lista;
         this.listaRepuestos = ListasPiezas;
         this.colas = colas;
         this.pilaFacturas = pila;
+        this.matriz = matriz;
 
         SetDefaultSize(500, 500);
         SetPosition(WindowPosition.Center);
@@ -104,7 +107,7 @@ public class MenuIngresos : Window
 
     private unsafe void IngresarServicios(object? sender, EventArgs e)
     {
-        Servir servir = new Servir(lista, listaAutos, listaRepuestos, colas, pilaFacturas);
+        Servir servir = new Servir(lista, listaAutos, listaRepuestos, colas, pilaFacturas, matriz);
         servir.ShowAll();
     }
 }

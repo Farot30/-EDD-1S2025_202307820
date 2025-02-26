@@ -3,6 +3,7 @@ using List;
 using System;
 using Usuarios;
 using ListaDobleUnsafe;
+using Matriz;
 
 public class InicioS : Window
 {
@@ -13,15 +14,17 @@ public class InicioS : Window
     private ListaCircular.ListaCircular ListaRepuestos;
     private Cola.Cola colas;
     private Pila.Pila pilaFacturas;
+    private Matriz.MatrizDispersa<int> matriz;
 
-    public unsafe InicioS(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas, Cola.Cola colas, Pila.Pila pila) : base("Interfaz Inicio")
+    public unsafe InicioS(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas, Cola.Cola colas, Pila.Pila pila, Matriz.MatrizDispersa<int> matriz) : base("Interfaz Inicio")
     {
         this.listaAutos = listaAutos;
         this.lista = lista;
         this.ListaRepuestos = ListasPiezas;
         this.colas = colas;
         this.pilaFacturas = pila;
-        
+        this.matriz = matriz;
+
         SetDefaultSize(500, 500);
         SetPosition(WindowPosition.Center);
 
@@ -93,7 +96,7 @@ public class InicioS : Window
                 Console.WriteLine("Inicio de sesión exitoso");
                 md.Run();
             }
-            Menus menus = new Menus(lista, listaAutos, ListaRepuestos, colas, pilaFacturas);
+            Menus menus = new Menus(lista, listaAutos, ListaRepuestos, colas, pilaFacturas, matriz);
             menus.ShowAll();
             this.Destroy();
         }

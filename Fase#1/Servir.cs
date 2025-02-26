@@ -8,6 +8,7 @@ using Servicios;
 using ListaCircular;
 using Repuestos;
 using Vehiculos;
+using Matriz;
 
 public class Servir : Window
 {
@@ -22,14 +23,16 @@ public class Servir : Window
     private ListaCircular.ListaCircular listaRepuestos;
     private Cola.Cola colas;
     private Pila.Pila pilaFacturas;
+    private MatrizDispersa<int> matriz; // Agregar la instancia de MatrizDispersa
 
-    public unsafe Servir(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas, Cola.Cola ListaCola, Pila.Pila pila) : base("Servicios")
+    public unsafe Servir(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas, Cola.Cola ListaCola, Pila.Pila pila, Matriz.MatrizDispersa<int> matriz) : base("Servicios")
     {
         this.listaAutos = listaAutos;
         this.lista = lista;
         this.listaRepuestos = ListasPiezas;
         this.colas = ListaCola;
         this.pilaFacturas = pila;
+        this.matriz = matriz; // Inicializar la instancia de MatrizDispersa
 
         SetDefaultSize(500, 550);
         SetPosition(WindowPosition.Center);
@@ -134,6 +137,10 @@ public class Servir : Window
         colas.Encolar(idServicio, idRepuesto, idVehiculo, Detalles.Text, costo);
         colas.Mostrar();
 
+        string detalle = new string(Detalles.Text);
+        matriz.insert(idVehiculo, idRepuesto, detalle); // Usar la instancia de MatrizDispersa
+        Console.WriteLine("Matriz de repuestos y vehículos");
+        matriz.mostrar();
         // Crear una factura y almacenarla en la pila
         double total = costo + ObtenerCostoRepuesto(idRepuesto);
         pilaFacturas.Apila(idServicio, idServicio, total);

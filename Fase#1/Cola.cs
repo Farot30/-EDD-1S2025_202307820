@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using List;
 using Servicios;
-using Matriz;
+using Vehiculos;
 
 namespace Cola
 {
@@ -13,8 +13,6 @@ namespace Cola
         private Servicio* frente;
 
         private Servicio* final;
-        private ListaEncabezado<int> listaVehiculos;
-        private ListaEncabezado<int> listaRepuestosEncabezado;
 
         public Servicio* Frente => frente;
         public Servicio* Final => final;
@@ -24,8 +22,6 @@ namespace Cola
         {
             frente = null;
             final = null;
-            listaVehiculos = new ListaEncabezado<int>("Vehículos");
-            listaRepuestosEncabezado = new ListaEncabezado<int>("Repuestos");
         }
 
 
@@ -174,74 +170,6 @@ namespace Cola
 
             graph += "}\n";
             return graph;
-        }
-
-        // Método para generar una gráfica en Graphviz de la matriz dispersa
-        public unsafe string GenerarGraphvizMatrizDispersa()
-        {
-            string graph = "digraph G {\n";
-            graph += "node [shape=record];\n";
-            graph += "rankdir=LR;\n";
-
-            // Crear nodos para los encabezados de vehículos y repuestos
-            graph += "node0 [label=\"\"];\n"; // Nodo vacío en la esquina superior izquierda
-
-            NodoEncabezado<int>* vehiculoActual = listaVehiculos.primero;
-            int vehiculoIndex = 1;
-            while (vehiculoActual != null)
-            {
-                graph += $"nodeV{vehiculoIndex} [label=\"V{vehiculoIndex}\"];\n";
-                graph += $"node0 -> nodeV{vehiculoIndex};\n";
-                vehiculoActual = vehiculoActual->siguiente;
-                vehiculoIndex++;
-            }
-
-            NodoEncabezado<int>* repuestoActual = listaRepuestosEncabezado.primero;
-            int repuestoIndex = 1;
-            while (repuestoActual != null)
-            {
-                graph += $"nodeR{repuestoIndex} [label=\"R{repuestoIndex}\"];\n";
-                graph += $"node0 -> nodeR{repuestoIndex};\n";
-                repuestoActual = repuestoActual->siguiente;
-                repuestoIndex++;
-            }
-
-            // Crear nodos para los detalles de los servicios
-            Servicio* servicioActual = frente;
-            while (servicioActual != null)
-            {
-                int vehiculoId = servicioActual->ID_Vehiculo;
-                int repuestoId = servicioActual->ID_Repuesto;
-                string detalles = ObtenerDetalles(servicioActual);
-
-                int vehiculoPos = ObtenerPosicionEncabezado(listaVehiculos, vehiculoId);
-                int repuestoPos = ObtenerPosicionEncabezado(listaRepuestosEncabezado, repuestoId);
-
-                graph += $"nodeV{vehiculoPos}_R{repuestoPos} [label=\"{detalles}\"];\n";
-                graph += $"nodeV{vehiculoPos} -> nodeV{vehiculoPos}_R{repuestoPos};\n";
-                graph += $"nodeR{repuestoPos} -> nodeV{vehiculoPos}_R{repuestoPos};\n";
-
-                servicioActual = servicioActual->Next;
-            }
-
-            graph += "}\n";
-            return graph;
-        }
-
-        private unsafe int ObtenerPosicionEncabezado(ListaEncabezado<int> lista, int id)
-        {
-            NodoEncabezado<int>* actual = lista.primero;
-            int posicion = 1;
-            while (actual != null)
-            {
-                if (actual->id == id)
-                {
-                    return posicion;
-                }
-                actual = actual->siguiente;
-                posicion++;
-            }
-            return -1; // No encontrado
         }
 
         public void Liberar()
