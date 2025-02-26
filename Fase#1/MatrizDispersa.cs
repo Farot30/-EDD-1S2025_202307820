@@ -189,78 +189,154 @@ namespace Matriz
             }
         }
 
-        // Método para generar la representación en Graphviz de la matriz dispersa
         public string GenerarGraphvizDispersa()
         {
             string graph = "digraph G {\n";
-            graph += "node [shape=record];\n";
-            graph += "rankdir=LR;\n";
-
-            // Crear nodos para los encabezados de filas y columnas
-            graph += "node0 [label=\"\"];\n"; // Nodo vacío en la esquina superior izquierda
-
-            NodoEncabezado<int>* x_fila = filas.primero;
-            int filaIndex = 1;
-            bool filaConectada = false; // Bandera para verificar si la conexión ya se realizó
-            while (x_fila != null)
-            {
-                graph += $"nodeF{filaIndex} [label=\"V{x_fila->id}\"];\n";
-                if (!filaConectada)
-                {
-                    graph += $"node0:s -> nodeF{filaIndex}:n;\n";
-                    graph += $"nodeF{filaIndex}:n -> node0:s;\n"; // Conexión bidireccional
-                    filaConectada = true; // Marcar la conexión como realizada
-                }
-                if (x_fila->siguiente != null)
-                {
-                    graph += $"nodeF{filaIndex}:s -> nodeF{filaIndex + 1}:n;\n";
-                    graph += $"nodeF{filaIndex + 1}:n -> nodeF{filaIndex}:s;\n"; // Conexión bidireccional
-                }
-                x_fila = x_fila->siguiente;
-                filaIndex++;
-            }
-
+            graph += "node [shape=box];\n"; 
+            graph += "rankdir=TB;\n"; // Top-bottom para la dirección principal
+            graph += "splines=ortho;\n"; // Líneas ortogonales
+            
+            // Nodo matriz principal (esquina superior izquierda)
+            graph += "node0 [label=\"\", width=0.5, height=0.5, shape=box];\n";
+            
+            // Crear rangos y nodos para encabezados de columnas (R)
+            graph += "{ rank=same; node0; "; 
+            
             NodoEncabezado<int>* y_columna = columnas.primero;
             int columnaIndex = 1;
-            bool columnaConectada = false; // Bandera para verificar si la conexión ya se realizó
             while (y_columna != null)
             {
-                graph += $"nodeC{columnaIndex} [label=\"R{y_columna->id}\"];\n";
-                if (!columnaConectada)
-                {
-                    graph += $"node0 -> nodeC{columnaIndex};\n";
-                    graph += $"nodeC{columnaIndex} -> node0;\n"; // Conexión bidireccional
-                    columnaConectada = true; // Marcar la conexión como realizada
-                }
-                if (y_columna->siguiente != null)
-                {
-                    graph += $"nodeC{columnaIndex} -> nodeC{columnaIndex + 1};\n";
-                    graph += $"nodeC{columnaIndex + 1} -> nodeC{columnaIndex};\n"; // Conexión bidireccional
-                }
+                graph += $"nodeC{columnaIndex}; ";
                 y_columna = y_columna->siguiente;
                 columnaIndex++;
             }
-
-            // Crear nodos para los valores de la matriz
-            x_fila = filas.primero;
-            filaIndex = 1;
+            graph += "}\n";
+            
+            // Definir nodos para encabezados de columnas
+            y_columna = columnas.primero;
+            columnaIndex = 1;
+            while (y_columna != null)
+            {
+                graph += $"nodeC{columnaIndex} [label=\"R{y_columna->id}\"];\n";
+                y_columna = y_columna->siguiente;
+                columnaIndex++;
+            }
+            
+            // Conectar nodo0 con primer encabezado de columna
+            graph += "node0 -> nodeC1 [dir=both];\n";
+            
+            // Conectar encabezados de columnas horizontalmente
+            for (int i = 1; i < columnaIndex - 1; i++)
+            {
+                graph += $"nodeC{i} -> nodeC{i+1} [dir=both];\n";
+            }
+            
+            // Definir nodos para encabezados de filas (V)
+            NodoEncabezado<int>* x_fila = filas.primero;
+            int filaIndex = 1;
+            
             while (x_fila != null)
             {
+                graph += $"nodeF{filaIndex} [label=\"V{x_fila->id}\"];\n";
+                
+                // Conectar encabezados de filas verticalmente (solo conexiones verticales entre nodos V)
+                if (filaIndex > 1)
+                {
+                    graph += $"nodeF{filaIndex-1} -> nodeF{filaIndex} [dir=both];\n";
+                }
+                
+                // Crear subgrafo para mantener alineada cada fila
+                graph += $"{{ rank=same; nodeF{filaIndex}; ";
+                
+                // Añadir nodos de detalle para esta fila
                 NodoInterno<int>* interno = x_fila->acceso;
                 while (interno != null)
                 {
                     int columnaPos = ObtenerPosicionEncabezado(columnas, interno->coordenadaY);
-                    graph += $"nodeF{filaIndex}_C{columnaPos} [label=\"{interno->nombre}\"];\n";
-                    graph += $"nodeF{filaIndex} -> nodeF{filaIndex}_C{columnaPos};\n"; // Conexión desde la parte inferior de la fila al nodo de detalles
-                    graph += $"nodeF{filaIndex}_C{columnaPos} -> nodeF{filaIndex};\n"; // Conexión bidireccional
-                    graph += $"nodeC{columnaPos}:s -> nodeF{filaIndex}_C{columnaPos}:n;\n";
-                    graph += $"nodeF{filaIndex}_C{columnaPos}:n -> nodeC{columnaPos}:s;\n"; // Conexión bidireccional
+                    graph += $"nodeF{filaIndex}_C{columnaPos}; ";
                     interno = interno->derecha;
                 }
+                graph += "}\n";
+                
+                // Definir nodos de detalle para esta fila
+                interno = x_fila->acceso;
+                while (interno != null)
+                {
+                    int columnaPos = ObtenerPosicionEncabezado(columnas, interno->coordenadaY);
+                    // Solo añadir "Detalle:" si el nombre no está vacío
+                    string label = string.IsNullOrEmpty(interno->nombre) ? "Detalle:" : $"Detalle:\\n{interno->nombre}";
+                    graph += $"nodeF{filaIndex}_C{columnaPos} [label=\"{label}\"];\n";
+                    interno = interno->derecha;
+                }
+                
                 x_fila = x_fila->siguiente;
                 filaIndex++;
             }
-
+            
+            // Conectar nodo0 con primer encabezado de fila
+            graph += "node0 -> nodeF1 [dir=both];\n";
+            
+            // Conectar los nodos internos con sus encabezados y entre sí
+            x_fila = filas.primero;
+            filaIndex = 1;
+            while (x_fila != null)
+            {
+                // Primero conectamos el encabezado de fila con su primer nodo de detalle (si existe)
+                NodoInterno<int>* interno = x_fila->acceso;
+                if (interno != null)
+                {
+                    int columnaPos = ObtenerPosicionEncabezado(columnas, interno->coordenadaY);
+                    graph += $"nodeF{filaIndex} -> nodeF{filaIndex}_C{columnaPos} [dir=both];\n";
+                    
+                    // Luego conectamos los nodos de detalle entre sí horizontalmente
+                    NodoInterno<int>* prevInterno = interno;
+                    interno = interno->derecha;
+                    int prevColumnaPos = ObtenerPosicionEncabezado(columnas, prevInterno->coordenadaY);
+                    
+                    while (interno != null)
+                    {
+                        columnaPos = ObtenerPosicionEncabezado(columnas, interno->coordenadaY);
+                        graph += $"nodeF{filaIndex}_C{prevColumnaPos} -> nodeF{filaIndex}_C{columnaPos} [dir=both];\n";
+                        prevInterno = interno;
+                        prevColumnaPos = columnaPos;
+                        interno = interno->derecha;
+                    }
+                }
+                
+                x_fila = x_fila->siguiente;
+                filaIndex++;
+            }
+            
+            // Conectar encabezados de columna con sus nodos debajo
+            y_columna = columnas.primero;
+            columnaIndex = 1;
+            while (y_columna != null)
+            {
+                NodoInterno<int>* interno = y_columna->acceso;
+                if (interno != null)
+                {
+                    int filaPos = ObtenerPosicionEncabezado(filas, interno->coordenadaX);
+                    graph += $"nodeC{columnaIndex} -> nodeF{filaPos}_C{columnaIndex} [dir=both];\n";
+                    
+                    // Conectar nodos de columna verticalmente
+                    NodoInterno<int>* prevInterno = interno;
+                    interno = interno->abajo;
+                    int prevFilaPos = filaPos;
+                    
+                    while (interno != null)
+                    {
+                        filaPos = ObtenerPosicionEncabezado(filas, interno->coordenadaX);
+                        graph += $"nodeF{prevFilaPos}_C{columnaIndex} -> nodeF{filaPos}_C{columnaIndex} [dir=both];\n";
+                        prevInterno = interno;
+                        prevFilaPos = filaPos;
+                        interno = interno->abajo;
+                    }
+                }
+                
+                y_columna = y_columna->siguiente;
+                columnaIndex++;
+            }
+            
             graph += "}\n";
             return graph;
         }

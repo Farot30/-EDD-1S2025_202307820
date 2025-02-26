@@ -117,8 +117,15 @@ public class Masivo : Window
                 var usuariosTemp = JsonConvert.DeserializeObject<List<UsuarioTemp>>(jsonContent);
                 foreach (var usuarioTemp in usuariosTemp)
                 {
-                    Usuario usuario = new Usuario(usuarioTemp.ID, usuarioTemp.Nombres, usuarioTemp.Apellidos, usuarioTemp.Correo, usuarioTemp.Contrasenia);
-                    lista.Insertar(usuario);
+                    if (!ExisteUsuario(usuarioTemp.ID))
+                    {
+                        Usuario usuario = new Usuario(usuarioTemp.ID, usuarioTemp.Nombres, usuarioTemp.Apellidos, usuarioTemp.Correo, usuarioTemp.Contrasenia);
+                        lista.Insertar(usuario);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"El ID {usuarioTemp.ID} ya existe en la lista de usuarios.");
+                    }
                 }
             }
             else if (filePath.Contains("Vehiculos"))
@@ -126,7 +133,14 @@ public class Masivo : Window
                 var vehiculosTemp = JsonConvert.DeserializeObject<List<VehiculoTemp>>(jsonContent);
                 foreach (var vehiculoTemp in vehiculosTemp)
                 {
-                    listaAutos.Insertar(vehiculoTemp.ID, vehiculoTemp.ID_Usuario, vehiculoTemp.Marca, int.Parse(vehiculoTemp.Modelo), vehiculoTemp.Placa);
+                    if (!ExisteVehiculo(vehiculoTemp.ID))
+                    {
+                        listaAutos.Insertar(vehiculoTemp.ID, vehiculoTemp.ID_Usuario, vehiculoTemp.Marca, int.Parse(vehiculoTemp.Modelo), vehiculoTemp.Placa);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"El ID {vehiculoTemp.ID} ya existe en la lista de vehículos.");
+                    }
                 }
             }
             else if (filePath.Contains("Repuestos"))
@@ -134,11 +148,18 @@ public class Masivo : Window
                 var repuestosTemp = JsonConvert.DeserializeObject<List<RepuestoTemp>>(jsonContent);
                 foreach (var repuestoTemp in repuestosTemp)
                 {
-                    Repuesto repuesto = new Repuesto(repuestoTemp.ID, repuestoTemp.Repuesto, repuestoTemp.Descripcion, repuestoTemp.Costo);
-                    string repuestoString = new string(repuesto.Repuestos);
-                    string repuestoDescripcion = new string(repuesto.Descripcion);
+                    if (!ExisteRepuesto(repuestoTemp.ID))
+                    {
+                        Repuesto repuesto = new Repuesto(repuestoTemp.ID, repuestoTemp.Repuesto, repuestoTemp.Descripcion, repuestoTemp.Costo);
+                        string repuestoString = new string(repuesto.Repuestos);
+                        string repuestoDescripcion = new string(repuesto.Descripcion);
 
-                    ListaRepuestos.Insertar(repuesto.Id, repuestoString, repuestoDescripcion, repuesto.Precio);
+                        ListaRepuestos.Insertar(repuesto.Id, repuestoString, repuestoDescripcion, repuesto.Precio);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"El ID {repuestoTemp.ID} ya existe en la lista de repuestos.");
+                    }
                 }
             }
         }
@@ -146,6 +167,49 @@ public class Masivo : Window
         {
             Console.WriteLine($"Error al leer el archivo JSON: {ex.Message}");
         }
+    }
+
+    private unsafe bool ExisteUsuario(int id)
+    {
+        Nodo<Usuario>* actual = lista.Cabeza;
+        while (actual != null)
+        {
+            if (actual->Data.Id == id)
+            {
+                return true;
+            }
+            actual = actual->Sig;
+        }
+        return false;
+    }
+
+    private unsafe bool ExisteVehiculo(int id)
+    {
+        Vehiculos.Node* actual = listaAutos.Head;
+        while (actual != null)
+        {
+            if (actual->Id == id)
+            {
+                return true;
+            }
+            actual = actual->Next;
+        }
+        return false;
+    }
+
+    private unsafe bool ExisteRepuesto(int id)
+    {
+        Repuesto* actual = ListaRepuestos.Head;
+        if (actual == null) return false;
+        do
+        {
+            if (actual->Id == id)
+            {
+                return true;
+            }
+            actual = actual->Next;
+        } while (actual != ListaRepuestos.Head);
+        return false;
     }
 
     private unsafe void ImprimirDatos()

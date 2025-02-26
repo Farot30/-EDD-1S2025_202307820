@@ -1,6 +1,5 @@
 digraph G {
 rankdir=TB;
 node [shape=record];
-"Vehiculo_1" [label="ID Vehículo: 1\nServicios: 1"];
-"Vehiculo_2" [label="ID Vehículo: 2\nServicios: 1"];
+"Vehiculo_1" [label="ID Vehículo: 1\nServicios: 2"];
 }

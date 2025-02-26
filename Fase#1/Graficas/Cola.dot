@@ -1,7 +1,7 @@
 digraph G {
 rankdir=LR;
 node [shape=record];
-"1" [label="Servicio 0\nID: 1\nID Repuesto: 1\nID Vehículo: 1\nDetalles: gfse\nCosto: 25"];
+"1" [label="Servicio 0\nID: 1\nID Repuesto: 1\nID Vehículo: 1\nDetalles: fty\nCosto: 34"];
 "1" -> "2";
-"2" [label="Servicio 1\nID: 2\nID Repuesto: 3\nID Vehículo: 2\nDetalles: htr\nCosto: 58"];
+"2" [label="Servicio 1\nID: 2\nID Repuesto: 2\nID Vehículo: 1\nDetalles: hyu\nCosto: 45"];
 }
