@@ -27,17 +27,18 @@ public class Masivo : Window
         SetDefaultSize(500, 400);
         SetPosition(WindowPosition.Center);
 
-        Fixed fixedContainer = new Fixed();
+        VBox vbox = new VBox(false, 10);
 
         EventBox labelesBox = CreateStyledLabel("Cargas masivas", "Arial 20");
-        fixedContainer.Put(labelesBox, 160, 50);
+        vbox.PackStart(labelesBox, false, false, 10);
 
         Button button1 = new Button("Cargar");
         button1.Clicked += Cargaras;
         ApplyFont(button1, "Arial 12");
-        fixedContainer.Put(button1, 200, 250);
+        vbox.PackStart(button1, false, false, 10);
 
-        Add(fixedContainer);
+        Add(vbox);
+        ShowAll();
     }
 
     private EventBox CreateStyledLabel(string text, string font)
@@ -91,6 +92,7 @@ public class Masivo : Window
                 using (MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Archivo cargado exitosamente"))
                 {
                     md.Run();
+                    md.Destroy();
                 }
             }
         }

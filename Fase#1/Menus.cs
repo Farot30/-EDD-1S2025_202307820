@@ -27,48 +27,49 @@ public class Menus : Window
         SetDefaultSize(500, 600);
         SetPosition(WindowPosition.Center);
 
-        Fixed fixedContainer = new Fixed();
+        VBox vbox = new VBox(false, 10);
 
         EventBox labelesBox = CreateStyledLabel("Menu", "Arial 20");
-        fixedContainer.Put(labelesBox, 210, 50);
+        vbox.PackStart(labelesBox, false, false, 10);
 
         Button button1 = new Button("Cargas Masivas");
         button1.Clicked += Cargas;
         button1.SetSizeRequest(100, 50);
         ApplyFont(button1, "Arial 12");
-        fixedContainer.Put(button1, 180, 100);
+        vbox.PackStart(button1, false, false, 10);
 
         Button button2 = new Button("Ingresos individuales");
         button2.Clicked += Ingresos;
         button2.SetSizeRequest(100, 50);
         ApplyFont(button2, "Arial 12");
-        fixedContainer.Put(button2, 165, 170);
+        vbox.PackStart(button2, false, false, 10);
 
         Button button3 = new Button("Gestión de Usuarios");
         button3.Clicked += Gestiones;
         button3.SetSizeRequest(100, 50);
         ApplyFont(button3, "Arial 12");
-        fixedContainer.Put(button3, 170, 240);
+        vbox.PackStart(button3, false, false, 10);
 
         Button button4 = new Button("Generar Servicio");
         button4.Clicked += Generaciones;
         button4.SetSizeRequest(100, 50);
         ApplyFont(button4, "Arial 12");
-        fixedContainer.Put(button4, 180, 310);
+        vbox.PackStart(button4, false, false, 10);
 
         Button button5 = new Button("Cancelar Factura");
         button5.Clicked += Cancelaciones;
         button5.SetSizeRequest(100, 50);
         ApplyFont(button5, "Arial 12");
-        fixedContainer.Put(button5, 180, 380);
+        vbox.PackStart(button5, false, false, 10);
 
         Button Reportes = new Button("Reportes");
         Reportes.Clicked += Reportes1;
         Reportes.SetSizeRequest(100, 50);
         ApplyFont(Reportes, "Arial 12");
-        fixedContainer.Put(Reportes, 210, 450);
+        vbox.PackStart(Reportes, false, false, 10);
 
-        Add(fixedContainer);
+        Add(vbox);
+        ShowAll();
     }
 
     private EventBox CreateStyledLabel(string text, string font)

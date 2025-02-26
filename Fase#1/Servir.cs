@@ -37,47 +37,53 @@ public class Servir : Window
         SetDefaultSize(500, 550);
         SetPosition(WindowPosition.Center);
 
-        Fixed fixedContainer = new Fixed();
+        VBox vbox = new VBox(false, 10);
 
         Label labelesBox = new Label("Ingreso de Servicios");
-        fixedContainer.Put(labelesBox, 180, 50);
+        vbox.PackStart(labelesBox, false, false, 10);
 
+        HBox hbox1 = new HBox(false, 10);
         Label ids1 = new Label("ID:");
-        fixedContainer.Put(ids1, 100, 150);
-
         Idss = new Entry();
-        fixedContainer.Put(Idss, 260, 150);
+        hbox1.PackStart(ids1, false, false, 10);
+        hbox1.PackStart(Idss, false, false, 10);
+        vbox.PackStart(hbox1, false, false, 10);
 
+        HBox hbox2 = new HBox(false, 10);
         Label id_respuesto = new Label("ID Repuesto:");
-        fixedContainer.Put(id_respuesto, 100, 200);
-
         ID_respuesto = new Entry();
-        fixedContainer.Put(ID_respuesto, 260, 200);
+        hbox2.PackStart(id_respuesto, false, false, 10);
+        hbox2.PackStart(ID_respuesto, false, false, 10);
+        vbox.PackStart(hbox2, false, false, 10);
 
+        HBox hbox3 = new HBox(false, 10);
         Label id_vehículo = new Label("ID Vehículo:");
-        fixedContainer.Put(id_vehículo, 100, 250);
-
         ID_Vehículo = new Entry();
-        fixedContainer.Put(ID_Vehículo, 260, 250);
+        hbox3.PackStart(id_vehículo, false, false, 10);
+        hbox3.PackStart(ID_Vehículo, false, false, 10);
+        vbox.PackStart(hbox3, false, false, 10);
 
+        HBox hbox4 = new HBox(false, 10);
         Label detalles = new Label("Detalles:");
-        fixedContainer.Put(detalles, 100, 300);
-
         Detalles = new Entry();
-        fixedContainer.Put(Detalles, 260, 300);
+        hbox4.PackStart(detalles, false, false, 10);
+        hbox4.PackStart(Detalles, false, false, 10);
+        vbox.PackStart(hbox4, false, false, 10);
 
+        HBox hbox5 = new HBox(false, 10);
         Label costo = new Label("Costo:");
-        fixedContainer.Put(costo, 100, 350);
-        
         Costo = new Entry();
-        fixedContainer.Put(Costo, 260, 350);
+        hbox5.PackStart(costo, false, false, 10);
+        hbox5.PackStart(Costo, false, false, 10);
+        vbox.PackStart(hbox5, false, false, 10);
 
         Button button = new Button("Guardar");
         button.Clicked += Guardando;
         button.SetSizeRequest(100, 50);
-        fixedContainer.Put(button, 100, 400);
+        vbox.PackStart(button, false, false, 10);
 
-        Add(fixedContainer);
+        Add(vbox);
+        ShowAll();
     }
 
     private unsafe void Guardando(object? sender, EventArgs e)
@@ -149,6 +155,7 @@ public class Servir : Window
         using (MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Servicio guardado y factura generada"))
         {
             md.Run();
+            md.Destroy();
         }
     }
 

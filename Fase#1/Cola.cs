@@ -162,6 +162,7 @@ namespace Cola
             string graph = "digraph G {\n";
             graph += "rankdir=TB;\n"; // Dirección de arriba hacia abajo
             graph += "node [shape=record];\n"; // Forma de los nodos
+            int paco = 0;
 
             foreach (var vehiculo in top5Vehiculos)
             {
