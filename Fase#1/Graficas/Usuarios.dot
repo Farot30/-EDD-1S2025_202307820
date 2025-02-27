@@ -1,26 +1,26 @@
 digraph G {
-label="Usuarios";
-labelloc="t";
 rankdir=LR;
 node [shape=box];
-node0 [label="ID: 1\nNombre: Juan\nApellido: Pérez\nCorreo: juan.perez@mail.com"];
+subgraph cluster_ListaSimple {
+label = "Lista Simple";
+node0 [label="ID: 1\nNombre: Carlos Alberto\nApellido: Gomez Martinez\nCorreo: carlos.alberto@usac.com"];
 node0 -> node1;
-node1 [label="ID: 2\nNombre: María\nApellido: Gómez\nCorreo: maria.gomez@mail.com"];
+node1 [label="ID: 2\nNombre: Ana Lucia\nApellido: Martinez Lopez\nCorreo: ana.lucia@usac.com"];
 node1 -> node2;
-node2 [label="ID: 3\nNombre: Carlos\nApellido: López\nCorreo: carlos.lopez@mail.com"];
+node2 [label="ID: 3\nNombre: Luis Enrique\nApellido: Perez Ramirez\nCorreo: luis.enrique@usac.com"];
 node2 -> node3;
-node3 [label="ID: 4\nNombre: Ana\nApellido: Martínez\nCorreo: ana.martinez@mail.com"];
+node3 [label="ID: 4\nNombre: Marta Isabel\nApellido: Lopez Perez\nCorreo: marta.isabel@usac.com"];
 node3 -> node4;
-node4 [label="ID: 5\nNombre: Pedro\nApellido: Rodríguez\nCorreo: pedro.rodriguez@mail.com"];
+node4 [label="ID: 5\nNombre: Juan Carlos\nApellido: Hernandez Lopez\nCorreo: juan.carlos@usac.com"];
 node4 -> node5;
-node5 [label="ID: 6\nNombre: Lucía\nApellido: Fernández\nCorreo: lucia.fernandez@mail.com"];
+node5 [label="ID: 6\nNombre: Maria Fernanda\nApellido: Garcia Lopez\nCorreo: maria.fernanda@usac.com"];
 node5 -> node6;
-node6 [label="ID: 7\nNombre: Miguel\nApellido: Sánchez\nCorreo: miguel.sanchez@mail.com"];
+node6 [label="ID: 7\nNombre: Pedro Pablo\nApellido: Rodriguez Torres\nCorreo: pedro.pablo@usac.com"];
 node6 -> node7;
-node7 [label="ID: 8\nNombre: Laura\nApellido: García\nCorreo: laura.garcia@mail.com"];
+node7 [label="ID: 8\nNombre: Laura Isabel\nApellido: Sanchez Morales\nCorreo: laura.isabel@usac.com"];
 node7 -> node8;
-node8 [label="ID: 9\nNombre: Jorge\nApellido: Hernández\nCorreo: jorge.hernandez@mail.com"];
+node8 [label="ID: 9\nNombre: Rafael Alejandro\nApellido: Ramirez Diaz\nCorreo: rafael.alejandro@usac.com"];
 node8 -> node9;
-node9 [label="ID: 10\nNombre: Elena\nApellido: Ruiz\nCorreo: elena.ruiz@mail.com"];
-
+node9 [label="ID: 10\nNombre: Isabel Cristina\nApellido: Diaz Lopez\nCorreo: isabel.cristina@usac.com"];
+}
 }

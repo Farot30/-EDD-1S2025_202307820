@@ -29,31 +29,55 @@ public class Factur : Window
 
         Fixed fixedContainer = new Fixed();
 
-        Label labelesBox = new Label("Facturación");
+        Label labelesBox = CreateStyledLabel("Facturación", "Arial 20");
         fixedContainer.Put(labelesBox, 200, 50);
 
-        Label ids1 = new Label("ID:");
+        Label ids1 = CreateStyledLabel("ID:", "Arial 12");
         fixedContainer.Put(ids1, 100, 150);
 
-        ids2 = new Label("Aquí va el id:");
+        ids2 = CreateStyledLabel("Aquí va el id:", "Arial 12");
         fixedContainer.Put(ids2, 250, 150);
 
-        Label ID_ORDEN = new Label("Id_Orden:");
+        Label ID_ORDEN = CreateStyledLabel("Id_Orden:", "Arial 12");
         fixedContainer.Put(ID_ORDEN, 100, 250);
 
-        ID_ORDEN2 = new Label("Aquí va el Id_Orden");
+        ID_ORDEN2 = CreateStyledLabel("Aquí va el Id_Orden", "Arial 12");
         fixedContainer.Put(ID_ORDEN2, 250, 250);
 
-        Label Total = new Label("TOTAL:");
+        Label Total = CreateStyledLabel("TOTAL:", "Arial 12");
         fixedContainer.Put(Total, 100, 350);
 
-        Total2 = new Label("Aquí va el total");
+        Total2 = CreateStyledLabel("Aquí va el total", "Arial 12");
         fixedContainer.Put(Total2, 250, 350);
 
         Add(fixedContainer);
 
         // Obtener la última factura de la pila y actualizar los labels
         ActualizarLabelsConUltimaFactura();
+    }
+
+    private Label CreateStyledLabel(string text, string font)
+    {
+        Label label = new Label(text);
+        ApplyFont(label, font);
+        return label;
+    }
+
+    private void ApplyFont(Widget widget, string fontDescription)
+    {
+        Pango.FontDescription fontDesc = Pango.FontDescription.FromString(fontDescription);
+        if (widget is Label label)
+        {
+            label.ModifyFont(fontDesc);
+        }
+        else if (widget is Button button)
+        {
+            button.Child.ModifyFont(fontDesc);
+        }
+        else if (widget is Entry entry)
+        {
+            entry.ModifyFont(fontDesc);
+        }
     }
 
     private unsafe void ActualizarLabelsConUltimaFactura()
@@ -67,7 +91,7 @@ public class Factur : Window
         }
         else
         {
-            ids2.Text = "No hay servicio hecho ";
+            ids2.Text = "No hay servicio hecho";
             ID_ORDEN2.Text = "No hay servicio hecho";
             Total2.Text = "No hay servicio hecho";
         }

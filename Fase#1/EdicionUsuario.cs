@@ -33,45 +33,73 @@ namespace Ediciones
 
             Fixed fixedContainer = new Fixed();
 
-            Label labelesBox = new Label("Edición de Usuario");
+            EventBox labelesBox = CreateStyledLabel("Edición de Usuario", "Arial 20");
             fixedContainer.Put(labelesBox, 160, 50);
 
-            Label ids = new Label("ID:");
-            fixedContainer.Put(ids, 50, 150);
-
+            EventBox ids = CreateStyledLabel("ID:", "Arial 12");
             Id = new Entry();
+            ApplyFont(Id, "Arial 12");
+            fixedContainer.Put(ids, 50, 150);
             fixedContainer.Put(Id, 250, 150);
 
-            Label nombres = new Label("Nombres:");
-            fixedContainer.Put(nombres, 50, 200);
-
+            EventBox nombres = CreateStyledLabel("Nombres:", "Arial 12");
             Nombre = new Entry();
+            ApplyFont(Nombre, "Arial 12");
+            fixedContainer.Put(nombres, 50, 200);
             fixedContainer.Put(Nombre, 250, 200);
 
-            Label apellidos = new Label("Apellidos:");
-            fixedContainer.Put(apellidos, 50, 250);
-
+            EventBox apellidos = CreateStyledLabel("Apellidos:", "Arial 12");
             Apellido = new Entry();
+            ApplyFont(Apellido, "Arial 12");
+            fixedContainer.Put(apellidos, 50, 250);
             fixedContainer.Put(Apellido, 250, 250);
 
-            Label correos = new Label("Correo:");
-            fixedContainer.Put(correos, 50, 300);
-
+            EventBox correos = CreateStyledLabel("Correo:", "Arial 12");
             Correo = new Entry();
+            ApplyFont(Correo, "Arial 12");
+            fixedContainer.Put(correos, 50, 300);
             fixedContainer.Put(Correo, 250, 300);
 
-            Label contraseñas = new Label("Contraseña:");
-            fixedContainer.Put(contraseñas, 50, 350);
-
+            EventBox contraseñas = CreateStyledLabel("Contraseña:", "Arial 12");
             Contraseña = new Entry();
+            ApplyFont(Contraseña, "Arial 12");
+            fixedContainer.Put(contraseñas, 50, 350);
             fixedContainer.Put(Contraseña, 250, 350);
 
             Button button1 = new Button("Actualizar");
             button1.Clicked += Actualizar;
             button1.SetSizeRequest(100, 50);
+            ApplyFont(button1, "Arial 12");
             fixedContainer.Put(button1, 290, 400);
 
             Add(fixedContainer);
+            ShowAll();
+        }
+
+        private EventBox CreateStyledLabel(string text, string font)
+        {
+            Label label = new Label(text);
+            ApplyFont(label, font);
+            EventBox eventBox = new EventBox();
+            eventBox.Add(label);
+            return eventBox;
+        }
+
+        private void ApplyFont(Widget widget, string fontDescription)
+        {
+            Pango.FontDescription fontDesc = Pango.FontDescription.FromString(fontDescription);
+            if (widget is Label label)
+            {
+                label.ModifyFont(fontDesc);
+            }
+            else if (widget is Button button)
+            {
+                button.Child.ModifyFont(fontDesc);
+            }
+            else if (widget is Entry entry)
+            {
+                entry.ModifyFont(fontDesc);
+            }
         }
 
         public unsafe void Actualizar(object? sender, EventArgs e)
@@ -117,6 +145,5 @@ namespace Ediciones
                 }
             }
         }
-
     }
 }

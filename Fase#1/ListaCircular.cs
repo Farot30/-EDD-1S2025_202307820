@@ -112,7 +112,11 @@ namespace ListaCircular
         {
             if (head == null) return string.Empty;
 
-            string graph = "node [shape=box];\n"; // Cambia la forma de los nodos a cuadrados
+            string graph = "digraph G {\n";
+            graph += "rankdir=LR;\n"; // Dirección de izquierda a derecha
+            graph += "node [shape=box];\n"; // Cambia la forma de los nodos a cuadrados
+            graph += "subgraph cluster_ListaCircular {\n";
+            graph += "label = \"Lista Circular\";\n";
 
             Repuesto* temp = head;
             do
@@ -120,6 +124,9 @@ namespace ListaCircular
                 graph += $"\"ID: {temp->Id}\\nRepuesto: {new string(temp->Repuestos)}\\nDetalles: {new string(temp->Descripcion)}\\nCosto: {temp->Precio}\" -> \"ID: {temp->Next->Id}\\nRepuesto: {new string(temp->Next->Repuestos)}\\nDetalles: {new string(temp->Descripcion)}\\nCosto: {temp->Next->Precio}\";\n";
                 temp = temp->Next;
             } while (temp != head);
+
+            graph += "}\n";
+            graph += "}\n";
 
             return graph;
         }

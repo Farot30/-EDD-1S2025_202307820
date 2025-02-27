@@ -90,13 +90,15 @@ namespace ListaDobleUnsafe
             }
         }
 
-        // Método para generar una gráfica en Graphviz de la lista doblemente enlazada
         public string GenerarGraphviz()
         {
             if (head == null) return string.Empty;
 
-            string graph = "rankdir=LR;\n"; // Dirección de izquierda a derecha
+            string graph = "digraph G {\n";
+            graph += "rankdir=LR;\n"; // Dirección de izquierda a derecha
             graph += "node [shape=record];\n"; // Forma de los nodos
+            graph += "subgraph cluster_ListaDobleEnlazada {\n";
+            graph += "label = \"Lista Doblemente Enlazada\";\n";
 
             Node* actual = head;
             while (actual != null)
@@ -111,6 +113,8 @@ namespace ListaDobleUnsafe
                 actual = actual->Next;
             }
 
+            graph += "}\n";
+            graph += "}\n";
             return graph;
         }
 

@@ -142,8 +142,11 @@ namespace List
         {
             if (cabeza == null) return string.Empty;
 
-            string graph = "rankdir=LR;\n"; // Dirección de izquierda a derecha
+            string graph = "digraph G {\n";
+            graph += "rankdir=LR;\n"; // Dirección de izquierda a derecha
             graph += "node [shape=box];\n"; // Forma de los nodos
+            graph += "subgraph cluster_ListaSimple {\n";
+            graph += "label = \"Lista Simple\";\n";
 
             Nodo<T>* actual = cabeza;
             int index = 0;
@@ -167,6 +170,9 @@ namespace List
                 actual = actual->Sig;
                 index++;
             }
+
+            graph += "}\n";
+            graph += "}\n";
             return graph;
         }
 

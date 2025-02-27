@@ -1,5 +1,5 @@
 digraph G {
-rankdir=TB;
-node [shape=record];
-"Vehiculo_1" [label="ID Vehículo: 1\nServicios: 2"];
+label="Top 5 vehículos con más servicios";
+labelloc="t";
+
 }

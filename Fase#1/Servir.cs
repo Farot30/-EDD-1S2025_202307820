@@ -37,53 +37,74 @@ public class Servir : Window
         SetDefaultSize(500, 550);
         SetPosition(WindowPosition.Center);
 
-        VBox vbox = new VBox(false, 10);
+        Fixed fixedContainer = new Fixed();
 
-        Label labelesBox = new Label("Ingreso de Servicios");
-        vbox.PackStart(labelesBox, false, false, 10);
+        EventBox labelesBox = CreateStyledLabel("Ingreso de Servicios", "Arial 20");
+        fixedContainer.Put(labelesBox, 10, 10);
 
-        HBox hbox1 = new HBox(false, 10);
-        Label ids1 = new Label("ID:");
+        EventBox ids1 = CreateStyledLabel("ID:", "Arial 12");
         Idss = new Entry();
-        hbox1.PackStart(ids1, false, false, 10);
-        hbox1.PackStart(Idss, false, false, 10);
-        vbox.PackStart(hbox1, false, false, 10);
+        ApplyFont(Idss, "Arial 12");
+        fixedContainer.Put(ids1, 10, 50);
+        fixedContainer.Put(Idss, 100, 50);
 
-        HBox hbox2 = new HBox(false, 10);
-        Label id_respuesto = new Label("ID Repuesto:");
+        EventBox id_respuesto = CreateStyledLabel("ID Repuesto:", "Arial 12");
         ID_respuesto = new Entry();
-        hbox2.PackStart(id_respuesto, false, false, 10);
-        hbox2.PackStart(ID_respuesto, false, false, 10);
-        vbox.PackStart(hbox2, false, false, 10);
+        ApplyFont(ID_respuesto, "Arial 12");
+        fixedContainer.Put(id_respuesto, 10, 90);
+        fixedContainer.Put(ID_respuesto, 100, 90);
 
-        HBox hbox3 = new HBox(false, 10);
-        Label id_vehículo = new Label("ID Vehículo:");
+        EventBox id_vehículo = CreateStyledLabel("ID Vehículo:", "Arial 12");
         ID_Vehículo = new Entry();
-        hbox3.PackStart(id_vehículo, false, false, 10);
-        hbox3.PackStart(ID_Vehículo, false, false, 10);
-        vbox.PackStart(hbox3, false, false, 10);
+        ApplyFont(ID_Vehículo, "Arial 12");
+        fixedContainer.Put(id_vehículo, 10, 130);
+        fixedContainer.Put(ID_Vehículo, 100, 130);
 
-        HBox hbox4 = new HBox(false, 10);
-        Label detalles = new Label("Detalles:");
+        EventBox detalles = CreateStyledLabel("Detalles:", "Arial 12");
         Detalles = new Entry();
-        hbox4.PackStart(detalles, false, false, 10);
-        hbox4.PackStart(Detalles, false, false, 10);
-        vbox.PackStart(hbox4, false, false, 10);
+        ApplyFont(Detalles, "Arial 12");
+        fixedContainer.Put(detalles, 10, 170);
+        fixedContainer.Put(Detalles, 100, 170);
 
-        HBox hbox5 = new HBox(false, 10);
-        Label costo = new Label("Costo:");
+        EventBox costo = CreateStyledLabel("Costo:", "Arial 12");
         Costo = new Entry();
-        hbox5.PackStart(costo, false, false, 10);
-        hbox5.PackStart(Costo, false, false, 10);
-        vbox.PackStart(hbox5, false, false, 10);
+        ApplyFont(Costo, "Arial 12");
+        fixedContainer.Put(costo, 10, 210);
+        fixedContainer.Put(Costo, 100, 210);
 
         Button button = new Button("Guardar");
         button.Clicked += Guardando;
         button.SetSizeRequest(100, 50);
-        vbox.PackStart(button, false, false, 10);
+        ApplyFont(button, "Arial 12");
+        fixedContainer.Put(button, 10, 250);
 
-        Add(vbox);
-        ShowAll();
+        Add(fixedContainer);
+    }
+
+    private EventBox CreateStyledLabel(string text, string font)
+    {
+        Label label = new Label(text);
+        ApplyFont(label, font);
+        EventBox eventBox = new EventBox();
+        eventBox.Add(label);
+        return eventBox;
+    }
+
+    private void ApplyFont(Widget widget, string fontDescription)
+    {
+        Pango.FontDescription fontDesc = Pango.FontDescription.FromString(fontDescription);
+        if (widget is Label label)
+        {
+            label.ModifyFont(fontDesc);
+        }
+        else if (widget is Button button)
+        {
+            button.Child.ModifyFont(fontDesc);
+        }
+        else if (widget is Entry entry)
+        {
+            entry.ModifyFont(fontDesc);
+        }
     }
 
     private unsafe void Guardando(object? sender, EventArgs e)
@@ -97,6 +118,7 @@ public class Servir : Window
             using (MessageDialog md1 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Favor de llenar todos los campos"))
             {
                 md1.Run();
+                md1.Destroy();
             }
             return;
         }
@@ -109,6 +131,7 @@ public class Servir : Window
             using (MessageDialog md1 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Favor de ingresar valores válidos en los campos de ID y Costo"))
             {
                 md1.Run();
+                md1.Destroy();
             }
             return;
         }
@@ -118,6 +141,7 @@ public class Servir : Window
             using (MessageDialog md1 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "El servicio ya existe"))
             {
                 md1.Run();
+                md1.Destroy();
             }
             return;
         }
@@ -127,6 +151,7 @@ public class Servir : Window
             using (MessageDialog md1 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "El repuesto no existe"))
             {
                 md1.Run();
+                md1.Destroy();
             }
             return;
         }
@@ -136,6 +161,7 @@ public class Servir : Window
             using (MessageDialog md1 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "El vehículo no existe"))
             {
                 md1.Run();
+                md1.Destroy();
             }
             return;
         }

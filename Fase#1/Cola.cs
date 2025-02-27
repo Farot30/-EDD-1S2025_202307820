@@ -114,6 +114,8 @@ namespace Cola
             string graph = "digraph G {\n";
             graph += "rankdir=LR;\n"; // Dirección de izquierda a derecha
             graph += "node [shape=record];\n"; // Forma de los nodos
+            graph += "subgraph cluster_Cola {\n";
+            graph += "label = \"Cola\";\n";
             int o = 0;
 
             Servicio* presente = frente;
@@ -131,6 +133,7 @@ namespace Cola
                 presente = presente->Next;
             }
 
+            graph += "}\n";
             graph += "}\n";
             return graph;
         }
@@ -162,13 +165,26 @@ namespace Cola
             string graph = "digraph G {\n";
             graph += "rankdir=TB;\n"; // Dirección de arriba hacia abajo
             graph += "node [shape=record];\n"; // Forma de los nodos
-            int paco = 0;
+            graph += "subgraph cluster_Top5Vehiculos {\n";
+            graph += "label = \"Top 5 Vehículos con Más Servicios\";\n";
+            
+            int paco = 1;
 
-            foreach (var vehiculo in top5Vehiculos)
+            for (int i = 0; i < top5Vehiculos.Count; i++)
             {
-                graph += $"\"Vehiculo_{vehiculo.Key}\" [label=\"ID Vehículo: {vehiculo.Key}\\nServicios: {vehiculo.Value}\"];\n";
+                var vehiculo = top5Vehiculos[i];
+                graph += $"\"Vehiculo_{vehiculo.Key}\" [label=\"{paco}\\nID Vehículo: {vehiculo.Key}\\nServicios: {vehiculo.Value}\"];\n";
+
+                // Agregar flechas entre los nodos
+                if (i < top5Vehiculos.Count - 1)
+                {
+                    var siguienteVehiculo = top5Vehiculos[i + 1];
+                    graph += $"\"Vehiculo_{vehiculo.Key}\" -> \"Vehiculo_{siguienteVehiculo.Key}\";\n";
+                }
+                paco++;
             }
 
+            graph += "}\n";
             graph += "}\n";
             return graph;
         }

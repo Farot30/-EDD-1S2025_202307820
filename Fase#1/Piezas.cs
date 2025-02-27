@@ -32,39 +32,70 @@ public class Piezas : Window
 
         Fixed fixedContainer = new Fixed();
 
-        Label labelesBox = new Label("Ingreso de Repuestos");
+        EventBox labelesBox = CreateStyledLabel("Ingreso de Repuestos", "Arial 20");
         fixedContainer.Put(labelesBox, 160, 50);
 
-        Label ids1 = new Label("ID:");
+        EventBox ids1 = CreateStyledLabel("ID:", "Arial 12");
         fixedContainer.Put(ids1, 100, 150);
 
         IDs1 = new Entry();
+        ApplyFont(IDs1, "Arial 12");
         fixedContainer.Put(IDs1, 250, 150);
 
-        Label repuesto = new Label("Repuesto:");
+        EventBox repuesto = CreateStyledLabel("Repuesto:", "Arial 12");
         fixedContainer.Put(repuesto, 100, 200);
 
         Repuesto = new Entry();
+        ApplyFont(Repuesto, "Arial 12");
         fixedContainer.Put(Repuesto, 250, 200);
 
-        Label descripcion = new Label("Descripción:");
+        EventBox descripcion = CreateStyledLabel("Descripción:", "Arial 12");
         fixedContainer.Put(descripcion, 100, 250);
         
         Descripcion = new Entry();
+        ApplyFont(Descripcion, "Arial 12");
         fixedContainer.Put(Descripcion, 250, 250);
 
-        Label costo = new Label("Costo:");
+        EventBox costo = CreateStyledLabel("Costo:", "Arial 12");
         fixedContainer.Put(costo, 100, 300);
 
         Costo = new Entry();
+        ApplyFont(Costo, "Arial 12");
         fixedContainer.Put(Costo, 250, 300);
 
         Button button = new Button("Guardar");
         button.Clicked += OnShowButtonClicked;
         button.SetSizeRequest(100, 50);
+        ApplyFont(button, "Arial 12");
         fixedContainer.Put(button, 100, 350);
 
         Add(fixedContainer);
+    }
+
+    private EventBox CreateStyledLabel(string text, string font)
+    {
+        Label label = new Label(text);
+        ApplyFont(label, font);
+        EventBox eventBox = new EventBox();
+        eventBox.Add(label);
+        return eventBox;
+    }
+
+    private void ApplyFont(Widget widget, string fontDescription)
+    {
+        Pango.FontDescription fontDesc = Pango.FontDescription.FromString(fontDescription);
+        if (widget is Label label)
+        {
+            label.ModifyFont(fontDesc);
+        }
+        else if (widget is Button button)
+        {
+            button.Child.ModifyFont(fontDesc);
+        }
+        else if (widget is Entry entry)
+        {
+            entry.ModifyFont(fontDesc);
+        }
     }
 
     private unsafe void OnShowButtonClicked(object? sender, EventArgs e)
@@ -77,6 +108,7 @@ public class Piezas : Window
             using (MessageDialog md1 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Favor de llenar todos los campos"))
             {
                 md1.Run();
+                md1.Destroy();
             }
         }
         else
@@ -90,6 +122,7 @@ public class Piezas : Window
                     using (MessageDialog md2 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Warning, ButtonsType.Ok, "El ID ya existe. Por favor, ingrese otro ID."))
                     {
                         md2.Run();
+                        md2.Destroy();
                     }
                     return;
                 }
@@ -98,6 +131,7 @@ public class Piezas : Window
                 using (MessageDialog md1 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Guardado"))
                 {
                     md1.Run();
+                    md1.Destroy();
                 }
                 listaRepuestos.Mostrar();
             }
@@ -106,6 +140,7 @@ public class Piezas : Window
                 using (MessageDialog md3 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Favor de llenar los campos con el tipo de dato correcto"))
                 {
                     md3.Run();
+                    md3.Destroy();
                 }
             }
         }
@@ -127,5 +162,4 @@ public class Piezas : Window
 
         return false;
     }
-
 }

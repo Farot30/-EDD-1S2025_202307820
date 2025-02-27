@@ -28,34 +28,75 @@ public class Gestion : Window
 
         Fixed fixedContainer = new Fixed();
 
-        Label labelesBox = new Label("Gestionar los Usuarios");
+        EventBox labelesBox = CreateStyledLabel("Gestionar los Usuarios", "Arial 20");
         fixedContainer.Put(labelesBox, 130, 50);
+
+        EventBox idsVisionLabel = CreateStyledLabel("ID:", "Arial 12");
+        fixedContainer.Put(idsVisionLabel, 50, 125);
+
+        ID_Vision = new Entry();
+        ApplyFont(ID_Vision, "Arial 12");
+        fixedContainer.Put(ID_Vision, 90, 125);
 
         Button id_vision = new Button("Ver Usuario");
         id_vision.Clicked += VerUsuario;
         id_vision.SetSizeRequest(100, 50);
+        ApplyFont(id_vision, "Arial 12");
         fixedContainer.Put(id_vision, 260, 115);
 
-        ID_Vision = new Entry();
-        fixedContainer.Put(ID_Vision, 90, 125);
+        EventBox idsEdicionLabel = CreateStyledLabel("ID:", "Arial 12");
+        fixedContainer.Put(idsEdicionLabel, 50, 200);
+
+        ID_Edisicón = new Entry();
+        ApplyFont(ID_Edisicón, "Arial 12");
+        fixedContainer.Put(ID_Edisicón, 90, 200);
 
         Button id_edición = new Button("Editar Usuario");
         id_edición.Clicked += EditarUsuario;
         id_edición.SetSizeRequest(100, 50);
+        ApplyFont(id_edición, "Arial 12");
         fixedContainer.Put(id_edición, 260, 190);
 
-        ID_Edisicón = new Entry();
-        fixedContainer.Put(ID_Edisicón, 90, 200);
+        EventBox idsEliminacionLabel = CreateStyledLabel("ID:", "Arial 12");
+        fixedContainer.Put(idsEliminacionLabel, 50, 275);
+
+        ID_Eliminación = new Entry();
+        ApplyFont(ID_Eliminación, "Arial 12");
+        fixedContainer.Put(ID_Eliminación, 90, 275);
 
         Button id_eliminación = new Button("Eliminar Usuario");
         id_eliminación.Clicked += EliminarUsuario;
         id_eliminación.SetSizeRequest(100, 50);
+        ApplyFont(id_eliminación, "Arial 12");
         fixedContainer.Put(id_eliminación, 260, 265);
 
-        ID_Eliminación = new Entry();
-        fixedContainer.Put(ID_Eliminación, 90, 275);
-
         Add(fixedContainer);
+    }
+
+    private EventBox CreateStyledLabel(string text, string font)
+    {
+        Label label = new Label(text);
+        ApplyFont(label, font);
+        EventBox eventBox = new EventBox();
+        eventBox.Add(label);
+        return eventBox;
+    }
+
+    private void ApplyFont(Widget widget, string fontDescription)
+    {
+        Pango.FontDescription fontDesc = Pango.FontDescription.FromString(fontDescription);
+        if (widget is Label label)
+        {
+            label.ModifyFont(fontDesc);
+        }
+        else if (widget is Button button)
+        {
+            button.Child.ModifyFont(fontDesc);
+        }
+        else if (widget is Entry entry)
+        {
+            entry.ModifyFont(fontDesc);
+        }
     }
 
     private unsafe void VerUsuario(object? sender, EventArgs e)

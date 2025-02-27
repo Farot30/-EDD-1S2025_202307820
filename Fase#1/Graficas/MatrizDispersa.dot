@@ -3,18 +3,7 @@ node [shape=box];
 rankdir=TB;
 splines=ortho;
 node0 [label="", width=0.5, height=0.5, shape=box];
-{ rank=same; node0; nodeC1; nodeC2; }
-nodeC1 [label="R1"];
-nodeC2 [label="R2"];
+{ rank=same; node0; }
 node0 -> nodeC1 [dir=both];
-nodeC1 -> nodeC2 [dir=both];
-nodeF1 [label="V1"];
-{ rank=same; nodeF1; nodeF1_C1; nodeF1_C2; }
-nodeF1_C1 [label="Detalle:\nfty"];
-nodeF1_C2 [label="Detalle:\nhyu"];
 node0 -> nodeF1 [dir=both];
-nodeF1 -> nodeF1_C1 [dir=both];
-nodeF1_C1 -> nodeF1_C2 [dir=both];
-nodeC1 -> nodeF1_C1 [dir=both];
-nodeC2 -> nodeF1_C2 [dir=both];
 }

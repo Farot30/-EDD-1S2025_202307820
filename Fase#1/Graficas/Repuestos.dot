@@ -1,9 +1,10 @@
 digraph G {
-label="Repuestos";
-labelloc="t";
+rankdir=LR;
 node [shape=box];
-"ID: 1\nRepuesto: Filtro de aceite\nDetalles: \nCosto: 15,75" -> "ID: 2\nRepuesto: Bujías de aceite\nDetalles: \nCosto: 30,5";
-"ID: 2\nRepuesto: Bujías de aceite\nDetalles: \nCosto: 30,5" -> "ID: 3\nRepuesto: Filtro de airete\nDetalles: \nCosto: 10,25";
-"ID: 3\nRepuesto: Filtro de airete\nDetalles: \nCosto: 10,25" -> "ID: 1\nRepuesto: Filtro de aceite\nDetalles: \nCosto: 15,75";
-
+subgraph cluster_ListaCircular {
+label = "Lista Circular";
+"ID: 1\nRepuesto: Filtro de aceite\nDetalles: \nCosto: 25,5" -> "ID: 2\nRepuesto: Bujías de aceite\nDetalles: \nCosto: 15,75";
+"ID: 2\nRepuesto: Bujías de aceite\nDetalles: \nCosto: 15,75" -> "ID: 3\nRepuesto: Frenos delanteros\nDetalles: \nCosto: 60";
+"ID: 3\nRepuesto: Frenos delanteros\nDetalles: \nCosto: 60" -> "ID: 1\nRepuesto: Filtro de aceite\nDetalles: \nCosto: 25,5";
+}
 }

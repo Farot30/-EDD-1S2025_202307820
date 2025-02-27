@@ -27,18 +27,17 @@ public class Masivo : Window
         SetDefaultSize(500, 400);
         SetPosition(WindowPosition.Center);
 
-        VBox vbox = new VBox(false, 10);
+        Fixed fixedContainer = new Fixed();
 
         EventBox labelesBox = CreateStyledLabel("Cargas masivas", "Arial 20");
-        vbox.PackStart(labelesBox, false, false, 10);
+        fixedContainer.Put(labelesBox, 200, 50);
 
         Button button1 = new Button("Cargar");
         button1.Clicked += Cargaras;
         ApplyFont(button1, "Arial 12");
-        vbox.PackStart(button1, false, false, 10);
+        fixedContainer.Put(button1, 200, 150);
 
-        Add(vbox);
-        ShowAll();
+        Add(fixedContainer);
     }
 
     private EventBox CreateStyledLabel(string text, string font)

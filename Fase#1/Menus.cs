@@ -27,49 +27,48 @@ public class Menus : Window
         SetDefaultSize(500, 600);
         SetPosition(WindowPosition.Center);
 
-        VBox vbox = new VBox(false, 10);
+        Fixed fixedContainer = new Fixed();
 
         EventBox labelesBox = CreateStyledLabel("Menu", "Arial 20");
-        vbox.PackStart(labelesBox, false, false, 10);
+        fixedContainer.Put(labelesBox, 200, 50);
 
         Button button1 = new Button("Cargas Masivas");
         button1.Clicked += Cargas;
-        button1.SetSizeRequest(100, 50);
+        button1.SetSizeRequest(150, 50);
         ApplyFont(button1, "Arial 12");
-        vbox.PackStart(button1, false, false, 10);
+        fixedContainer.Put(button1, 175, 100);
 
         Button button2 = new Button("Ingresos individuales");
         button2.Clicked += Ingresos;
-        button2.SetSizeRequest(100, 50);
+        button2.SetSizeRequest(150, 50);
         ApplyFont(button2, "Arial 12");
-        vbox.PackStart(button2, false, false, 10);
+        fixedContainer.Put(button2, 175, 160);
 
         Button button3 = new Button("Gestión de Usuarios");
         button3.Clicked += Gestiones;
-        button3.SetSizeRequest(100, 50);
+        button3.SetSizeRequest(150, 50);
         ApplyFont(button3, "Arial 12");
-        vbox.PackStart(button3, false, false, 10);
+        fixedContainer.Put(button3, 175, 220);
 
         Button button4 = new Button("Generar Servicio");
         button4.Clicked += Generaciones;
-        button4.SetSizeRequest(100, 50);
+        button4.SetSizeRequest(150, 50);
         ApplyFont(button4, "Arial 12");
-        vbox.PackStart(button4, false, false, 10);
+        fixedContainer.Put(button4, 175, 280);
 
         Button button5 = new Button("Cancelar Factura");
         button5.Clicked += Cancelaciones;
-        button5.SetSizeRequest(100, 50);
+        button5.SetSizeRequest(150, 50);
         ApplyFont(button5, "Arial 12");
-        vbox.PackStart(button5, false, false, 10);
+        fixedContainer.Put(button5, 175, 340);
 
         Button Reportes = new Button("Reportes");
         Reportes.Clicked += Reportes1;
-        Reportes.SetSizeRequest(100, 50);
+        Reportes.SetSizeRequest(150, 50);
         ApplyFont(Reportes, "Arial 12");
-        vbox.PackStart(Reportes, false, false, 10);
+        fixedContainer.Put(Reportes, 175, 400);
 
-        Add(vbox);
-        ShowAll();
+        Add(fixedContainer);
     }
 
     private EventBox CreateStyledLabel(string text, string font)
@@ -142,7 +141,6 @@ public class Menus : Window
         Console.WriteLine("Generando matriz dispersa...");
         mat.mostrar();
         GenerarYGuardarGrafica("MatrizDispersa.dot", mat.GenerarGraphvizDispersa(), "Matriz dispersa");
-
 
         // Convertir los archivos .dot a imágenes
         ConvertirDotAImagen("Usuarios.dot");
