@@ -99,7 +99,7 @@ public class Menus : Window
 
     private unsafe void Cargas(object? sender, EventArgs e)
     {
-        Masivo mas = new Masivo(lista, listaAutos, listaRepuestos, colas, pilaFacturas);
+        Masivo mas = new Masivo(lista, listaAutos, listaRepuestos, colas, pilaFacturas, mat);
         mas.ShowAll();
     }
 
@@ -111,7 +111,7 @@ public class Menus : Window
 
     private unsafe void Gestiones(object? sender, EventArgs e)
     {
-        Gestion gest = new Gestion(lista, listaAutos, listaRepuestos, colas, pilaFacturas);
+        Gestion gest = new Gestion(lista, listaAutos, listaRepuestos, colas, pilaFacturas, mat);
         gest.ShowAll();
     }
 
@@ -123,7 +123,7 @@ public class Menus : Window
 
     private unsafe void Cancelaciones(object? sender, EventArgs e)
     {
-        Factur fact = new Factur(lista, listaAutos, listaRepuestos, colas, pilaFacturas);
+        Factur fact = new Factur(lista, listaAutos, listaRepuestos, colas, pilaFacturas, mat);
         fact.ShowAll();
     }
 

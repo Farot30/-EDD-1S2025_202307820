@@ -5,6 +5,7 @@ using Usuarios;
 using ListaDobleUnsafe;
 using Repuestos;
 using ListaCircular;
+using Matriz;
 
 public class Individuals : Window
 {
@@ -18,14 +19,16 @@ public class Individuals : Window
     private ListaCircular.ListaCircular listaRepuestos;
     private Cola.Cola colas;
     private Pila.Pila pilaFacturas;
+    private MatrizDispersa<int> matriz;
 
-    public unsafe Individuals(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas, Cola.Cola colas, Pila.Pila pila) : base("Ingresos Individuales")
+    public unsafe Individuals(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas, Cola.Cola colas, Pila.Pila pila, MatrizDispersa<int> matrizDispersa) : base("Ingresos Individuales")
     {
         this.listaAutos = listaAutos;
         this.lista = lista;
         this.listaRepuestos = ListasPiezas;
         this.colas = colas;
         this.pilaFacturas = pila;
+        this.matriz = matrizDispersa;
 
         SetDefaultSize(500, 550);
         SetPosition(WindowPosition.Center);

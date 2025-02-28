@@ -34,8 +34,8 @@ public class Servir : Window
         this.pilaFacturas = pila;
         this.matriz = matriz; // Inicializar la instancia de MatrizDispersa
 
-        SetDefaultSize(500, 550);
-        SetPosition(WindowPosition.Center);
+        this.SetDefaultSize(500, 550);
+        this.SetPosition(WindowPosition.Center);
 
         Fixed fixedContainer = new Fixed();
 
@@ -174,9 +174,11 @@ public class Servir : Window
         Console.WriteLine("Matriz de repuestos y vehículos");
         matriz.mostrar();
         // Crear una factura y almacenarla en la pila
+        int o = 1;
         double total = costo + ObtenerCostoRepuesto(idRepuesto);
-        pilaFacturas.Apila(idServicio, idServicio, total);
+        pilaFacturas.Apila(idServicio, o, total);
         pilaFacturas.Mostrar();
+        o ++;
 
         using (MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Servicio guardado y factura generada"))
         {

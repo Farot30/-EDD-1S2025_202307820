@@ -3,7 +3,6 @@ using Usuarios;
 using List;
 using System;
 using ListaDobleUnsafe;
-using System.Threading.Tasks;
 using Repuestos;
 using ListaCircular;
 using Matriz;
@@ -89,19 +88,19 @@ public class MenuIngresos : Window
 
     private unsafe void Usus1(object? sender, EventArgs e)
     {
-        Individuals individuals = new Individuals(lista, listaAutos, listaRepuestos, colas, pilaFacturas);
+        Individuals individuals = new Individuals(lista, listaAutos, listaRepuestos, colas, pilaFacturas,matriz);
         individuals.ShowAll();
     }
 
     private unsafe void Vehí(object? sender, EventArgs e)
     {
-        Autos autos = new Autos(lista, listaAutos, listaRepuestos, colas, pilaFacturas);
+        Autos autos = new Autos(lista, listaAutos, listaRepuestos, colas, pilaFacturas,matriz);
         autos.ShowAll();
     }
 
     private unsafe void Repuestos(object? sender, EventArgs e)
     {
-        Piezas piezas = new Piezas(lista, listaAutos, listaRepuestos, colas, pilaFacturas);
+        Piezas piezas = new Piezas(lista, listaAutos, listaRepuestos, colas, pilaFacturas,matriz);
         piezas.ShowAll();
     }
 

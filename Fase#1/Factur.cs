@@ -3,6 +3,7 @@ using List;
 using Usuarios;
 using ListaDobleUnsafe;
 using Facturas;
+using Matriz;
 
 public class Factur : Window
 {
@@ -11,18 +12,20 @@ public class Factur : Window
     private ListaCircular.ListaCircular ListaRepuestos;
     private Cola.Cola colas;
     private Pila.Pila pilaFacturas;
+    private MatrizDispersa<int> matriz;
 
     private Label ids2;
     private Label ID_ORDEN2;
     private Label Total2;
 
-    public unsafe Factur(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas, Cola.Cola colas, Pila.Pila pila) : base("Facturación")
+    public unsafe Factur(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas, Cola.Cola colas, Pila.Pila pila, MatrizDispersa<int> matrizDispersa) : base("Facturación")
     {
         this.listaAutos = listaAutos;
         this.lista = lista;
         this.ListaRepuestos = ListasPiezas;
         this.colas = colas;
         this.pilaFacturas = pila;
+        this.matriz = matrizDispersa;
 
         SetDefaultSize(500, 400);
         SetPosition(WindowPosition.Center);

@@ -3,6 +3,7 @@ using Gtk;
 using Usuarios;
 using List;
 using ListaDobleUnsafe;
+using Matriz;
 
 namespace Ediciones
 {
@@ -19,14 +20,16 @@ namespace Ediciones
         private ListaCircular.ListaCircular ListaRepuestos;
         private Cola.Cola colas;
         private Pila.Pila pilaFacturas;
+        private MatrizDispersa<int> matriz;
 
-        public unsafe EdicionUsuario(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas, Cola.Cola colas, Pila.Pila pila) : base("Edición de Usuario")
+        public unsafe EdicionUsuario(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas, Cola.Cola colas, Pila.Pila pila, MatrizDispersa<int> matrizDispersa) : base("Edición de Usuario")
         {
             this.listaAutos = listaAutos;
             this.lista = lista;
             this.ListaRepuestos = ListasPiezas;
             this.colas = colas;
             this.pilaFacturas = pila;
+            this.matriz = matrizDispersa;
 
             SetDefaultSize(500, 600);
             SetPosition(WindowPosition.Center);
@@ -113,6 +116,7 @@ namespace Ediciones
                 using (MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Llene todos los campos"))
                 {
                     md.Run();
+                    md.Destroy();
                 }
             }
             else
@@ -126,6 +130,7 @@ namespace Ediciones
                         using (MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Usuario actualizado"))
                         {
                             md.Run();
+                            md.Destroy();
                         }
                     }
                     else
@@ -133,6 +138,7 @@ namespace Ediciones
                         using (MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Usuario no encontrado"))
                         {
                             md.Run();
+                            md.Destroy();
                         }
                     }
                 }
@@ -141,6 +147,7 @@ namespace Ediciones
                     using (MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "ID no valido"))
                     {
                         md.Run();
+                        md.Destroy();
                     }
                 }
             }

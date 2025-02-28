@@ -3,6 +3,7 @@ using List;
 using Usuarios;
 using Vehiculos;
 using ListaDobleUnsafe;
+using Matriz;
 
 public class Autos : Window
 {
@@ -16,14 +17,16 @@ public class Autos : Window
     private ListaCircular.ListaCircular ListaRepuestos;
     private Cola.Cola colas;
     private Pila.Pila pilaFacturas;
+    private MatrizDispersa<int> matriz;
 
-    public unsafe Autos(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas, Cola.Cola colas, Pila.Pila pila) : base("Ingreso de vehículos")
+    public unsafe Autos(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas, Cola.Cola colas, Pila.Pila pila, MatrizDispersa<int> matrizDispersa) : base("Ingreso de vehículos")
     {
         this.lista = lista;
         this.listaAutos = listaAutos;
         this.ListaRepuestos = ListasPiezas;
         this.colas = colas;
         this.pilaFacturas = pila;
+        this.matriz = matrizDispersa;
 
         SetDefaultSize(500, 480);
         SetPosition(WindowPosition.Center);
@@ -126,6 +129,7 @@ public class Autos : Window
                     using (MessageDialog md4 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Warning, ButtonsType.Ok, "El ID ya existe. Por favor, ingrese otro ID."))
                     {
                         md4.Run();
+                        md4.Destroy();
                     }
                     return;
                 }
@@ -135,6 +139,7 @@ public class Autos : Window
                     using (MessageDialog md2 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Warning, ButtonsType.Ok, "El ID de usuario no existe. Por favor, ingrese un ID de usuario válido."))
                     {
                         md2.Run();
+                        md2.Destroy();
                     }
                     return;
                 }
@@ -151,6 +156,7 @@ public class Autos : Window
                 using (MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Error, ButtonsType.Ok, "ID y ID Usuario deben ser números enteros"))
                 {
                     md.Run();
+                    md.Destroy();
                 }
             }
         }

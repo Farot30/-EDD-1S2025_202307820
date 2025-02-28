@@ -5,6 +5,7 @@ using ListaDobleUnsafe;
 using System.Threading.Tasks;
 using Repuestos;
 using ListaCircular;
+using Matriz;
 
 public class Piezas : Window
 {
@@ -18,14 +19,16 @@ public class Piezas : Window
     private ListaCircular.ListaCircular listaRepuestos;
     private Cola.Cola colas;
     private Pila.Pila pilaFacturas;
+    private MatrizDispersa<int> matriz;
 
-    public unsafe Piezas(ListaSimple<Usuario> lista, ListaDoblementeEnlazada ListaAutos, ListaCircular.ListaCircular ListasPiezas, Cola.Cola colas, Pila.Pila pila) : base("Ingreso de Repuestos")
+    public unsafe Piezas(ListaSimple<Usuario> lista, ListaDoblementeEnlazada ListaAutos, ListaCircular.ListaCircular ListasPiezas, Cola.Cola colas, Pila.Pila pila, MatrizDispersa<int> matrizDispersa) : base("Ingreso de Repuestos")
     {
         this.listaAutos = ListaAutos;
         this.lista = lista;
         this.listaRepuestos = ListasPiezas;
         this.colas = colas;
         this.pilaFacturas = pila;
+        this.matriz = matrizDispersa;
 
         SetDefaultSize(500, 480);
         SetPosition(WindowPosition.Center);

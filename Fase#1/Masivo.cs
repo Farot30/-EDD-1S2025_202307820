@@ -7,6 +7,7 @@ using Repuestos;
 using Newtonsoft.Json;
 using System.IO;
 using System;
+using Matriz;
 
 public class Masivo : Window
 {
@@ -15,14 +16,16 @@ public class Masivo : Window
     private ListaCircular.ListaCircular ListaRepuestos;
     private Cola.Cola colas;
     private Pila.Pila pilaFacturas;
+    private MatrizDispersa<int> matriz;
 
-    public unsafe Masivo(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas, Cola.Cola colas, Pila.Pila pila) : base("Cargas masivas")
+    public unsafe Masivo(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas, Cola.Cola colas, Pila.Pila pila, MatrizDispersa<int> matrizDispersa) : base("Cargas masivas")
     {
         this.listaAutos = listaAutos;
         this.lista = lista;
         this.ListaRepuestos = ListasPiezas;
         this.colas = colas;
         this.pilaFacturas = pila;
+        this.matriz = matrizDispersa;
 
         SetDefaultSize(500, 400);
         SetPosition(WindowPosition.Center);
@@ -134,7 +137,7 @@ public class Masivo : Window
                 var vehiculosTemp = JsonConvert.DeserializeObject<List<VehiculoTemp>>(jsonContent);
                 foreach (var vehiculoTemp in vehiculosTemp)
                 {
-                    if (!ExisteVehiculo(vehiculoTemp.ID))
+                    if (!ExisteVehiculo(vehiculoTemp.ID) && ExisteUsuario(vehiculoTemp.ID_Usuario))
                     {
                         listaAutos.Insertar(vehiculoTemp.ID, vehiculoTemp.ID_Usuario, vehiculoTemp.Marca, int.Parse(vehiculoTemp.Modelo), vehiculoTemp.Placa);
                     }

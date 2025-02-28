@@ -3,6 +3,7 @@ using List;
 using Usuarios;
 using ListaDobleUnsafe;
 using Ediciones;
+using Matriz;
 
 public class Gestion : Window
 {
@@ -14,14 +15,16 @@ public class Gestion : Window
     private ListaCircular.ListaCircular ListaRepuestos;
     private Cola.Cola colas;
     private Pila.Pila pilaFacturas;
+    private MatrizDispersa<int> matriz;
 
-    public unsafe Gestion(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas, Cola.Cola colas, Pila.Pila pila) : base("Gestionar los Usuarios")
+    public unsafe Gestion(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas, Cola.Cola colas, Pila.Pila pila, MatrizDispersa<int> matrizDispersa) : base("Gestionar los Usuarios")
     {
         this.listaAutos = listaAutos;
         this.lista = lista;
         this.ListaRepuestos = ListasPiezas;
         this.colas = colas;
         this.pilaFacturas = pila;
+        this.matriz = matrizDispersa;
 
         SetDefaultSize(500, 400);
         SetPosition(WindowPosition.Center);
@@ -157,12 +160,27 @@ public class Gestion : Window
     {
         try
         {
-            using (MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Entrando a editar usuario"))
+            if(int.TryParse(ID_Edisicón.Text, out int id))
             {
-                md.Run();
+                if(UsuarioExists(id)){
+                    using (MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Entrando a editar usuario"))
+                    {
+                        md.Run();
+                        md.Destroy();
+                    }
+                    EdicionUsuario ediciones = new EdicionUsuario(lista, listaAutos, ListaRepuestos, colas, pilaFacturas, matriz);
+                    ediciones.ShowAll();
+                }
+                else
+                {
+                    using (MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Warning, ButtonsType.Ok, "Usuario no encontrado"))
+                    {
+                        md.Run();
+                        md.Destroy();
+                    }
+                }
             }
-            EdicionUsuario ediciones = new EdicionUsuario(lista, listaAutos, ListaRepuestos, colas, pilaFacturas);
-            ediciones.ShowAll();
+            
         }
         catch (Exception ex)
         {
@@ -215,5 +233,19 @@ public class Gestion : Window
                 md.Run();
             }
         }
+    }
+
+    private unsafe bool UsuarioExists(int idUsuario)
+    {
+        Nodo<Usuario>* actual = lista.Cabeza;
+        while (actual != null)
+        {
+            if (actual->Data.Id == idUsuario)
+            {
+                return true;
+            }
+            actual = actual->Sig;
+        }
+        return false;
     }
 }

@@ -121,7 +121,7 @@ namespace ListaCircular
             Repuesto* temp = head;
             do
             {
-                graph += $"\"ID: {temp->Id}\\nRepuesto: {new string(temp->Repuestos)}\\nDetalles: {new string(temp->Descripcion)}\\nCosto: {temp->Precio}\" -> \"ID: {temp->Next->Id}\\nRepuesto: {new string(temp->Next->Repuestos)}\\nDetalles: {new string(temp->Descripcion)}\\nCosto: {temp->Next->Precio}\";\n";
+                graph += $"\"ID: {temp->Id}\\nRepuesto: {new string(temp->Repuestos)}\\nDetalles: {new string(temp->Descripcion)}\\nCosto: {temp->Precio}\" -> \"ID: {temp->Next->Id}\\nRepuesto: {new string(temp->Next->Repuestos)}\\nDetalles: {new string(temp->Next->Descripcion)}\\nCosto: {temp->Next->Precio}\";\n";
                 temp = temp->Next;
             } while (temp != head);
 
