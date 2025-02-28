@@ -151,11 +151,12 @@ public class Masivo : Window
                 {
                     if (!ExisteRepuesto(repuestoTemp.ID))
                     {
-                        Repuesto repuesto = new Repuesto(repuestoTemp.ID, repuestoTemp.Repuesto, repuestoTemp.Descripcion, repuestoTemp.Costo);
+                        Repuesto repuesto = new Repuesto(repuestoTemp.ID, repuestoTemp.Repuesto, repuestoTemp.Detalles, repuestoTemp.Costo);
                         string repuestoString = new string(repuesto.Repuestos);
                         string repuestoDescripcion = new string(repuesto.Descripcion);
 
                         ListaRepuestos.Insertar(repuesto.Id, repuestoString, repuestoDescripcion, repuesto.Precio);
+                        Console.WriteLine($"Repuesto insertado: ID={repuestoTemp.ID}, Repuesto={repuestoTemp.Repuesto}, Descripcion={repuestoTemp.Detalles}, Costo={repuestoTemp.Costo}");
                     }
                     else
                     {
@@ -249,6 +250,6 @@ public class RepuestoTemp
 {
     public int ID { get; set; }
     public string Repuesto { get; set; }
-    public string Descripcion { get; set; }
+    public string Detalles { get; set; }
     public double Costo { get; set; }
 }

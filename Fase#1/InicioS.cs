@@ -95,6 +95,7 @@ public class InicioS : Window
             {
                 Console.WriteLine("Inicio de sesión exitoso");
                 md.Run();
+                md.Destroy();
             }
             Menus menus = new Menus(lista, listaAutos, ListaRepuestos, colas, pilaFacturas, matriz);
             menus.ShowAll();

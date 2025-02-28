@@ -5,8 +5,8 @@ namespace Repuestos
     public unsafe struct Repuesto
     {
         public int Id;
-        public fixed char Repuestos[20];
-        public fixed char Descripcion[20];
+        public fixed char Repuestos[100];
+        public fixed char Descripcion[200];
         public double Precio;
         public Repuesto* Next;
 
@@ -16,20 +16,26 @@ namespace Repuestos
             Next = null;
             Precio = precio;
 
-            fixed(char* r = Repuestos)
+            fixed (char* r = Repuestos)
             {
-                repuestos.AsSpan().CopyTo(new Span<char>(r, 20));
+                for (int i = 0; i < 100; i++)
+                {
+                    r[i] = i < repuestos.Length ? repuestos[i] : '\0';
+                }
             }
 
-            fixed(char* d = Descripcion)
+            fixed (char* d = Descripcion)
             {
-                descripcion.AsSpan().CopyTo(new Span<char>(d, 20));
+                for (int i = 0; i < 200; i++)
+                {
+                    d[i] = i < descripcion.Length ? descripcion[i] : '\0';
+                }
             }
         }
 
         public override string ToString()
         {
-            fixed(char* ps = Repuestos, pd = Descripcion)
+            fixed (char* ps = Repuestos, pd = Descripcion)
             {
                 return $"ID: {Id}, Repuestos: {new string(ps)}, Descripcion: {new string(pd)}, Precio: {Precio}";
             }
