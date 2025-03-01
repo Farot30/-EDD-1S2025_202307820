@@ -12,7 +12,7 @@ namespace Vehiculos
         public Node* Next;
         public Node* Prev;
 
-        public Node(int id, int idUsuario, string marca, int modelo, string placa)
+        public unsafe Node(int id, int idUsuario, string marca, int modelo, string placa)
         {
             Id = id;
             IdUsuario = idUsuario;

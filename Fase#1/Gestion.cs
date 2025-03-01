@@ -76,7 +76,7 @@ public class Gestion : Window
         Add(fixedContainer);
     }
 
-    private EventBox CreateStyledLabel(string text, string font)
+    private unsafe EventBox CreateStyledLabel(string text, string font)
     {
         Label label = new Label(text);
         ApplyFont(label, font);
@@ -85,7 +85,7 @@ public class Gestion : Window
         return eventBox;
     }
 
-    private void ApplyFont(Widget widget, string fontDescription)
+    private unsafe void ApplyFont(Widget widget, string fontDescription)
     {
         Pango.FontDescription fontDesc = Pango.FontDescription.FromString(fontDescription);
         if (widget is Label label)
@@ -215,6 +215,7 @@ public class Gestion : Window
                 using (MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Usuario eliminado con éxito"))
                 {
                     md.Run();
+                    md.Destroy();
                 }
                 lista.Imprimir();
             }
@@ -223,6 +224,7 @@ public class Gestion : Window
                 using (MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Warning, ButtonsType.Ok, "Usuario no encontrado"))
                 {
                     md.Run();
+                    md.Destroy();
                 }
             }
         }
@@ -231,6 +233,7 @@ public class Gestion : Window
             using (MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Warning, ButtonsType.Ok, "ID inválido"))
             {
                 md.Run();
+                md.Destroy();
             }
         }
     }

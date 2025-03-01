@@ -19,7 +19,7 @@ namespace ListaDobleUnsafe
             tail = null;
         }
 
-        public void Insertar(int id, int idUsuario, string marca, int modelo, string placa)
+        public unsafe void Insertar(int id, int idUsuario, string marca, int modelo, string placa)
         {
             Node* nuevoNodo = (Node*)NativeMemory.Alloc((nuint)sizeof(Node));
             *nuevoNodo = new Node(id, idUsuario, marca, modelo, placa);
@@ -37,7 +37,7 @@ namespace ListaDobleUnsafe
             }
         }
 
-        public void Eliminar(int id)
+        public unsafe void Eliminar(int id)
         {
             // Si la lista está vacía, no hay nada que eliminar
             Node* actual = head;
@@ -65,7 +65,7 @@ namespace ListaDobleUnsafe
         }
 
         // Método para mostrar los nodos de la lista inicializados del head al tail
-        public void Mostrar()
+        public unsafe void Mostrar()
         {
             // Si la lista está vacía, no hay nada que mostrar
             Node* actual = head;
@@ -78,7 +78,7 @@ namespace ListaDobleUnsafe
         }
 
         // Método para mostrar los nodos de la lista inicializados del tail al head
-        public void MostrarReversa()
+        public unsafe void MostrarReversa()
         {
             // Si la lista está vacía, no hay nada que mostrar
             Node* actual = tail;
@@ -90,7 +90,7 @@ namespace ListaDobleUnsafe
             }
         }
 
-        public string GenerarGraphviz()
+        public unsafe string GenerarGraphviz()
         {
             if (head == null) return string.Empty;
 
@@ -119,7 +119,7 @@ namespace ListaDobleUnsafe
         }
 
         // Método para generar una gráfica en Graphviz de los 5 vehículos más antiguos
-        public string GenerarGraphvizTop5Antiguos()
+        public unsafe string GenerarGraphvizTop5Antiguos()
         {
             if (head == null) return string.Empty;
 

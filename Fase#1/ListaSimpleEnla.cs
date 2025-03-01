@@ -17,7 +17,7 @@ namespace List
             cabeza = null;
         }
 
-        public void Insertar(T data)
+        public unsafe void Insertar(T data)
         {
             Nodo<T>* nuevo = (Nodo<T>*)Marshal.AllocHGlobal(sizeof(Nodo<T>));
             nuevo->Data = data;
@@ -38,7 +38,7 @@ namespace List
             }
         }
 
-        public void Eliminar(int id)
+        public unsafe void Eliminar(int id)
         {
             if (cabeza == null) return;
 
@@ -65,7 +65,7 @@ namespace List
                 actual = actual->Sig;
             }
         }
-        public bool ModificarUsuario(int id, string nuevoNombre, string nuevoApellido, string nuevoCorreo, string nuevaContrasena)
+        public unsafe bool ModificarUsuario(int id, string nuevoNombre, string nuevoApellido, string nuevoCorreo, string nuevaContrasena)
         {
             // se valida que sea tipo usuario
             if (typeof(T) != typeof(Usuarios.Usuario))
@@ -127,7 +127,7 @@ namespace List
 
 
 
-        public void Imprimir()
+        public unsafe void Imprimir()
         {
             Nodo<T>* temp = cabeza;
             while (temp != null)
@@ -138,7 +138,7 @@ namespace List
         }
 
        
-        public string GenerarGraphviz()
+        public unsafe string GenerarGraphviz()
         {
             if (cabeza == null) return string.Empty;
 

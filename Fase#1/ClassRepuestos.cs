@@ -10,7 +10,7 @@ namespace Repuestos
         public double Precio;
         public Repuesto* Next;
 
-        public Repuesto(int id, string repuestos, string descripcion, double precio)
+        public unsafe Repuesto(int id, string repuestos, string descripcion, double precio)
         {
             Id = id;
             Next = null;

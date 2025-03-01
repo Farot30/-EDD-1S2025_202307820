@@ -14,7 +14,7 @@ namespace Pila
 
 
         //Metodo para apilar un nuevo nodo
-        public void Apila(int id, int id_orden, double total)
+        public unsafe void Apila(int id, int id_orden, double total)
         {
             Facturas.Facturas* nuevo = (Facturas.Facturas*)Marshal.AllocHGlobal(sizeof(Facturas.Facturas));
             nuevo->ID = id;
@@ -25,7 +25,7 @@ namespace Pila
         }
 
         //Metodo para desapilar un nodo
-        public void Desapilar()
+        public unsafe void Desapilar()
         {
             if (cima != null)
             {
@@ -38,7 +38,7 @@ namespace Pila
         }
 
         //Metodo para mostrar la pila
-        public void Mostrar()
+        public unsafe void Mostrar()
         {
             Facturas.Facturas* aux = cima;
             while (aux != null)
@@ -61,7 +61,7 @@ namespace Pila
             cima = null;
         }
 
-        public string GenerarGrafica()
+        public unsafe string GenerarGrafica()
         {
             // si la pila está vacia, se muestra solo un nodo "null"
             if (cima == null)

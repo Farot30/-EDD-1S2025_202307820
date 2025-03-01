@@ -20,7 +20,7 @@ namespace Matriz
         }
 
         // Método para insertar un nuevo nodo con un ID en la lista
-        public void insertar_nodoEncabezado(int id)
+        public unsafe void insertar_nodoEncabezado(int id)
         {
             // Crear un nuevo nodo de tipo NodoEncabezado en la memoria
             // marshcal.allocHGlobal(sizeof(NodoEncabezado<int>)) asigna memoria no administrada
@@ -82,7 +82,7 @@ namespace Matriz
         }
 
         // Método para mostrar todos los nodos de la lista
-        public void Mostrar()
+        public unsafe void Mostrar()
         {
             if (primero == null)
             {

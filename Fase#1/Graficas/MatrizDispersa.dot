@@ -15,38 +15,38 @@ nodeC2 -> nodeC3 ;
 nodeC3 -> nodeC2 ;
 nodeF1 [label="V1"];
 { rank=same; nodeF1; nodeF1_C1; }
-nodeF1_C1 [label="Detalle:\ncoo"];
+nodeF1_C1 [label="Detalle:\ncanicas"];
 nodeF2 [label="V2"];
-nodeF1:s -> nodeF2:n ;
+nodeF1 -> nodeF2;
 nodeF2 -> nodeF1 ;
 { rank=same; nodeF2; nodeF2_C3; }
-nodeF2_C3 [label="Detalle:\nsalmon"];
+nodeF2_C3 [label="Detalle:\nsapopeta"];
 nodeF3 [label="V3"];
-nodeF2:s -> nodeF3:n ;
+nodeF2 -> nodeF3;
 nodeF3 -> nodeF2 ;
-{ rank=same; nodeF3; nodeF3_C2; }
-nodeF3_C2 [label="Detalle:\ncoca"];
-nodeF4 [label="V5"];
-nodeF3:s -> nodeF4:n ;
+{ rank=same; nodeF3; nodeF3_C1; }
+nodeF3_C1 [label="Detalle:\ncaco"];
+nodeF4 [label="V4"];
+nodeF3 -> nodeF4;
 nodeF4 -> nodeF3 ;
-{ rank=same; nodeF4; nodeF4_C1; }
-nodeF4_C1 [label="Detalle:\nchatos"];
+{ rank=same; nodeF4; nodeF4_C2; }
+nodeF4_C2 [label="Detalle:\nchetos"];
 node0 -> nodeF1 ;
 nodeF1 -> node0 ;
 nodeF1 -> nodeF1_C1 ;
 nodeF1_C1 -> nodeF1 ;
 nodeF2 -> nodeF2_C3 ;
 nodeF2_C3 -> nodeF2 ;
-nodeF3 -> nodeF3_C2 ;
-nodeF3_C2 -> nodeF3 ;
-nodeF4 -> nodeF4_C1 ;
-nodeF4_C1 -> nodeF4 ;
+nodeF3 -> nodeF3_C1 ;
+nodeF3_C1 -> nodeF3 ;
+nodeF4 -> nodeF4_C2 ;
+nodeF4_C2 -> nodeF4 ;
 nodeC1 -> nodeF1_C1 ;
 nodeF1_C1 -> nodeC1 ;
-nodeF1_C1 -> nodeF4_C1 ;
-nodeF4_C1 -> nodeF1_C1 ;
-nodeC2 -> nodeF3_C2 ;
-nodeF3_C2 -> nodeC2 ;
+nodeF1_C1 -> nodeF3_C1 ;
+nodeF3_C1 -> nodeF1_C1 ;
+nodeC2 -> nodeF4_C2 ;
+nodeF4_C2 -> nodeC2 ;
 nodeC3 -> nodeF2_C3 ;
 nodeF2_C3 -> nodeC3 ;
 }

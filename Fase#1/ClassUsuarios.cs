@@ -12,7 +12,7 @@ namespace Usuarios
 
         public Usuario* sig;
 
-        public Usuario(int id, string nombre, string apellido, string correo, string contraseña)
+        public unsafe Usuario(int id, string nombre, string apellido, string correo, string contraseña)
         {
             this.Id = id;
             sig = null;
@@ -25,7 +25,7 @@ namespace Usuarios
             }
         }
 
-        private static void setFixedString(string str, char* fixedStr, int maxLength)
+        private unsafe static void setFixedString(string str, char* fixedStr, int maxLength)
         {
             int i;
             for (i = 0; i < str.Length && i < maxLength - 1; i++)
@@ -35,7 +35,7 @@ namespace Usuarios
             fixedStr[i] = '\0';
         }
 
-        private static string getFixedString(char* fixedStr)
+        private unsafe static string getFixedString(char* fixedStr)
         {
             string str = "";
             for (int i = 0; fixedStr[i] != '\0'; i++)

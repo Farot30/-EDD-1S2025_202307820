@@ -145,7 +145,7 @@ namespace Matriz
         }
 
         // Método para mostrar la matriz dispersa
-        public void mostrar()
+        public unsafe void mostrar()
         {
             // Imprimir los encabezados de columnas
             NodoEncabezado<int>* y_columna = columnas.primero;
@@ -189,7 +189,7 @@ namespace Matriz
             }
         }
 
-        public string GenerarGraphvizDispersa()
+        public unsafe string GenerarGraphvizDispersa()
         {
             string graph = "digraph G {\n";
             graph += "node [shape=box];\n"; 

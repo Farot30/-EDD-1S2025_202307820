@@ -66,14 +66,14 @@ public class Factur : Window
         ActualizarLabelsConUltimaFactura();
     }
 
-    private Label CreateStyledLabel(string text, string font)
+    private unsafe Label CreateStyledLabel(string text, string font)
     {
         Label label = new Label(text);
         ApplyFont(label, font);
         return label;
     }
 
-    private void ApplyFont(Widget widget, string fontDescription)
+    private unsafe void ApplyFont(Widget widget, string fontDescription)
     {
         Pango.FontDescription fontDesc = Pango.FontDescription.FromString(fontDescription);
         if (widget is Label label)

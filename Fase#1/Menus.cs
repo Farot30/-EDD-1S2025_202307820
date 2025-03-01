@@ -24,54 +24,54 @@ public class Menus : Window
         this.pilaFacturas = pila;
         this.mat = matriz;
 
-        SetDefaultSize(500, 600);
+        SetDefaultSize(500, 500 );
         SetPosition(WindowPosition.Center);
 
         Fixed fixedContainer = new Fixed();
 
         EventBox labelesBox = CreateStyledLabel("Menu", "Arial 20");
-        fixedContainer.Put(labelesBox, 200, 50);
+        fixedContainer.Put(labelesBox, 220, 50);
 
         Button button1 = new Button("Cargas Masivas");
         button1.Clicked += Cargas;
         button1.SetSizeRequest(150, 50);
         ApplyFont(button1, "Arial 12");
-        fixedContainer.Put(button1, 175, 100);
+        fixedContainer.Put(button1, 180, 100);
 
         Button button2 = new Button("Ingresos individuales");
         button2.Clicked += Ingresos;
         button2.SetSizeRequest(150, 50);
         ApplyFont(button2, "Arial 12");
-        fixedContainer.Put(button2, 175, 160);
+        fixedContainer.Put(button2, 165, 160);
 
         Button button3 = new Button("Gestión de Usuarios");
         button3.Clicked += Gestiones;
         button3.SetSizeRequest(150, 50);
         ApplyFont(button3, "Arial 12");
-        fixedContainer.Put(button3, 175, 220);
+        fixedContainer.Put(button3, 170, 220);
 
         Button button4 = new Button("Generar Servicio");
         button4.Clicked += Generaciones;
         button4.SetSizeRequest(150, 50);
         ApplyFont(button4, "Arial 12");
-        fixedContainer.Put(button4, 175, 280);
+        fixedContainer.Put(button4, 180, 280);
 
         Button button5 = new Button("Cancelar Factura");
         button5.Clicked += Cancelaciones;
         button5.SetSizeRequest(150, 50);
         ApplyFont(button5, "Arial 12");
-        fixedContainer.Put(button5, 175, 340);
+        fixedContainer.Put(button5, 180, 340);
 
         Button Reportes = new Button("Reportes");
         Reportes.Clicked += Reportes1;
         Reportes.SetSizeRequest(150, 50);
         ApplyFont(Reportes, "Arial 12");
-        fixedContainer.Put(Reportes, 175, 400);
+        fixedContainer.Put(Reportes, 185, 400);
 
         Add(fixedContainer);
     }
 
-    private EventBox CreateStyledLabel(string text, string font)
+    private unsafe EventBox CreateStyledLabel(string text, string font)
     {
         Label label = new Label(text);
         ApplyFont(label, font);
@@ -80,7 +80,7 @@ public class Menus : Window
         return eventBox;
     }
 
-    private void ApplyFont(Widget widget, string fontDescription)
+    private unsafe void ApplyFont(Widget widget, string fontDescription)
     {
         Pango.FontDescription fontDesc = Pango.FontDescription.FromString(fontDescription);
         if (widget is Label label)
@@ -155,12 +155,12 @@ public class Menus : Window
         Console.WriteLine("Reportes generados y guardados.");
     }
 
-    private void GenerarYGuardarGrafica(string nombreArchivo, string contenido, string titulo)
+    private unsafe void GenerarYGuardarGrafica(string nombreArchivo, string contenido, string titulo)
     {
         Grafica.Grafica.GenerarArchivoDot(nombreArchivo, contenido, titulo);
     }
 
-    private void ConvertirDotAImagen(string nombreArchivo)
+    private unsafe void ConvertirDotAImagen(string nombreArchivo)
     {
         Grafica.Grafica.ConvertirDotAImagen(nombreArchivo);
     }

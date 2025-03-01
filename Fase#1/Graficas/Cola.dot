@@ -3,12 +3,12 @@ rankdir=LR;
 node [shape=record];
 subgraph cluster_Cola {
 label = "Cola";
-"1" [label="Servicio 0\nID: 1\nID Repuesto: 1\nID Vehículo: 1\nDetalles: coo\nCosto: 58"];
+"1" [label="Servicio 0\nID: 1\nID Repuesto: 1\nID Vehículo: 1\nDetalles: canicas\nCosto: 58"];
 "1" -> "2";
-"2" [label="Servicio 1\nID: 2\nID Repuesto: 3\nID Vehículo: 2\nDetalles: salmon\nCosto: 98"];
+"2" [label="Servicio 1\nID: 2\nID Repuesto: 3\nID Vehículo: 2\nDetalles: sapopeta\nCosto: 98"];
 "2" -> "3";
-"3" [label="Servicio 2\nID: 3\nID Repuesto: 2\nID Vehículo: 3\nDetalles: coca\nCosto: 87"];
+"3" [label="Servicio 2\nID: 3\nID Repuesto: 2\nID Vehículo: 4\nDetalles: chetos\nCosto: 100"];
 "3" -> "4";
-"4" [label="Servicio 3\nID: 4\nID Repuesto: 1\nID Vehículo: 5\nDetalles: chatos\nCosto: 98"];
+"4" [label="Servicio 3\nID: 4\nID Repuesto: 1\nID Vehículo: 3\nDetalles: caco\nCosto: 200"];
 }
 }

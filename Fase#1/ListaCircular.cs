@@ -13,7 +13,7 @@ namespace ListaCircular
             head = null;
         }
 
-        public void Insertar(int id, string repuesto, string detalles, double costo)
+        public unsafe void Insertar(int id, string repuesto, string detalles, double costo)
         {
             Repuesto* nuevoNodo = (Repuesto*)Marshal.AllocHGlobal(sizeof(Repuesto));
             *nuevoNodo = new Repuesto(id, repuesto, detalles, costo);
@@ -37,7 +37,7 @@ namespace ListaCircular
             }
         }
 
-        public void Eliminar(int id)
+        public unsafe void Eliminar(int id)
         {
             // si la lista está vacía, no hay nada que eliminar
             if (head == null) return;
@@ -79,7 +79,7 @@ namespace ListaCircular
             } while (temp != head);
         }
 
-        public void Mostrar()
+        public unsafe void Mostrar()
         {
             if (head == null)
             {
@@ -108,7 +108,7 @@ namespace ListaCircular
             } while (temp != head);
         }
 
-        public string GenerarGraphviz()
+        public unsafe string GenerarGraphviz()
         {
             if (head == null) return string.Empty;
 

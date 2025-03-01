@@ -7,7 +7,7 @@ namespace Grafica
     public static class Grafica
     {
         // Función que genera un archivo .dot en la carpeta "reports" con el nombre y contenido especificado
-        public static void GenerarArchivoDot(string nombre, string contenido, string titulo)
+        public unsafe static void GenerarArchivoDot(string nombre, string contenido, string titulo)
         {
             try
             {
@@ -52,7 +52,7 @@ namespace Grafica
         }
 
         // Función que convierte un archivo .dot en una imagen PNG
-        public static void ConvertirDotAImagen(string nombreReporte)
+        public unsafe static void ConvertirDotAImagen(string nombreReporte)
         {
             try
             {

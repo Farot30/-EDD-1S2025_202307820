@@ -25,7 +25,7 @@ namespace Cola
         }
 
 
-        public void Encolar(int id, int idRepuesto, int idVehiculo, string detalles, float costo)
+        public unsafe void Encolar(int id, int idRepuesto, int idVehiculo, string detalles, float costo)
         {
             Servicio* nuevo = (Servicio*)Marshal.AllocHGlobal(sizeof(Servicio));
             nuevo->Id = id;
@@ -60,7 +60,7 @@ namespace Cola
             }
         }
 
-        public Servicio* Desencolar()
+        public unsafe Servicio* Desencolar()
         {
             if (frente == null)
             {
@@ -86,7 +86,7 @@ namespace Cola
 
         // Método para imprimir la cola
 
-        public void Mostrar()
+        public unsafe void Mostrar()
         {
             Servicio* presente = frente;
             while (presente != null)
@@ -97,7 +97,7 @@ namespace Cola
             }
         }
 
-        public string ObtenerDetalles(Servicio* servicio)
+        public unsafe string ObtenerDetalles(Servicio* servicio)
         {
             char[] detalles = new char[50];
             for (int i = 0; i < 50 && servicio->Detalles[i] != '\0'; i++)
@@ -107,7 +107,7 @@ namespace Cola
             return new string(detalles).TrimEnd('\0');
         }
 
-        public string GenerarGraphviz()
+        public unsafe string GenerarGraphviz()
         {
             if (frente == null) return string.Empty;
 
@@ -139,7 +139,7 @@ namespace Cola
         }
 
         // Método para generar una gráfica en Graphviz de los 5 vehículos con más servicios
-        public string GenerarGraphvizTop5VehiculosConMasServicios()
+        public unsafe string GenerarGraphvizTop5VehiculosConMasServicios()
         {
             if (frente == null) return string.Empty;
 

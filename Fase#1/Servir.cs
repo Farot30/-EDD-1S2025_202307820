@@ -34,7 +34,7 @@ public class Servir : Window
         this.pilaFacturas = pila;
         this.matriz = matriz; // Inicializar la instancia de MatrizDispersa
 
-        this.SetDefaultSize(500, 550);
+        this.SetDefaultSize(350, 350);
         this.SetPosition(WindowPosition.Center);
 
         Fixed fixedContainer = new Fixed();
@@ -82,7 +82,7 @@ public class Servir : Window
         Add(fixedContainer);
     }
 
-    private EventBox CreateStyledLabel(string text, string font)
+    private unsafe EventBox CreateStyledLabel(string text, string font)
     {
         Label label = new Label(text);
         ApplyFont(label, font);
@@ -91,7 +91,7 @@ public class Servir : Window
         return eventBox;
     }
 
-    private void ApplyFont(Widget widget, string fontDescription)
+    private unsafe void ApplyFont(Widget widget, string fontDescription)
     {
         Pango.FontDescription fontDesc = Pango.FontDescription.FromString(fontDescription);
         if (widget is Label label)

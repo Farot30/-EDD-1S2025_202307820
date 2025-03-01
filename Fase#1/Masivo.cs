@@ -43,7 +43,7 @@ public class Masivo : Window
         Add(fixedContainer);
     }
 
-    private EventBox CreateStyledLabel(string text, string font)
+    private unsafe EventBox CreateStyledLabel(string text, string font)
     {
         Label label = new Label(text);
         ApplyFont(label, font);
@@ -52,7 +52,7 @@ public class Masivo : Window
         return eventBox;
     }
 
-    private void ApplyFont(Widget widget, string fontDescription)
+    private unsafe void ApplyFont(Widget widget, string fontDescription)
     {
         Pango.FontDescription fontDesc = Pango.FontDescription.FromString(fontDescription);
         if (widget is Label label)
