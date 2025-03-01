@@ -7,46 +7,52 @@ node0 [label="", width=0.5, height=0.5, shape=box];
 nodeC1 [label="R1"];
 nodeC2 [label="R2"];
 nodeC3 [label="R3"];
-node0 -> nodeC1 ;
-nodeC1 -> node0 ;
-nodeC1 -> nodeC2 ;
-nodeC2 -> nodeC1 ;
-nodeC2 -> nodeC3 ;
-nodeC3 -> nodeC2 ;
+node0:e -> nodeC1:w [minlen=3];
+nodeC1:w -> node0:e [minlen=3];
+nodeC1 -> nodeC2 [minlen=2];
+nodeC2 -> nodeC1 [minlen=2];
+nodeC2 -> nodeC3 [minlen=2];
+nodeC3 -> nodeC2 [minlen=2];
 nodeF1 [label="V1"];
 { rank=same; nodeF1; nodeF1_C1; }
-nodeF1_C1 [label="Detalle:\ncanicas"];
+nodeF1_C1 [label="Detalle:\n1"];
 nodeF2 [label="V2"];
-nodeF1 -> nodeF2;
-nodeF2 -> nodeF1 ;
-{ rank=same; nodeF2; nodeF2_C3; }
-nodeF2_C3 [label="Detalle:\nsapopeta"];
+nodeF1:s -> nodeF2:n [minlen=2];
+nodeF2:n -> nodeF1:s [minlen=2];
+{ rank=same; nodeF2; nodeF2_C1; nodeF2_C2; nodeF2_C3; }
+nodeF2_C1 [label="Detalle:\n2"];
+nodeF2_C2 [label="Detalle:\n3"];
+nodeF2_C3 [label="Detalle:\n4"];
 nodeF3 [label="V3"];
-nodeF2 -> nodeF3;
-nodeF3 -> nodeF2 ;
-{ rank=same; nodeF3; nodeF3_C1; }
-nodeF3_C1 [label="Detalle:\ncaco"];
-nodeF4 [label="V4"];
-nodeF3 -> nodeF4;
-nodeF4 -> nodeF3 ;
-{ rank=same; nodeF4; nodeF4_C2; }
-nodeF4_C2 [label="Detalle:\nchetos"];
-node0 -> nodeF1 ;
-nodeF1 -> node0 ;
-nodeF1 -> nodeF1_C1 ;
-nodeF1_C1 -> nodeF1 ;
-nodeF2 -> nodeF2_C3 ;
-nodeF2_C3 -> nodeF2 ;
-nodeF3 -> nodeF3_C1 ;
-nodeF3_C1 -> nodeF3 ;
-nodeF4 -> nodeF4_C2 ;
-nodeF4_C2 -> nodeF4 ;
-nodeC1 -> nodeF1_C1 ;
-nodeF1_C1 -> nodeC1 ;
-nodeF1_C1 -> nodeF3_C1 ;
-nodeF3_C1 -> nodeF1_C1 ;
-nodeC2 -> nodeF4_C2 ;
-nodeF4_C2 -> nodeC2 ;
-nodeC3 -> nodeF2_C3 ;
-nodeF2_C3 -> nodeC3 ;
+nodeF2:s -> nodeF3:n [minlen=2];
+nodeF3:n -> nodeF2:s [minlen=2];
+{ rank=same; nodeF3; nodeF3_C1; nodeF3_C3; }
+nodeF3_C1 [label="Detalle:\n5"];
+nodeF3_C3 [label="Detalle:\n6"];
+node0:s -> nodeF1:n [minlen=2];
+nodeF1:n -> node0:s [minlen=2];
+nodeF1:e -> nodeF1_C1:w [minlen=3];
+nodeF1_C1:w -> nodeF1:e [minlen=3];
+nodeF2:e -> nodeF2_C1:w [minlen=3];
+nodeF2_C1:w -> nodeF2:e [minlen=3];
+nodeF2_C1 -> nodeF2_C2 ;
+nodeF2_C2 -> nodeF2_C1 ;
+nodeF2_C2 -> nodeF2_C3 ;
+nodeF2_C3 -> nodeF2_C2 ;
+nodeF3:e -> nodeF3_C1:w [minlen=3];
+nodeF3_C1:w -> nodeF3:e [minlen=3];
+nodeF3_C1 -> nodeF3_C3 ;
+nodeF3_C3 -> nodeF3_C1 ;
+nodeC1 -> nodeF1_C1 [minlen=2];
+nodeF1_C1 -> nodeC1 [minlen=2];
+nodeF1_C1 -> nodeF2_C1[minlen=3]
+nodeF2_C1 -> nodeF1_C1[minlen=3];
+nodeF2_C1 -> nodeF3_C1[minlen=3]
+nodeF3_C1 -> nodeF2_C1[minlen=3];
+nodeC2 -> nodeF2_C2 [minlen=2];
+nodeF2_C2 -> nodeC2 [minlen=2];
+nodeC3 -> nodeF2_C3 [minlen=2];
+nodeF2_C3 -> nodeC3 [minlen=2];
+nodeF2_C3 -> nodeF3_C3[minlen=3]
+nodeF3_C3 -> nodeF2_C3[minlen=3];
 }

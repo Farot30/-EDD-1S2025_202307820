@@ -3,12 +3,10 @@ rankdir=TB;
 node [shape=record];
 subgraph cluster_Top5Vehiculos {
 label = "Top 5 Vehículos con Más Servicios";
-"Vehiculo_1" [label="1\nID Vehículo: 1\nServicios: 1"];
-"Vehiculo_1" -> "Vehiculo_2";
-"Vehiculo_2" [label="2\nID Vehículo: 2\nServicios: 1"];
-"Vehiculo_2" -> "Vehiculo_4";
-"Vehiculo_4" [label="3\nID Vehículo: 4\nServicios: 1"];
-"Vehiculo_4" -> "Vehiculo_3";
-"Vehiculo_3" [label="4\nID Vehículo: 3\nServicios: 1"];
+"Vehiculo_2" [label="1\nID Vehículo: 2\nServicios: 3"];
+"Vehiculo_2" -> "Vehiculo_3";
+"Vehiculo_3" [label="2\nID Vehículo: 3\nServicios: 2"];
+"Vehiculo_3" -> "Vehiculo_1";
+"Vehiculo_1" [label="3\nID Vehículo: 1\nServicios: 1"];
 }
 }

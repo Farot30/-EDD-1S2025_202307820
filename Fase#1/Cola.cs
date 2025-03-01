@@ -116,7 +116,7 @@ namespace Cola
             graph += "node [shape=record];\n"; // Forma de los nodos
             graph += "subgraph cluster_Cola {\n";
             graph += "label = \"Cola\";\n";
-            int o = 0;
+            int o = 1;
 
             Servicio* presente = frente;
             while (presente != null)

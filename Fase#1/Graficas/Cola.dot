@@ -3,12 +3,16 @@ rankdir=LR;
 node [shape=record];
 subgraph cluster_Cola {
 label = "Cola";
-"1" [label="Servicio 0\nID: 1\nID Repuesto: 1\nID Vehículo: 1\nDetalles: canicas\nCosto: 58"];
+"1" [label="Servicio 0\nID: 1\nID Repuesto: 1\nID Vehículo: 1\nDetalles: 1\nCosto: 1"];
 "1" -> "2";
-"2" [label="Servicio 1\nID: 2\nID Repuesto: 3\nID Vehículo: 2\nDetalles: sapopeta\nCosto: 98"];
+"2" [label="Servicio 1\nID: 2\nID Repuesto: 1\nID Vehículo: 2\nDetalles: 2\nCosto: 2"];
 "2" -> "3";
-"3" [label="Servicio 2\nID: 3\nID Repuesto: 2\nID Vehículo: 4\nDetalles: chetos\nCosto: 100"];
+"3" [label="Servicio 2\nID: 3\nID Repuesto: 2\nID Vehículo: 2\nDetalles: 3\nCosto: 3"];
 "3" -> "4";
-"4" [label="Servicio 3\nID: 4\nID Repuesto: 1\nID Vehículo: 3\nDetalles: caco\nCosto: 200"];
+"4" [label="Servicio 3\nID: 4\nID Repuesto: 3\nID Vehículo: 2\nDetalles: 4\nCosto: 4"];
+"4" -> "5";
+"5" [label="Servicio 4\nID: 5\nID Repuesto: 1\nID Vehículo: 3\nDetalles: 5\nCosto: 5"];
+"5" -> "6";
+"6" [label="Servicio 5\nID: 6\nID Repuesto: 3\nID Vehículo: 3\nDetalles: 6\nCosto: 6"];
 }
 }

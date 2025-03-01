@@ -202,6 +202,7 @@ namespace Matriz
             // Crear rangos y nodos para encabezados de columnas (R)
             graph += "{ rank=same; node0; "; 
             
+            // Generar nodos de encabezados de columnas
             NodoEncabezado<int>* y_columna = columnas.primero;
             int columnaIndex = 1;
             while (y_columna != null)
@@ -212,7 +213,7 @@ namespace Matriz
             }
             graph += "}\n";
             
-            // Definir nodos para encabezados de columnas
+            // Definir nodos de encabezados de columnas
             y_columna = columnas.primero;
             columnaIndex = 1;
             while (y_columna != null)
@@ -223,17 +224,24 @@ namespace Matriz
             }
             
             // Conectar nodo0 con primer encabezado de columna
-            graph += "node0 -> nodeC1 ;\n";
-            graph += "nodeC1 -> node0 ;\n";
+            graph += "node0:e -> nodeC1:w [minlen=3];\n";
+            graph += "nodeC1:w -> node0:e [minlen=3];\n";
             
             // Conectar encabezados de columnas horizontalmente
+            columnaIndex = 1;
+            y_columna = columnas.primero;
+            while (y_columna != null)
+            {
+                y_columna = y_columna->siguiente;
+                columnaIndex++;
+            }
             for (int i = 1; i < columnaIndex - 1; i++)
             {
-                graph += $"nodeC{i} -> nodeC{i+1} ;\n";
-                graph += $"nodeC{i+1} -> nodeC{i} ;\n";
+                graph += $"nodeC{i} -> nodeC{i+1} [minlen=2];\n";
+                graph += $"nodeC{i+1} -> nodeC{i} [minlen=2];\n";
             }
             
-            // Definir nodos para encabezados de filas (V)
+            // Generar nodos de encabezados de filas
             NodoEncabezado<int>* x_fila = filas.primero;
             int filaIndex = 1;
             
@@ -244,8 +252,8 @@ namespace Matriz
                 // Conectar encabezados de filas verticalmente (solo conexiones verticales entre nodos V)
                 if (filaIndex > 1)
                 {
-                    graph += $"nodeF{filaIndex-1} -> nodeF{filaIndex};\n";
-                    graph += $"nodeF{filaIndex} -> nodeF{filaIndex-1} ;\n";
+                    graph += $"nodeF{filaIndex-1}:s -> nodeF{filaIndex}:n [minlen=2];\n";
+                    graph += $"nodeF{filaIndex}:n -> nodeF{filaIndex-1}:s [minlen=2];\n";
                 }
                 
                 // Crear subgrafo para mantener alineada cada fila
@@ -277,8 +285,8 @@ namespace Matriz
             }
             
             // Conectar nodo0 con primer encabezado de fila
-            graph += "node0 -> nodeF1 ;\n";
-            graph += "nodeF1 -> node0 ;\n";
+            graph += "node0:s -> nodeF1:n [minlen=2];\n";
+            graph += "nodeF1:n -> node0:s [minlen=2];\n";
             
             // Conectar los nodos internos con sus encabezados y entre sí
             x_fila = filas.primero;
@@ -290,8 +298,8 @@ namespace Matriz
                 if (interno != null)
                 {
                     int columnaPos = ObtenerPosicionEncabezado(columnas, interno->coordenadaY);
-                    graph += $"nodeF{filaIndex} -> nodeF{filaIndex}_C{columnaPos} ;\n";
-                    graph += $"nodeF{filaIndex}_C{columnaPos} -> nodeF{filaIndex} ;\n";
+                    graph += $"nodeF{filaIndex}:e -> nodeF{filaIndex}_C{columnaPos}:w [minlen=3];\n";
+                    graph += $"nodeF{filaIndex}_C{columnaPos}:w -> nodeF{filaIndex}:e [minlen=3];\n";
                     
                     // Luego conectamos los nodos de detalle entre sí horizontalmente
                     NodoInterno<int>* prevInterno = interno;
@@ -322,8 +330,8 @@ namespace Matriz
                 if (interno != null)
                 {
                     int filaPos = ObtenerPosicionEncabezado(filas, interno->coordenadaX);
-                    graph += $"nodeC{columnaIndex} -> nodeF{filaPos}_C{columnaIndex} ;\n";
-                    graph += $"nodeF{filaPos}_C{columnaIndex} -> nodeC{columnaIndex} ;\n";
+                    graph += $"nodeC{columnaIndex} -> nodeF{filaPos}_C{columnaIndex} [minlen=2];\n";
+                    graph += $"nodeF{filaPos}_C{columnaIndex} -> nodeC{columnaIndex} [minlen=2];\n";
                     
                     // Conectar nodos de columna verticalmente
                     NodoInterno<int>* prevInterno = interno;
@@ -333,8 +341,8 @@ namespace Matriz
                     while (interno != null)
                     {
                         filaPos = ObtenerPosicionEncabezado(filas, interno->coordenadaX);
-                        graph += $"nodeF{prevFilaPos}_C{columnaIndex} -> nodeF{filaPos}_C{columnaIndex} ;\n";
-                        graph += $"nodeF{filaPos}_C{columnaIndex} -> nodeF{prevFilaPos}_C{columnaIndex} ;\n";
+                        graph += $"nodeF{prevFilaPos}_C{columnaIndex} -> nodeF{filaPos}_C{columnaIndex}[minlen=3]\n";
+                        graph += $"nodeF{filaPos}_C{columnaIndex} -> nodeF{prevFilaPos}_C{columnaIndex}[minlen=3];\n";
                         prevInterno = interno;
                         prevFilaPos = filaPos;
                         interno = interno->abajo;

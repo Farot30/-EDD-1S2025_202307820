@@ -3,14 +3,14 @@ label="Top 5 Vehículos más antiguos";
 labelloc="t";
 rankdir=LR;
 node [shape=record];
-"1" [label="ID: 1\nID Usuario: 1\nMarca: Honda Civic\nModelo: 2005\nPlaca: XZJ7H9K"];
-"1" -> "5";
-"5" [label="ID: 5\nID Usuario: 3\nMarca: Chevrolet Aveo\nModelo: 2007\nPlaca: BZX5D2L"];
-"5" -> "3";
-"3" [label="ID: 3\nID Usuario: 2\nMarca: Ford Focus\nModelo: 2008\nPlaca: YT2XG9M"];
-"3" -> "9";
-"9" [label="ID: 9\nID Usuario: 5\nMarca: Honda Accord\nModelo: 2009\nPlaca: VBR9P1S"];
-"9" -> "2";
-"2" [label="ID: 2\nID Usuario: 2\nMarca: Toyota Corolla\nModelo: 2010\nPlaca: JKS8T5A"];
+"3" [label="ID: 3\nID Usuario: 3\nMarca: Chevrolet\nModelo: 213\nPlaca: DEF789"];
+"3" -> "6";
+"6" [label="ID: 6\nID Usuario: 6\nMarca: Mazda\nModelo: 1099\nPlaca: MNO131"];
+"6" -> "10";
+"10" [label="ID: 10\nID Usuario: 10\nMarca: Renault\nModelo: 1995\nPlaca: YZA171"];
+"10" -> "7";
+"7" [label="ID: 7\nID Usuario: 7\nMarca: Volkswagen\nModelo: 1998\nPlaca: PQR141"];
+"7" -> "8";
+"8" [label="ID: 8\nID Usuario: 8\nMarca: Kia\nModelo: 2000\nPlaca: STU151"];
 
 }
