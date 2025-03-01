@@ -43,34 +43,35 @@ public class Servir : Window
         fixedContainer.Put(labelesBox, 10, 10);
 
         EventBox ids1 = CreateStyledLabel("ID:", "Arial 12");
+
         Idss = new Entry();
         ApplyFont(Idss, "Arial 12");
         fixedContainer.Put(ids1, 10, 50);
-        fixedContainer.Put(Idss, 100, 50);
+        fixedContainer.Put(Idss, 150, 50);
 
         EventBox id_respuesto = CreateStyledLabel("ID Repuesto:", "Arial 12");
         ID_respuesto = new Entry();
         ApplyFont(ID_respuesto, "Arial 12");
         fixedContainer.Put(id_respuesto, 10, 90);
-        fixedContainer.Put(ID_respuesto, 100, 90);
+        fixedContainer.Put(ID_respuesto, 150, 90);
 
         EventBox id_vehículo = CreateStyledLabel("ID Vehículo:", "Arial 12");
         ID_Vehículo = new Entry();
         ApplyFont(ID_Vehículo, "Arial 12");
         fixedContainer.Put(id_vehículo, 10, 130);
-        fixedContainer.Put(ID_Vehículo, 100, 130);
+        fixedContainer.Put(ID_Vehículo, 150, 130);
 
         EventBox detalles = CreateStyledLabel("Detalles:", "Arial 12");
         Detalles = new Entry();
         ApplyFont(Detalles, "Arial 12");
         fixedContainer.Put(detalles, 10, 170);
-        fixedContainer.Put(Detalles, 100, 170);
+        fixedContainer.Put(Detalles, 150, 170);
 
         EventBox costo = CreateStyledLabel("Costo:", "Arial 12");
         Costo = new Entry();
         ApplyFont(Costo, "Arial 12");
         fixedContainer.Put(costo, 10, 210);
-        fixedContainer.Put(Costo, 100, 210);
+        fixedContainer.Put(Costo, 150, 210);
 
         Button button = new Button("Guardar");
         button.Clicked += Guardando;
@@ -175,7 +176,7 @@ public class Servir : Window
         matriz.mostrar();
         // Crear una factura y almacenarla en la pila
         int o = 1;
-        double total = costo + ObtenerCostoRepuesto(idRepuesto);
+        double total = Math.Round(costo + ObtenerCostoRepuesto(idRepuesto), 3);
         pilaFacturas.Apila(idServicio, o, total);
         pilaFacturas.Mostrar();
         o ++;

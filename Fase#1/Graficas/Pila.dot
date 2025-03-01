@@ -1,4 +1,14 @@
 digraph G {
     node [shape=record];
-    NULL [label = "{NULL}"];
+    rankdir=TB;
+    subgraph cluster_0 {
+        label = "Pila";
+    node0 [label = "{Factura 1\nID: 4\nID_Orden: 1\nTotal: 123,50 €}"];
+    node1 [label = "{Factura 2\nID: 3\nID_Orden: 1\nTotal: 102,75 €}"];
+    node2 [label = "{Factura 3\nID: 2\nID_Orden: 1\nTotal: 158,00 €}"];
+    node3 [label = "{Factura 4\nID: 1\nID_Orden: 1\nTotal: 83,50 €}"];
+    node1 -> node0;
+    node2 -> node1;
+    node3 -> node2;
+    }
 }

@@ -61,7 +61,6 @@ namespace Pila
             cima = null;
         }
 
-        // Metodo para generar el código Graphviz de la pila
         public string GenerarGrafica()
         {
             // si la pila está vacia, se muestra solo un nodo "null"
@@ -73,14 +72,14 @@ namespace Pila
             // si la pila no está vacia, se genera el código Graphviz
             var graphviz = "digraph G {\n";
             graphviz += "    node [shape=record];\n";
-            graphviz += "    rankdir=TB;\n";  // Definir el flujo de arriba hacia abajo para la pila
+            graphviz += "    rankdir=TB;\n";  // Definir el flujo de abajo hacia arriba para la pila
             graphviz += "    subgraph cluster_0 {\n";
             graphviz += "        label = \"Pila\";\n";
 
             // Iterar sobre los nodos de la pila y constructores de los nodos
             Facturas.Facturas* aux = cima;
             int ind = 0;
-            int o = 0;
+            int o = 1;
 
             while (aux != null)
             {
@@ -93,7 +92,7 @@ namespace Pila
             aux = cima;
             for (int i = 0; aux != null && aux->Siguiente != null; i++)
             {
-                graphviz += $"    node{i} -> node{i + 1};\n";
+                graphviz += $"    node{i + 1} -> node{i};\n"; // Ajustar la dirección de las flechas
                 aux = aux->Siguiente;
             }
 

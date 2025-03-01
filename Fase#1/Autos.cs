@@ -117,6 +117,7 @@ public class Autos : Window
             using (MessageDialog md3 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Error, ButtonsType.Ok, "Por favor llene todos los campos"))
             {
                 md3.Run();
+                md3.Destroy();
             }
         }
         else
@@ -148,6 +149,7 @@ public class Autos : Window
                 using (MessageDialog md1 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Guardado"))
                 {
                     md1.Run();
+                    md1.Destroy();
                 }
                 listaAutos.Mostrar();
             }

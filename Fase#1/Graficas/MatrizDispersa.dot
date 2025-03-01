@@ -3,7 +3,50 @@ node [shape=box];
 rankdir=TB;
 splines=ortho;
 node0 [label="", width=0.5, height=0.5, shape=box];
-{ rank=same; node0; }
-node0 -> nodeC1 [dir=both];
-node0 -> nodeF1 [dir=both];
+{ rank=same; node0; nodeC1; nodeC2; nodeC3; }
+nodeC1 [label="R1"];
+nodeC2 [label="R2"];
+nodeC3 [label="R3"];
+node0 -> nodeC1 ;
+nodeC1 -> node0 ;
+nodeC1 -> nodeC2 ;
+nodeC2 -> nodeC1 ;
+nodeC2 -> nodeC3 ;
+nodeC3 -> nodeC2 ;
+nodeF1 [label="V1"];
+{ rank=same; nodeF1; nodeF1_C1; }
+nodeF1_C1 [label="Detalle:\ncoo"];
+nodeF2 [label="V2"];
+nodeF1:s -> nodeF2:n ;
+nodeF2 -> nodeF1 ;
+{ rank=same; nodeF2; nodeF2_C3; }
+nodeF2_C3 [label="Detalle:\nsalmon"];
+nodeF3 [label="V3"];
+nodeF2:s -> nodeF3:n ;
+nodeF3 -> nodeF2 ;
+{ rank=same; nodeF3; nodeF3_C2; }
+nodeF3_C2 [label="Detalle:\ncoca"];
+nodeF4 [label="V5"];
+nodeF3:s -> nodeF4:n ;
+nodeF4 -> nodeF3 ;
+{ rank=same; nodeF4; nodeF4_C1; }
+nodeF4_C1 [label="Detalle:\nchatos"];
+node0 -> nodeF1 ;
+nodeF1 -> node0 ;
+nodeF1 -> nodeF1_C1 ;
+nodeF1_C1 -> nodeF1 ;
+nodeF2 -> nodeF2_C3 ;
+nodeF2_C3 -> nodeF2 ;
+nodeF3 -> nodeF3_C2 ;
+nodeF3_C2 -> nodeF3 ;
+nodeF4 -> nodeF4_C1 ;
+nodeF4_C1 -> nodeF4 ;
+nodeC1 -> nodeF1_C1 ;
+nodeF1_C1 -> nodeC1 ;
+nodeF1_C1 -> nodeF4_C1 ;
+nodeF4_C1 -> nodeF1_C1 ;
+nodeC2 -> nodeF3_C2 ;
+nodeF3_C2 -> nodeC2 ;
+nodeC3 -> nodeF2_C3 ;
+nodeF2_C3 -> nodeC3 ;
 }

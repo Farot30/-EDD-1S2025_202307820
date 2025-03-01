@@ -17,6 +17,7 @@ public class Factur : Window
     private Label ids2;
     private Label ID_ORDEN2;
     private Label Total2;
+    private Button Cancelar;
 
     public unsafe Factur(ListaSimple<Usuario> lista, ListaDoblementeEnlazada listaAutos, ListaCircular.ListaCircular ListasPiezas, Cola.Cola colas, Pila.Pila pila, MatrizDispersa<int> matrizDispersa) : base("Facturación")
     {
@@ -52,6 +53,12 @@ public class Factur : Window
 
         Total2 = CreateStyledLabel("Aquí va el total", "Arial 12");
         fixedContainer.Put(Total2, 250, 350);
+
+        Cancelar = new Button("Cancelar");
+        ApplyFont(Cancelar, "Arial 12");
+        Cancelar.Clicked += CancelarFactura;
+        Cancelar.SetSizeRequest(100, 50);
+        fixedContainer.Put(Cancelar, 200, 450);
 
         Add(fixedContainer);
 
@@ -97,6 +104,19 @@ public class Factur : Window
             ids2.Text = "No hay servicio hecho";
             ID_ORDEN2.Text = "No hay servicio hecho";
             Total2.Text = "No hay servicio hecho";
+        }
+    }
+
+    private unsafe void CancelarFactura(object sender, System.EventArgs e)
+    {
+        Facturas.Facturas* ultimaFactura = pilaFacturas.ObtenerUltimaFactura();
+        if (ultimaFactura != null)
+        {
+            pilaFacturas.Desapilar();
+            pilaFacturas.Mostrar();
+
+            // Actualizar los labels
+            ActualizarLabelsConUltimaFactura();
         }
     }
 }

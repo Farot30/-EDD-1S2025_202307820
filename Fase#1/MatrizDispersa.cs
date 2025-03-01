@@ -223,12 +223,14 @@ namespace Matriz
             }
             
             // Conectar nodo0 con primer encabezado de columna
-            graph += "node0 -> nodeC1 [dir=both];\n";
+            graph += "node0 -> nodeC1 ;\n";
+            graph += "nodeC1 -> node0 ;\n";
             
             // Conectar encabezados de columnas horizontalmente
             for (int i = 1; i < columnaIndex - 1; i++)
             {
-                graph += $"nodeC{i} -> nodeC{i+1} [dir=both];\n";
+                graph += $"nodeC{i} -> nodeC{i+1} ;\n";
+                graph += $"nodeC{i+1} -> nodeC{i} ;\n";
             }
             
             // Definir nodos para encabezados de filas (V)
@@ -242,7 +244,8 @@ namespace Matriz
                 // Conectar encabezados de filas verticalmente (solo conexiones verticales entre nodos V)
                 if (filaIndex > 1)
                 {
-                    graph += $"nodeF{filaIndex-1} -> nodeF{filaIndex} [dir=both];\n";
+                    graph += $"nodeF{filaIndex-1} -> nodeF{filaIndex};\n";
+                    graph += $"nodeF{filaIndex} -> nodeF{filaIndex-1} ;\n";
                 }
                 
                 // Crear subgrafo para mantener alineada cada fila
@@ -274,7 +277,8 @@ namespace Matriz
             }
             
             // Conectar nodo0 con primer encabezado de fila
-            graph += "node0 -> nodeF1 [dir=both];\n";
+            graph += "node0 -> nodeF1 ;\n";
+            graph += "nodeF1 -> node0 ;\n";
             
             // Conectar los nodos internos con sus encabezados y entre sí
             x_fila = filas.primero;
@@ -286,7 +290,8 @@ namespace Matriz
                 if (interno != null)
                 {
                     int columnaPos = ObtenerPosicionEncabezado(columnas, interno->coordenadaY);
-                    graph += $"nodeF{filaIndex} -> nodeF{filaIndex}_C{columnaPos} [dir=both];\n";
+                    graph += $"nodeF{filaIndex} -> nodeF{filaIndex}_C{columnaPos} ;\n";
+                    graph += $"nodeF{filaIndex}_C{columnaPos} -> nodeF{filaIndex} ;\n";
                     
                     // Luego conectamos los nodos de detalle entre sí horizontalmente
                     NodoInterno<int>* prevInterno = interno;
@@ -296,7 +301,8 @@ namespace Matriz
                     while (interno != null)
                     {
                         columnaPos = ObtenerPosicionEncabezado(columnas, interno->coordenadaY);
-                        graph += $"nodeF{filaIndex}_C{prevColumnaPos} -> nodeF{filaIndex}_C{columnaPos} [dir=both];\n";
+                        graph += $"nodeF{filaIndex}_C{prevColumnaPos} -> nodeF{filaIndex}_C{columnaPos} ;\n";
+                        graph += $"nodeF{filaIndex}_C{columnaPos} -> nodeF{filaIndex}_C{prevColumnaPos} ;\n";
                         prevInterno = interno;
                         prevColumnaPos = columnaPos;
                         interno = interno->derecha;
@@ -316,7 +322,8 @@ namespace Matriz
                 if (interno != null)
                 {
                     int filaPos = ObtenerPosicionEncabezado(filas, interno->coordenadaX);
-                    graph += $"nodeC{columnaIndex} -> nodeF{filaPos}_C{columnaIndex} [dir=both];\n";
+                    graph += $"nodeC{columnaIndex} -> nodeF{filaPos}_C{columnaIndex} ;\n";
+                    graph += $"nodeF{filaPos}_C{columnaIndex} -> nodeC{columnaIndex} ;\n";
                     
                     // Conectar nodos de columna verticalmente
                     NodoInterno<int>* prevInterno = interno;
@@ -326,7 +333,8 @@ namespace Matriz
                     while (interno != null)
                     {
                         filaPos = ObtenerPosicionEncabezado(filas, interno->coordenadaX);
-                        graph += $"nodeF{prevFilaPos}_C{columnaIndex} -> nodeF{filaPos}_C{columnaIndex} [dir=both];\n";
+                        graph += $"nodeF{prevFilaPos}_C{columnaIndex} -> nodeF{filaPos}_C{columnaIndex} ;\n";
+                        graph += $"nodeF{filaPos}_C{columnaIndex} -> nodeF{prevFilaPos}_C{columnaIndex} ;\n";
                         prevInterno = interno;
                         prevFilaPos = filaPos;
                         interno = interno->abajo;

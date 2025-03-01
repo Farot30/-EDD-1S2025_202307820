@@ -33,7 +33,7 @@ public class Masivo : Window
         Fixed fixedContainer = new Fixed();
 
         EventBox labelesBox = CreateStyledLabel("Cargas masivas", "Arial 20");
-        fixedContainer.Put(labelesBox, 200, 50);
+        fixedContainer.Put(labelesBox, 150, 50);
 
         Button button1 = new Button("Cargar");
         button1.Clicked += Cargaras;
