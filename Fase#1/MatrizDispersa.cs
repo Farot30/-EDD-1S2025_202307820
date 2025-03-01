@@ -237,8 +237,8 @@ namespace Matriz
             }
             for (int i = 1; i < columnaIndex - 1; i++)
             {
-                graph += $"nodeC{i} -> nodeC{i+1} [minlen=2];\n";
-                graph += $"nodeC{i+1} -> nodeC{i} [minlen=2];\n";
+                graph += $"nodeC{i} -> nodeC{i+1} [minlen=3];\n";
+                graph += $"nodeC{i+1} -> nodeC{i} [minlen=3];\n";
             }
             
             // Generar nodos de encabezados de filas
@@ -298,8 +298,8 @@ namespace Matriz
                 if (interno != null)
                 {
                     int columnaPos = ObtenerPosicionEncabezado(columnas, interno->coordenadaY);
-                    graph += $"nodeF{filaIndex}:e -> nodeF{filaIndex}_C{columnaPos}:w [minlen=3];\n";
-                    graph += $"nodeF{filaIndex}_C{columnaPos}:w -> nodeF{filaIndex}:e [minlen=3];\n";
+                    graph += $"nodeF{filaIndex}:e -> nodeF{filaIndex}_C{columnaPos}:w [minlen=4];\n";
+                    graph += $"nodeF{filaIndex}_C{columnaPos}:w -> nodeF{filaIndex}:e [minlen=4];\n";
                     
                     // Luego conectamos los nodos de detalle entre sí horizontalmente
                     NodoInterno<int>* prevInterno = interno;
@@ -309,8 +309,8 @@ namespace Matriz
                     while (interno != null)
                     {
                         columnaPos = ObtenerPosicionEncabezado(columnas, interno->coordenadaY);
-                        graph += $"nodeF{filaIndex}_C{prevColumnaPos} -> nodeF{filaIndex}_C{columnaPos} ;\n";
-                        graph += $"nodeF{filaIndex}_C{columnaPos} -> nodeF{filaIndex}_C{prevColumnaPos} ;\n";
+                        graph += $"nodeF{filaIndex}_C{prevColumnaPos} -> nodeF{filaIndex}_C{columnaPos}[minlen=4] ;\n";
+                        graph += $"nodeF{filaIndex}_C{columnaPos} -> nodeF{filaIndex}_C{prevColumnaPos} [minlen=4];\n";
                         prevInterno = interno;
                         prevColumnaPos = columnaPos;
                         interno = interno->derecha;
