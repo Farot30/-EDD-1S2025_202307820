@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "dgSpecHash": "qVJUFXvBgTo=",
+  "success": true,
+  "projectFilePath": "/home/farot/Documentos/lab EDD/-EDD-1S2025_202307820/Fase#2/Fase#2.csproj",
+  "expectedPackageFiles": [
+    "/home/farot/.nuget/packages/atksharp/3.22.25.13/atksharp.3.22.25.13.nupkg.sha512",
+    "/home/farot/.nuget/packages/cairosharp/3.22.25.13/cairosharp.3.22.25.13.nupkg.sha512",
+    "/home/farot/.nuget/packages/gdksharp/3.22.25.13/gdksharp.3.22.25.13.nupkg.sha512",
+    "/home/farot/.nuget/packages/giosharp/3.22.25.13/giosharp.3.22.25.13.nupkg.sha512",
+    "/home/farot/.nuget/packages/glibsharp/3.22.25.13/glibsharp.3.22.25.13.nupkg.sha512",
+    "/home/farot/.nuget/packages/gtksharp/3.22.25.13/gtksharp.3.22.25.13.nupkg.sha512",
+    "/home/farot/.nuget/packages/pangosharp/3.22.25.13/pangosharp.3.22.25.13.nupkg.sha512",
+    "/home/farot/.nuget/packages/microsoft.netcore.app.ref/8.0.13/microsoft.netcore.app.ref.8.0.13.nupkg.sha512",
+    "/home/farot/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.13/microsoft.aspnetcore.app.ref.8.0.13.nupkg.sha512",
+    "/home/farot/.nuget/packages/microsoft.netcore.app.host.linux-x64/8.0.13/microsoft.netcore.app.host.linux-x64.8.0.13.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1603",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Fase#2 depende de GtkSharp (>= 3.22.24.95), pero no se encontró GtkSharp 3.22.24.95. Se resolvió una mejor coincidencia aproximada de GtkSharp 3.22.25.13.",
+      "libraryId": "GtkSharp",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    }
+  ]
+}

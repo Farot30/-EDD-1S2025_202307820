@@ -3,15 +3,20 @@ rankdir=LR;
 node [shape=box];
 subgraph cluster_ListaCircular {
 label = "Lista Circular";
-"ID: 1\nRepuesto: Filtro de aceite\nDetalles: Filtro de aceite para motor 1.8L\nCosto: 15,75" -> "ID: 2\nRepuesto: Bujías\nDetalles: Juego de bujías para motor 2.0L\nCosto: 30,5";
-"ID: 2\nRepuesto: Bujías\nDetalles: Juego de bujías para motor 2.0L\nCosto: 30,5" -> "ID: 3\nRepuesto: Filtro de aire\nDetalles: Filtro de aire para motor 1.8L\nCosto: 10,25";
-"ID: 3\nRepuesto: Filtro de aire\nDetalles: Filtro de aire para motor 1.8L\nCosto: 10,25" -> "ID: 4\nRepuesto: Filtro de combustible\nDetalles: Filtro de combustible para motor 2.0L\nCosto: 20";
-"ID: 4\nRepuesto: Filtro de combustible\nDetalles: Filtro de combustible para motor 2.0L\nCosto: 20" -> "ID: 5\nRepuesto: Pastillas de freno\nDetalles: Pastillas de freno para eje delantero\nCosto: 50";
-"ID: 5\nRepuesto: Pastillas de freno\nDetalles: Pastillas de freno para eje delantero\nCosto: 50" -> "ID: 6\nRepuesto: Discos de freno\nDetalles: Discos de freno para eje delantero\nCosto: 75";
-"ID: 6\nRepuesto: Discos de freno\nDetalles: Discos de freno para eje delantero\nCosto: 75" -> "ID: 7\nRepuesto: Amortiguadores\nDetalles: Amortiguadores para eje delantero\nCosto: 100";
-"ID: 7\nRepuesto: Amortiguadores\nDetalles: Amortiguadores para eje delantero\nCosto: 100" -> "ID: 8\nRepuesto: Correa de distribución\nDetalles: Correa de distribución para motor 1.8L\nCosto: 80";
-"ID: 8\nRepuesto: Correa de distribución\nDetalles: Correa de distribución para motor 1.8L\nCosto: 80" -> "ID: 9\nRepuesto: Correa de accesorios\nDetalles: Correa de accesorios para motor 2.0L\nCosto: 60";
-"ID: 9\nRepuesto: Correa de accesorios\nDetalles: Correa de accesorios para motor 2.0L\nCosto: 60" -> "ID: 10\nRepuesto: Batería\nDetalles: Batería de 12V 60Ah\nCosto: 100";
-"ID: 10\nRepuesto: Batería\nDetalles: Batería de 12V 60Ah\nCosto: 100" -> "ID: 1\nRepuesto: Filtro de aceite\nDetalles: Filtro de aceite para motor 1.8L\nCosto: 15,75";
+"ID: 1\nRepuesto: Filtro de aceite\nDetalles: Filtra impurezas del aceite del motor.\nCosto: 25,5" -> "ID: 2\nRepuesto: Bujías\nDetalles: Componente esencial para encender la mezcla de aire y combustible.\nCosto: 15,75";
+"ID: 2\nRepuesto: Bujías\nDetalles: Componente esencial para encender la mezcla de aire y combustible.\nCosto: 15,75" -> "ID: 3\nRepuesto: Frenos delanteros\nDetalles: Piezas para frenar el vehículo en la parte delantera.\nCosto: 60";
+"ID: 3\nRepuesto: Frenos delanteros\nDetalles: Piezas para frenar el vehículo en la parte delantera.\nCosto: 60" -> "ID: 4\nRepuesto: Pastillas de freno traseras\nDetalles: Piezas para frenar el vehículo en la parte trasera.\nCosto: 45,3";
+"ID: 4\nRepuesto: Pastillas de freno traseras\nDetalles: Piezas para frenar el vehículo en la parte trasera.\nCosto: 45,3" -> "ID: 5\nRepuesto: Amortiguadores\nDetalles: Componente de suspensión para absorber impactos.\nCosto: 95,2";
+"ID: 5\nRepuesto: Amortiguadores\nDetalles: Componente de suspensión para absorber impactos.\nCosto: 95,2" -> "ID: 6\nRepuesto: Aceite de motor\nDetalles: Lubricante para el motor del vehículo.\nCosto: 18,6";
+"ID: 6\nRepuesto: Aceite de motor\nDetalles: Lubricante para el motor del vehículo.\nCosto: 18,6" -> "ID: 7\nRepuesto: Filtro de aire\nDetalles: Filtra el aire que entra al motor para mejorar la combustión.\nCosto: 22,1";
+"ID: 7\nRepuesto: Filtro de aire\nDetalles: Filtra el aire que entra al motor para mejorar la combustión.\nCosto: 22,1" -> "ID: 8\nRepuesto: Correa de distribución\nDetalles: Componente que sincroniza el motor.\nCosto: 80";
+"ID: 8\nRepuesto: Correa de distribución\nDetalles: Componente que sincroniza el motor.\nCosto: 80" -> "ID: 9\nRepuesto: Radiador\nDetalles: Sistema para mantener el motor a temperatura adecuada.\nCosto: 150";
+"ID: 9\nRepuesto: Radiador\nDetalles: Sistema para mantener el motor a temperatura adecuada.\nCosto: 150" -> "ID: 10\nRepuesto: Batería\nDetalles: Fuente de energía para el vehículo.\nCosto: 100,5";
+"ID: 10\nRepuesto: Batería\nDetalles: Fuente de energía para el vehículo.\nCosto: 100,5" -> "ID: 11\nRepuesto: Cables de encendido\nDetalles: Conducen energía desde la batería a las bujías.\nCosto: 30,4";
+"ID: 11\nRepuesto: Cables de encendido\nDetalles: Conducen energía desde la batería a las bujías.\nCosto: 30,4" -> "ID: 12\nRepuesto: Espejos laterales\nDetalles: Espejos para una mejor visibilidad en el vehículo.\nCosto: 50";
+"ID: 12\nRepuesto: Espejos laterales\nDetalles: Espejos para una mejor visibilidad en el vehículo.\nCosto: 50" -> "ID: 13\nRepuesto: Manguera de radiador\nDetalles: Transporta el líquido refrigerante en el sistema de enfriamiento.\nCosto: 20,8";
+"ID: 13\nRepuesto: Manguera de radiador\nDetalles: Transporta el líquido refrigerante en el sistema de enfriamiento.\nCosto: 20,8" -> "ID: 14\nRepuesto: Suspensión trasera\nDetalles: Sistema que absorbe impactos en la parte trasera del vehículo.\nCosto: 120";
+"ID: 14\nRepuesto: Suspensión trasera\nDetalles: Sistema que absorbe impactos en la parte trasera del vehículo.\nCosto: 120" -> "ID: 15\nRepuesto: Bombas de freno\nDetalles: Componente que genera presión para accionar los frenos.\nCosto: 75";
+"ID: 15\nRepuesto: Bombas de freno\nDetalles: Componente que genera presión para accionar los frenos.\nCosto: 75" -> "ID: 1\nRepuesto: Filtro de aceite\nDetalles: Filtra impurezas del aceite del motor.\nCosto: 25,5";
 }
 }
