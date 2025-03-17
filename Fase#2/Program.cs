@@ -4,9 +4,10 @@ using logiarse;
 using CLases.Repuesto;
 using CLases.Usuarios;
 using Nodos.NodoAVLRepus;
-using Listas.AVLTREEs;
+using Listas.AVLTREEsRE;
 using Listas.ListaUsuarioSimple;
 using GeneracionGrafica;
+using Listas.ListaDobleVehiculos;
 
 namespace Program
 {
@@ -14,13 +15,16 @@ namespace Program
     {
         static void Main()
         {
-            /*Application.Init();
-            Logiarse login = new Logiarse();
+            ListaUsuarioSimple<Usuario> listaUsuarios = new ListaUsuarioSimple<Usuario>();
+            ListaDobleVehiculo listaAutos = new ListaDobleVehiculo();
+            AVLTREErepues ListaRepuestos = new AVLTREErepues();
+            Application.Init();
+            Logiarse login = new Logiarse(listaUsuarios, listaAutos, ListaRepuestos);
             login.ShowAll();
-            Application.Run();*/
+            Application.Run();
 
             // Crear el árbol AVL y agregar algunos repuestos
-            AVLTREE arbolRepuestos = new AVLTREE();
+            AVLTREErepues arbolRepuestos = new AVLTREErepues();
             arbolRepuestos.Add(new Repuesto(1, "Filtro de aceite", "Filtro para motor", 15.99));
             arbolRepuestos.Add(new Repuesto(2, "Bujía", "Bujía de encendido", 5.99));
             arbolRepuestos.Add(new Repuesto(3, "Pastillas de freno", "Juego de pastillas de freno", 45.99));
@@ -46,7 +50,7 @@ namespace Program
             Console.WriteLine();
 
             // Crear la lista de usuarios y agregar algunos usuarios
-            ListaUsuarioSimple<Usuario> listaUsuarios = new ListaUsuarioSimple<Usuario>();
+            
             listaUsuarios.Insertar(new Usuario(1, "Juan", "Perez", "juan@example.com", 25, "password123"));
             listaUsuarios.Insertar(new Usuario(2, "Maria", "Lopez", "maria@example.com", 30, "password456"));
             listaUsuarios.Insertar(new Usuario(3, "Carlos", "Garcia", "carlos@example.com", 28, "password789"));

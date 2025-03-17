@@ -1,6 +1,10 @@
 using Gtk;
 using System;
 using InterfacesAdmin.menu;
+using Listas.ListaUsuarioSimple;
+using CLases.Usuarios;
+using Listas.ListaDobleVehiculos;
+using Listas.AVLTREEsRE;
 
 namespace logiarse
 {
@@ -8,8 +12,15 @@ namespace logiarse
     {
         private Entry correo;
         private Entry contrasena;
-        public Logiarse() : base("Inicio de sesión")
+        private ListaUsuarioSimple<Usuario> ListaUsuarioSimple;
+        private ListaDobleVehiculo listaAutos;
+        private AVLTREErepues ListaRepuestos;
+        public Logiarse(ListaUsuarioSimple<Usuario> listaUsuario, ListaDobleVehiculo LIstaAutos, AVLTREErepues listaRepuesto) : base("Inicio de sesión")
         {
+            ListaUsuarioSimple = listaUsuario;
+            listaAutos = LIstaAutos;
+            ListaRepuestos = listaRepuesto;
+
             SetDefaultSize(430, 400);
             SetPosition(WindowPosition.Center);
 
@@ -73,7 +84,7 @@ namespace logiarse
         {
             if ( correo.Text == "admin@usac.com" && contrasena.Text == "admin123")
             {
-                Menus menu = new Menus();
+                Menus menu = new Menus(ListaUsuarioSimple, listaAutos, ListaRepuestos);
                 menu.ShowAll();
                 this.Hide();
             }

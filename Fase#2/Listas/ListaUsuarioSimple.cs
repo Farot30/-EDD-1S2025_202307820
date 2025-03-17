@@ -34,24 +34,29 @@ namespace Listas.ListaUsuarioSimple
             }
         }
 
-        public void Eliminar(T data)
+        public void Eliminar(int id)
         {
             if (primero != null)
             {
-                if (primero.Data != null && primero.Data.Equals(data))
+                if (primero.Data is Usuario usuario && usuario.Id == id)
                 {
                     primero = primero.despues;
                 }
                 else
                 {
                     NodoUsuario<T>? actual = primero;
-                    while (actual?.despues != null)
+                    NodoUsuario<T>? anterior = null;
+                    while (actual != null)
                     {
-                        if (actual.despues.Data != null && actual.despues.Data.Equals(data))
+                        if (actual.Data is Usuario usuarioActual && usuarioActual.Id == id)
                         {
-                            actual.despues = actual.despues.despues;
+                            if (anterior != null)
+                            {
+                                anterior.despues = actual.despues;
+                            }
                             break;
                         }
+                        anterior = actual;
                         actual = actual.despues;
                     }
                 }
@@ -117,6 +122,20 @@ namespace Listas.ListaUsuarioSimple
             graph += "}\n";
             graph += "}\n";
             return graph;
+        }
+
+        public Usuario? BuscarUsuarioPorId(int id)
+        {
+            NodoUsuario<T>? actual = primero;
+            while (actual != null)
+            {
+                if (actual.Data is Usuario usuario && usuario.Id == id)
+                {
+                    return usuario;
+                }
+                actual = actual.despues;
+            }
+            return null;
         }
 
         public bool UsuarioExiste(int id)

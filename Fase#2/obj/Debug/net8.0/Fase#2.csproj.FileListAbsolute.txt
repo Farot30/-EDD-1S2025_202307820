@@ -22,3 +22,4 @@
 /home/farot/Documentos/lab EDD/-EDD-1S2025_202307820/Fase#2/obj/Debug/net8.0/Fase#2.pdb
 /home/farot/Documentos/lab EDD/-EDD-1S2025_202307820/Fase#2/obj/Debug/net8.0/Fase#2.genruntimeconfig.cache
 /home/farot/Documentos/lab EDD/-EDD-1S2025_202307820/Fase#2/obj/Debug/net8.0/ref/Fase#2.dll
+/home/farot/Documentos/lab EDD/-EDD-1S2025_202307820/Fase#2/bin/Debug/net8.0/Newtonsoft.Json.dll

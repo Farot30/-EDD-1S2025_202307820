@@ -2,13 +2,13 @@ using CLases.Repuesto;
 using Nodos.NodoAVLRepus;
 using System;
 
-namespace Listas.AVLTREEs
+namespace Listas.AVLTREEsRE
 {
-    public class AVLTREE
+    public class AVLTREErepues
     {
         public NodeAVLRepu? raiz;
 
-        public AVLTREE()
+        public AVLTREErepues()
         {
             raiz = null;
         }
@@ -140,6 +140,102 @@ namespace Listas.AVLTREEs
                 temp.der = RotacionIzquierda(temp.der);
             }
             return RotacionDerecha(temp);
+        }
+
+        public void Mostrar()
+        {
+            Mostrar(raiz);
+        }
+
+        private void Mostrar(NodeAVLRepu? nodo)
+        {
+            if (nodo != null)
+            {
+                Mostrar(nodo.izq);
+                Console.WriteLine(nodo.val);
+                Mostrar(nodo.der);
+            }
+        }
+
+        public bool RepuestoExiste(int id)
+        {
+            return RepuestoExiste(raiz, id);
+        }
+
+        private bool RepuestoExiste(NodeAVLRepu? nodo, int id)
+        {
+            if (nodo == null)
+            {
+                return false;
+            }
+
+            if (nodo.val.Id == id)
+            {
+                return true;
+            }
+            else if (id < nodo.val.Id)
+            {
+                return RepuestoExiste(nodo.izq, id);
+            }
+            else
+            {
+                return RepuestoExiste(nodo.der, id);
+            }
+        }
+
+        public Repuesto? BuscarRepuestoPorId(int id)
+        {
+            return BuscarRepuestoPorId(raiz, id);
+        }
+
+        private Repuesto? BuscarRepuestoPorId(NodeAVLRepu? nodo, int id)
+        {
+            if (nodo == null)
+            {
+                return null;
+            }
+
+            if (nodo.val.Id == id)
+            {
+                return nodo.val;
+            }
+            else if (id < nodo.val.Id)
+            {
+                return BuscarRepuestoPorId(nodo.izq, id);
+            }
+            else
+            {
+                return BuscarRepuestoPorId(nodo.der, id);
+            }
+        }
+
+        public bool ActualizarRepuesto(int id, string nombre, string descripcion, double precio)
+        {
+            return ActualizarRepuesto(raiz, id, nombre, descripcion, precio);
+        }
+
+        private bool ActualizarRepuesto(NodeAVLRepu? nodo, int id, string nombre, string descripcion, double precio)
+        {
+            if (nodo == null)
+            {
+                return false;
+            }
+
+            if (nodo.val.Id == id)
+            {
+                nodo.val.Nombre = nombre;
+                nodo.val.Descripcion = descripcion;
+                nodo.val.Precio = precio;
+                return true;
+            }
+            else if (id < nodo.val.Id)
+            {
+                return ActualizarRepuesto(nodo.izq, id, nombre, descripcion, precio);
+            }
+            else
+            {
+                return ActualizarRepuesto(nodo.der, id, nombre, descripcion, precio);
+            }
         }
     }
 }

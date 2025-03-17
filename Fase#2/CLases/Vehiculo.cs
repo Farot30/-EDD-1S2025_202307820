@@ -1,6 +1,6 @@
 namespace CLases.Vehiculo
 {
-    public struct Vehiculo
+    public struct Vehiculos
     {
 
         public int Id { get; set; }
@@ -9,7 +9,7 @@ namespace CLases.Vehiculo
         public string Modelo { get; set; }
         public string Placa { get; set; }
 
-        public Vehiculo(int id, int idUsuario, string marca, string modelo, string placa)
+        public Vehiculos(int id, int idUsuario, string marca, string modelo, string placa)
         {
             Id = id;
             IdUsuario = idUsuario;

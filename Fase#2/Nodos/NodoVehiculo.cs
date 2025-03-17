@@ -4,11 +4,11 @@ namespace Nodos.NodoVehiculo
 {
     public class NodoVehiculo
     {
-        public Vehiculo Data { get; set; }
+        public Vehiculos Data { get; set; }
         public NodoVehiculo? Siguiente { get; set; }
         public NodoVehiculo? Anterior { get; set; }
 
-        public NodoVehiculo(Vehiculo data)
+        public NodoVehiculo(Vehiculos data)
         {
             Data = data;
             Siguiente = null;
