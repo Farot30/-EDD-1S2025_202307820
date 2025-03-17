@@ -5,6 +5,7 @@ using Listas.ListaUsuarioSimple;
 using CLases.Usuarios;
 using Listas.ListaDobleVehiculos;
 using Listas.AVLTREEsRE;
+using InterfacesUsuario.MenuUsuarios;
 
 namespace logiarse
 {
@@ -88,7 +89,12 @@ namespace logiarse
                 menu.ShowAll();
                 this.Hide();
             }
-            else
+            else if(correo.Text == "1"&& contrasena.Text =="123")
+            {
+                MenuUsuario menuUsuario = new MenuUsuario(ListaUsuarioSimple, listaAutos, ListaRepuestos);
+                menuUsuario.ShowAll();
+                this.Hide();
+            }else
             {
                 MessageDialog md1 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Usuario Incorrecto o Contraseña Incorrecta");
                 md1.Run();

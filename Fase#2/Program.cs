@@ -18,6 +18,11 @@ namespace Program
             ListaUsuarioSimple<Usuario> listaUsuarios = new ListaUsuarioSimple<Usuario>();
             ListaDobleVehiculo listaAutos = new ListaDobleVehiculo();
             AVLTREErepues ListaRepuestos = new AVLTREErepues();
+
+            listaUsuarios.Insertar(new Usuario(1, "Juan", "Perez", "juan@example.com", 25, "password123"));
+            listaUsuarios.Insertar(new Usuario(2, "Maria", "Lopez", "maria@example.com", 30, "password456"));
+            listaUsuarios.Insertar(new Usuario(3, "Carlos", "Garcia", "carlos@example.com", 28, "password789"));
+            listaUsuarios.Mostrar();
             Application.Init();
             Logiarse login = new Logiarse(listaUsuarios, listaAutos, ListaRepuestos);
             login.ShowAll();
@@ -48,13 +53,7 @@ namespace Program
             Console.WriteLine("Repuestos en postorden:");
             arbolRepuestos.Postorden(arbolRepuestos.raiz);
             Console.WriteLine();
-
-            // Crear la lista de usuarios y agregar algunos usuarios
-            
-            listaUsuarios.Insertar(new Usuario(1, "Juan", "Perez", "juan@example.com", 25, "password123"));
-            listaUsuarios.Insertar(new Usuario(2, "Maria", "Lopez", "maria@example.com", 30, "password456"));
-            listaUsuarios.Insertar(new Usuario(3, "Carlos", "Garcia", "carlos@example.com", 28, "password789"));
-
+        
             // Generar y mostrar el gráfico Graphviz de la lista de usuarios
             string graphviz = listaUsuarios.GenerarGraphviz();
 

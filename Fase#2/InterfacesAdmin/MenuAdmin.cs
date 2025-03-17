@@ -8,6 +8,7 @@ using InterfacesAdmin.CargaMasiva;
 using InterfacesAdmin.Gestion;
 using InterfacesAdmin.ActualizarRepuestos;
 using InterfacesAdmin.VisualizarRepuestos;
+using InterfacesAdmin.GenerarServicios;
 
 namespace InterfacesAdmin.menu
 {
@@ -64,6 +65,7 @@ namespace InterfacesAdmin.menu
 
             Generar_servicio = new Button("Generación de Servicios");
             Generar_servicio.SetSizeRequest(150, 50);
+            Generar_servicio.Clicked += GenerarServicio;
             ApplyFont(Generar_servicio, "Arial 12");
             fixedcontainer.Put(Generar_servicio, 160, 340);
 
@@ -102,6 +104,12 @@ namespace InterfacesAdmin.menu
         {
             VisualizarRepuesto visualizarRepuestos = new VisualizarRepuesto(ListaUsuarioSimple, listaAutos, ListaRepuestos);
             visualizarRepuestos.ShowAll();
+        }
+
+        private void GenerarServicio(object? sender, EventArgs e)
+        {
+            GenerarServicio generarServicio = new GenerarServicio(ListaUsuarioSimple, listaAutos, ListaRepuestos);
+            generarServicio.ShowAll();
         }
 
         private EventBox CreateStyledLabel(string text, string font)

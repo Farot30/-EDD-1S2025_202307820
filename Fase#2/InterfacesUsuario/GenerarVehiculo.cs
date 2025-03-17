@@ -1,0 +1,100 @@
+using Gtk;
+using CLases.Usuarios;
+using Listas.ListaUsuarioSimple;
+using Listas.ListaDobleVehiculos;
+using Listas.AVLTREEsRE;
+using System;
+using System.Collections.Generic;
+
+namespace InterfacesUsuario.GenerarVehiculo
+{
+    public class InsertarVehiuclo : Window
+    {
+        private ListaUsuarioSimple<Usuario> ListaUsuarioSimple;
+        private ListaDobleVehiculo listaAutos;
+        private AVLTREErepues ListaRepuestos;
+        private Entry ID;
+        private Entry Marca;
+        private Entry Modelo;
+        private Entry Placa;
+        private Button Guardar;
+        public InsertarVehiuclo(ListaUsuarioSimple<Usuario> listaUsuario, ListaDobleVehiculo lIstaAuto, AVLTREErepues ListaRepuesto) : base("Insertar Vehiculo")
+        {
+            ListaUsuarioSimple = listaUsuario;
+            listaAutos = lIstaAuto;
+            ListaRepuestos = ListaRepuesto;
+
+            SetPosition(WindowPosition.Center);
+            SetDefaultSize(400, 400);
+
+            Fixed fixedcontainer = new Fixed();
+
+            EventBox Titulo = CreateStyledLabel("Insertar Vehiculo", "Arial 20");
+            fixedcontainer.Put(Titulo, 80, 50);
+
+            EventBox IDLabel = CreateStyledLabel("ID:", "Arial 14");
+            fixedcontainer.Put(IDLabel, 50, 100);
+
+            ID = new Entry();
+            ApplyFont(ID, "Arial 12");
+            fixedcontainer.Put(ID, 150, 100);
+
+            EventBox MarcaLabel = CreateStyledLabel("Marca:", "Arial 14");
+            fixedcontainer.Put(MarcaLabel, 50, 150);
+
+            Marca = new Entry();
+            ApplyFont(Marca, "Arial 12");
+            fixedcontainer.Put(Marca, 150, 150);
+
+            EventBox ModeloLabel = CreateStyledLabel("Modelo:", "Arial 14");
+            fixedcontainer.Put(ModeloLabel, 50, 200);
+
+            Modelo = new Entry();
+            ApplyFont(Modelo, "Arial 12");
+            fixedcontainer.Put(Modelo, 150, 200);
+
+            EventBox PlacaLabel = CreateStyledLabel("Placa:", "Arial 14");
+            fixedcontainer.Put(PlacaLabel, 50, 250);
+            
+            Placa = new Entry();
+            ApplyFont(Placa, "Arial 12");
+            fixedcontainer.Put(Placa, 150, 250);
+
+            Guardar = new Button("Guardar");
+            Guardar.SetSizeRequest(50, 50);
+            ApplyFont(Guardar, "Arial 12");
+            fixedcontainer.Put(Guardar, 150, 300);
+            Guardar.Clicked += Guardar_Clicked;
+
+            Add(fixedcontainer);
+
+        }
+
+        private void Guardar_Clicked(object? sender, EventArgs e)
+        {
+            
+        }
+
+        private EventBox CreateStyledLabel(string text, string font)
+        {
+            Label label = new Label(text);
+            ApplyFont(label, font);
+            EventBox eventBox = new EventBox();
+            eventBox.Add(label);
+            return eventBox;
+        }
+
+        private  void ApplyFont(Widget widget, string fontDescription)
+        {
+            Pango.FontDescription fontDesc = Pango.FontDescription.FromString(fontDescription);
+            if (widget is Label label)
+            {
+                label.ModifyFont(fontDesc);
+            }
+            else if (widget is Button button)
+            {
+                button.Child.ModifyFont(fontDesc);
+            }
+        }
+    }
+}

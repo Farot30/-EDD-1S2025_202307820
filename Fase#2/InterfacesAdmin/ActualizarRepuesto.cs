@@ -20,12 +20,13 @@ namespace InterfacesAdmin.ActualizarRepuestos
             ListaUsuarioSimple = ListaUsuario;
             ListaDobleVehiculos = listaDobleVehiculo;
             listaRepuesto = listarepuesto;
+            
             SetPosition(WindowPosition.Center);
-            SetDefaultSize(400, 350);
+            SetDefaultSize(400, 400);
             Fixed fixedcontainer = new Fixed();
             
             EventBox Titulo = CreateStyledLabel("Actualizar de Repuestos", "Arial 20");
-            fixedcontainer.Put(Titulo, 100, 50);
+            fixedcontainer.Put(Titulo, 80, 50);
 
             EventBox IDLabel = CreateStyledLabel("ID:", "Arial 14");
             fixedcontainer.Put(IDLabel, 50, 100);
