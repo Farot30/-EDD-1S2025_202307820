@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "qsNu4CSnfgM=",
+  "dgSpecHash": "g4AmBU2W7Uk=",
   "success": true,
   "projectFilePath": "/home/farot/Documentos/lab EDD/-EDD-1S2025_202307820/Fase#2/Fase#2.csproj",
   "expectedPackageFiles": [
@@ -11,17 +11,14 @@
     "/home/farot/.nuget/packages/glibsharp/3.22.25.13/glibsharp.3.22.25.13.nupkg.sha512",
     "/home/farot/.nuget/packages/gtksharp/3.22.25.13/gtksharp.3.22.25.13.nupkg.sha512",
     "/home/farot/.nuget/packages/newtonsoft.json/13.0.3/newtonsoft.json.13.0.3.nupkg.sha512",
-    "/home/farot/.nuget/packages/pangosharp/3.22.25.13/pangosharp.3.22.25.13.nupkg.sha512",
-    "/home/farot/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.13/microsoft.aspnetcore.app.ref.8.0.13.nupkg.sha512",
-    "/home/farot/.nuget/packages/microsoft.netcore.app.host.linux-x64/8.0.13/microsoft.netcore.app.host.linux-x64.8.0.13.nupkg.sha512",
-    "/home/farot/.nuget/packages/microsoft.netcore.app.ref/8.0.13/microsoft.netcore.app.ref.8.0.13.nupkg.sha512"
+    "/home/farot/.nuget/packages/pangosharp/3.22.25.13/pangosharp.3.22.25.13.nupkg.sha512"
   ],
   "logs": [
     {
       "code": "NU1603",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Fase#2 depende de GtkSharp (>= 3.22.24.95), pero no se encontró GtkSharp 3.22.24.95. Se resolvió una mejor coincidencia aproximada de GtkSharp 3.22.25.13.",
+      "message": "Fase#2 depends on GtkSharp (>= 3.22.24.95) but GtkSharp 3.22.24.95 was not found. An approximate best match of GtkSharp 3.22.25.13 was resolved.",
       "libraryId": "GtkSharp",
       "targetGraphs": [
         "net8.0"

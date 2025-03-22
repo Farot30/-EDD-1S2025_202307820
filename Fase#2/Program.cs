@@ -8,6 +8,9 @@ using Listas.AVLTREEsRE;
 using Listas.ListaUsuarioSimple;
 using GeneracionGrafica;
 using Listas.ListaDobleVehiculos;
+using Listas.B5Factura;
+using Clases.Factura;
+using Nodos.NodoFacturas;
 
 namespace Program
 {
@@ -18,15 +21,47 @@ namespace Program
             ListaUsuarioSimple<Usuario> listaUsuarios = new ListaUsuarioSimple<Usuario>();
             ListaDobleVehiculo listaAutos = new ListaDobleVehiculo();
             AVLTREErepues ListaRepuestos = new AVLTREErepues();
+            B5Facturas ListaFacturas = new B5Facturas();
 
             listaUsuarios.Insertar(new Usuario(1, "Juan", "Perez", "juan@example.com", 25, "password123"));
             listaUsuarios.Insertar(new Usuario(2, "Maria", "Lopez", "maria@example.com", 30, "password456"));
             listaUsuarios.Insertar(new Usuario(3, "Carlos", "Garcia", "carlos@example.com", 28, "password789"));
             listaUsuarios.Mostrar();
+            /*
             Application.Init();
             Logiarse login = new Logiarse(listaUsuarios, listaAutos, ListaRepuestos);
             login.ShowAll();
             Application.Run();
+            */
+
+            ListaFacturas.Insertar(1, 1, 100);
+            ListaFacturas.Insertar(2, 2, 200);
+            ListaFacturas.Insertar(3, 3, 300);
+            ListaFacturas.Insertar(4, 4, 400);
+            ListaFacturas.Insertar(5, 5, 500);
+            ListaFacturas.Insertar(6, 6, 600);
+            ListaFacturas.Insertar(7, 7, 700);
+
+            Console.WriteLine("Árbol B de orden 5 creado");
+
+            string graphviz = ListaFacturas.GraficarGraphviz();
+
+            // Mostrar elementos en orden
+            Console.WriteLine("Recorrido INORDEN del arbol: ");
+            ListaFacturas.RecorridoInOrden().ForEach(x => 
+                Console.WriteLine($"ID: {x.ID}, ID Servicio: {x.ID_servicio}, Total: {x.Total}"));
+
+            Console.WriteLine("\nÁrbol después de eliminar:");
+            int id = 1;
+            ListaFacturas.Elminar(id);
+            string graphviz2 = ListaFacturas.GraficarGraphviz();
+
+            Grafica.GenerarArchivoDot("arbol.dot", graphviz, "Árbol B de orden 5");
+            Grafica.ConvertirDotAImagen("arbol.dot");
+            Grafica.GenerarArchivoDot("arbol2.dot", graphviz2, "Árbol B de orden 5");
+            Grafica.ConvertirDotAImagen("arbol2.dot");
+
+            
 
             // Crear el árbol AVL y agregar algunos repuestos
             AVLTREErepues arbolRepuestos = new AVLTREErepues();
@@ -55,11 +90,17 @@ namespace Program
             Console.WriteLine();
         
             // Generar y mostrar el gráfico Graphviz de la lista de usuarios
-            string graphviz = listaUsuarios.GenerarGraphviz();
+            string graphviz3= listaUsuarios.GenerarGraphviz();
+            
+            string graphviz4 = arbolRepuestos.GenerarGraphviz();
+            Grafica.GenerarArchivoDot("repuestos.dot", graphviz4, "Árbol AVL de repuestos");
+            Grafica.ConvertirDotAImagen("repuestos.dot");
 
             // Generar el archivo .dot y convertirlo a imagen
-            Grafica.GenerarArchivoDot("lista_usuarios.dot", graphviz, "Lista de Usuarios");
+            Grafica.GenerarArchivoDot("lista_usuarios.dot", graphviz3, "Lista de Usuarios");
             Grafica.ConvertirDotAImagen("lista_usuarios.dot");
+
+            
         }
     }
 }

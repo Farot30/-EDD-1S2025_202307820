@@ -237,5 +237,31 @@ namespace Listas.AVLTREEsRE
                 return ActualizarRepuesto(nodo.der, id, nombre, descripcion, precio);
             }
         }
+
+        public string GenerarGraphviz()
+        {
+            var graphviz = new System.Text.StringBuilder();
+            graphviz.AppendLine("digraph G {");
+            GenerarGraphviz(raiz, graphviz);
+            graphviz.AppendLine("}");
+            return graphviz.ToString();
+        }
+
+        private void GenerarGraphviz(NodeAVLRepu? nodo, System.Text.StringBuilder graphviz)
+        {
+            if (nodo != null)
+            {
+                if (nodo.izq != null)
+                {
+                    graphviz.AppendLine($"    \"{nodo.val.Id}\" -> \"{nodo.izq.val.Id}\";");
+                    GenerarGraphviz(nodo.izq, graphviz);
+                }
+                if (nodo.der != null)
+                {
+                    graphviz.AppendLine($"    \"{nodo.val.Id}\" -> \"{nodo.der.val.Id}\";");
+                    GenerarGraphviz(nodo.der, graphviz);
+                }
+            }
+        }
     }
 }

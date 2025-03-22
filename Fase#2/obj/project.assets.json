@@ -288,26 +288,12 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[8.0.13, 8.0.13]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Host.linux-x64",
-            "version": "[8.0.13, 8.0.13]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Ref",
-            "version": "[8.0.13, 8.0.13]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.406/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.407/PortableRuntimeIdentifierGraph.json"
       }
     }
   },
@@ -316,7 +302,7 @@
       "code": "NU1603",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Fase#2 depende de GtkSharp (>= 3.22.24.95), pero no se encontró GtkSharp 3.22.24.95. Se resolvió una mejor coincidencia aproximada de GtkSharp 3.22.25.13.",
+      "message": "Fase#2 depends on GtkSharp (>= 3.22.24.95) but GtkSharp 3.22.24.95 was not found. An approximate best match of GtkSharp 3.22.25.13 was resolved.",
       "libraryId": "GtkSharp",
       "targetGraphs": [
         "net8.0"

@@ -1,0 +1,10 @@
+digraph BTree {
+    node [shape=record];
+node0 [label="<f0> |Id: 2, Total: 200||<f1> |Id: 4, Total: 400|<f2>"];
+node1 [label="<f0> |Id: 1, Total: 100|<f1>"];
+    node0:f0 -> node1;
+node2 [label="<f0> |Id: 3, Total: 300|<f1>"];
+    node0:f1 -> node2;
+node3 [label="<f0> |Id: 5, Total: 500||<f1> |Id: 6, Total: 600||<f2> |Id: 7, Total: 700|<f3>"];
+    node0:f2 -> node3;
+}

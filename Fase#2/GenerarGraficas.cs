@@ -11,7 +11,7 @@ namespace GeneracionGrafica
         {
             try
             {
-                string carpeta = Path.Combine(Directory.GetCurrentDirectory(), "Graficas");
+                string carpeta = Path.Combine(Directory.GetCurrentDirectory(), "Reportes");
                 if (!Directory.Exists(carpeta))
                 {
                     Directory.CreateDirectory(carpeta);
@@ -31,14 +31,14 @@ namespace GeneracionGrafica
                 string rutaArchivo = Path.Combine(carpeta, nombre);
                 string contenidoConTitulo;
 
-                // Verificar si el contenido ya tiene la declaración "digraph G {"
-                if (contenido.TrimStart().StartsWith("digraph G {"))
+                // Verificar si el contenido ya tiene la declaración "digraph"
+                if (contenido.TrimStart().StartsWith("digraph"))
                 {
                     contenidoConTitulo = contenido;
                 }
                 else
                 {
-                    contenidoConTitulo = $"digraph G {{\nlabel=\"{titulo}\";\nlabelloc=\"t\";\n{contenido}\n}}";
+                    contenidoConTitulo = $"digraph BTree {{\nlabel=\"{titulo}\";\nlabelloc=\"t\";\n{contenido}\n}}";
                 }
 
                 File.WriteAllText(rutaArchivo, contenidoConTitulo);
@@ -56,7 +56,7 @@ namespace GeneracionGrafica
         {
             try
             {
-                string carpeta = Path.Combine(Directory.GetCurrentDirectory(), "Graficas");
+                string carpeta = Path.Combine(Directory.GetCurrentDirectory(), "Reportes");
                 string archivoDot = Path.Combine(carpeta, nombreReporte);
 
                 if (string.IsNullOrEmpty(archivoDot))
@@ -67,7 +67,7 @@ namespace GeneracionGrafica
 
                 if (!File.Exists(archivoDot))
                 {
-                    Console.WriteLine($"El archivo {nombreReporte} no existe en la carpeta 'Graficas'.");
+                    Console.WriteLine($"El archivo {nombreReporte} no existe en la carpeta 'Reportes'.");
                     return;
                 }
 
@@ -111,5 +111,4 @@ namespace GeneracionGrafica
             }
         }
     }
-    
 }
