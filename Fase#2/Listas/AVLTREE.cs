@@ -242,6 +242,7 @@ namespace Listas.AVLTREEsRE
         {
             var graphviz = new System.Text.StringBuilder();
             graphviz.AppendLine("digraph G {");
+            graphviz.AppendLine("    node [shape=record];");
             GenerarGraphviz(raiz, graphviz);
             graphviz.AppendLine("}");
             return graphviz.ToString();
@@ -251,6 +252,9 @@ namespace Listas.AVLTREEsRE
         {
             if (nodo != null)
             {
+                string nodoLabel = $"{{ID: {nodo.val.Id}|Nombre: {nodo.val.Nombre}|Descripcion: {nodo.val.Descripcion}|Precio: {nodo.val.Precio}}}";
+                graphviz.AppendLine($"    \"{nodo.val.Id}\" [label=\"{nodoLabel}\"];");
+
                 if (nodo.izq != null)
                 {
                     graphviz.AppendLine($"    \"{nodo.val.Id}\" -> \"{nodo.izq.val.Id}\";");

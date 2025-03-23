@@ -1,0 +1,19 @@
+digraph G {
+    "3" [label="ID: 3\nID Repuesto: 103\nID Vehiculo: 203\nDetalle: Cambio de amortiguadores\nCosto: 200"];
+    "3" -> "1";
+    "1" [label="ID: 1\nID Repuesto: 101\nID Vehiculo: 201\nDetalle: Cambio de neumáticos\nCosto: 100"];
+    "1" -> "2";
+    "2" [label="ID: 2\nID Repuesto: 102\nID Vehiculo: 202\nDetalle: Cambio de batería\nCosto: 150"];
+    "3" -> "5";
+    "5" [label="ID: 5\nID Repuesto: 105\nID Vehiculo: 205\nDetalle: Cambio de aceite\nCosto: 50"];
+    "5" -> "4";
+    "4" [label="ID: 4\nID Repuesto: 104\nID Vehiculo: 204\nDetalle: Cambio de radiador\nCosto: 250"];
+    "5" -> "8";
+    "8" [label="ID: 8\nID Repuesto: 108\nID Vehiculo: 208\nDetalle: Cambio de alternador\nCosto: 300"];
+    "8" -> "6";
+    "6" [label="ID: 6\nID Repuesto: 106\nID Vehiculo: 206\nDetalle: Cambio de pastillas de freno\nCosto: 75"];
+    "6" -> "7";
+    "7" [label="ID: 7\nID Repuesto: 107\nID Vehiculo: 207\nDetalle: Cambio de faros\nCosto: 80"];
+    "8" -> "9";
+    "9" [label="ID: 9\nID Repuesto: 109\nID Vehiculo: 209\nDetalle: Cambio de filtro de aceite\nCosto: 20"];
+}

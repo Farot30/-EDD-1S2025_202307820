@@ -1,15 +1,16 @@
 using System;
+using CLases.Servicios;
 
 namespace Nodos.NodoBinarios
 {
     public class NodoBinario
     {
-        public  int valor;
+        public  Servicio servicios;
         public NodoBinario? izquierdo;
         public NodoBinario? derecho;
-        public NodoBinario(int valors)
+        public NodoBinario(Servicio servicio)
         {
-            valor = valors;
+            this.servicios = servicio;
             izquierdo = null;
             derecho = null;
         }

@@ -1,5 +1,6 @@
 using System;
 using Nodos.NodoBinarios;
+using CLases.Servicios;
 
 namespace Listas.BinarioTree
 {
@@ -12,40 +13,40 @@ namespace Listas.BinarioTree
             raiz = null;
         }
 
-        public void Insertar(int valor)
+        public void Insertar(Servicio servicio)
         {
             if (raiz == null)
             {
-                raiz = new NodoBinario(valor);
+                raiz = new NodoBinario(servicio);
             }
             else
             {
-                Insertar(raiz, valor);
+                Insertar(raiz, servicio);
             }
         }
 
-        private void Insertar(NodoBinario nodo, int valor)
+        private void Insertar(NodoBinario nodo, Servicio servicio)
         {
-            if (valor < nodo.valor)
+            if (servicio.ID < nodo.servicios.ID)
             {
                 if (nodo.izquierdo == null)
                 {
-                    nodo.izquierdo = new NodoBinario(valor);
+                    nodo.izquierdo = new NodoBinario(servicio);
                 }
                 else
                 {
-                    Insertar(nodo.izquierdo, valor);
+                    Insertar(nodo.izquierdo, servicio);
                 }
             }
             else
             {
                 if (nodo.derecho == null)
                 {
-                    nodo.derecho = new NodoBinario(valor);
+                    nodo.derecho = new NodoBinario(servicio);
                 }
                 else
                 {
-                    Insertar(nodo.derecho, valor);
+                    Insertar(nodo.derecho, servicio);
                 }
             }
         }
@@ -54,7 +55,7 @@ namespace Listas.BinarioTree
         {
             if (nodo != null)
             {
-                Console.WriteLine(nodo.valor + " ");
+                Console.WriteLine(nodo.servicios);
                 PreOrden(nodo.izquierdo);
                 PreOrden(nodo.derecho);
             }
@@ -65,7 +66,7 @@ namespace Listas.BinarioTree
             if (nodo != null)
             {
                 InOrder(nodo.izquierdo);
-                Console.WriteLine(nodo.valor + " ");
+                Console.WriteLine(nodo.servicios);
                 InOrder(nodo.derecho);
             }
         }
@@ -76,29 +77,29 @@ namespace Listas.BinarioTree
             {
                 PostOrden(nodo.izquierdo);
                 PostOrden(nodo.derecho);
-                Console.WriteLine(nodo.valor + " ");
+                Console.WriteLine(nodo.servicios);
             }
         }
 
-        public void Eliminar(int valor)
+        public void Eliminar(int id)
         {
-            raiz = Eliminar(raiz, valor);
+            raiz = Eliminar(raiz, id);
         }
 
-        private NodoBinario? Eliminar(NodoBinario? nodo, int valor)
+        private NodoBinario? Eliminar(NodoBinario? nodo, int id)
         {
             if (nodo == null)
             {
                 return null;
             }
 
-            if (valor < nodo.valor)
+            if (id < nodo.servicios.ID)
             {
-                nodo.izquierdo = Eliminar(nodo.izquierdo, valor);
+                nodo.izquierdo = Eliminar(nodo.izquierdo, id);
             }
-            else if (valor > nodo.valor)
+            else if (id > nodo.servicios.ID)
             {
-                nodo.derecho = Eliminar(nodo.derecho, valor);
+                nodo.derecho = Eliminar(nodo.derecho, id);
             }
             else
             {
@@ -111,49 +112,76 @@ namespace Listas.BinarioTree
                     return nodo.izquierdo;
                 }
 
-                nodo.valor = Minimo(nodo.derecho);
-                nodo.derecho = Eliminar(nodo.derecho, nodo.valor);
+                nodo.servicios = Minimo(nodo.derecho).servicios;
+                nodo.derecho = Eliminar(nodo.derecho, nodo.servicios.ID);
             }
 
             return nodo;
         }
 
-        private int Minimo(NodoBinario? nodo)
+        private NodoBinario Minimo(NodoBinario? nodo)
         {
-            int minv = nodo!.valor;
-            while (nodo!.izquierdo != null)
+            NodoBinario actual = nodo!;
+            while (actual.izquierdo != null)
             {
-                minv = nodo.izquierdo.valor;
-                nodo = nodo.izquierdo;
+                actual = actual.izquierdo;
             }
-            return minv;
+            return actual;
         }
 
-        public bool Existeid(int valor)
+        public bool Existeid(int id)
         {
-            return Existeid(raiz, valor);
+            return Existeid(raiz, id);
         }
 
-        private bool Existeid(NodoBinario? nodo, int valor)
+        private bool Existeid(NodoBinario? nodo, int id)
         {
             if (nodo == null)
             {
                 return false;
             }
 
-            if (nodo.valor == valor)
+            if (nodo.servicios.ID == id)
             {
                 return true;
             }
-            else if (valor < nodo.valor)
+            else if (id < nodo.servicios.ID)
             {
-                return Existeid(nodo.izquierdo, valor);
+                return Existeid(nodo.izquierdo, id);
             }
             else
             {
-                return Existeid(nodo.derecho, valor);
+                return Existeid(nodo.derecho, id);
             }
         }
 
+        public string GenerarGraphviz()
+        {
+            var graphviz = new System.Text.StringBuilder();
+            graphviz.AppendLine("digraph G {");
+            GenerarGraphviz(raiz, graphviz);
+            graphviz.AppendLine("}");
+            return graphviz.ToString();
+        }
+
+        private void GenerarGraphviz(NodoBinario? nodo, System.Text.StringBuilder graphviz)
+        {
+            if (nodo != null)
+            {
+                string nodoLabel = $"ID: {nodo.servicios.ID}\\nID Repuesto: {nodo.servicios.ID_repuesto}\\nID Vehiculo: {nodo.servicios.ID_vehiculo}\\nDetalle: {nodo.servicios.Detalle}\\nCosto: {nodo.servicios.Costo}";
+                graphviz.AppendLine($"    \"{nodo.servicios.ID}\" [label=\"{nodoLabel}\"];");
+
+                if (nodo.izquierdo != null)
+                {
+                    graphviz.AppendLine($"    \"{nodo.servicios.ID}\" -> \"{nodo.izquierdo.servicios.ID}\";");
+                    GenerarGraphviz(nodo.izquierdo, graphviz);
+                }
+                if (nodo.derecho != null)
+                {
+                    graphviz.AppendLine($"    \"{nodo.servicios.ID}\" -> \"{nodo.derecho.servicios.ID}\";");
+                    GenerarGraphviz(nodo.derecho, graphviz);
+                }
+            }
+        }
     }
 }

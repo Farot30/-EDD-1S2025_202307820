@@ -377,12 +377,12 @@ namespace Listas.B5Factura
             {
                 if (i > 0)
                     etiquetaNodo.Append("|");
-                etiquetaNodo.Append($"<f{i}> |Id: {nodo.Claves[i].ID}, Total: {nodo.Claves[i].Total}|");
+                etiquetaNodo.Append($"<f{i}> Id: {nodo.Claves[i].ID}|ID_orden: {nodo.Claves[i].ID_servicio}|Total: {nodo.Claves[i].Total}");
             }
             
             // Añadir un puerto más para el último hijo
             if (nodo.Claves.Count > 0)
-                etiquetaNodo.Append($"<f{nodo.Claves.Count}>");
+                etiquetaNodo.Append($"|<f{nodo.Claves.Count}>");
             
             etiquetaNodo.Append("\"];");
             sb.AppendLine(etiquetaNodo.ToString());
