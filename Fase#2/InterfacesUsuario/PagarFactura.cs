@@ -2,6 +2,9 @@ using Gtk;
 using System;
 using System.Collections.Generic;
 using CLases.Usuarios;
+using CLases.Vehiculo;
+using Clases.Factura;
+using CLases.Servicios;
 using Listas.ListaUsuarioSimple;
 using Listas.ListaDobleVehiculos;
 using Listas.BinarioTree;
@@ -23,13 +26,15 @@ namespace InterfacesUsuario.PagarFacturas
         private Entry Total;
         private Button Pagar;
         private Button Buscar;
-        public PagarFactura(ListaUsuarioSimple<Usuario> ListaUsuario, ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto, Binariostree ListaServicio, B5Facturas ListaFactura) : base("Pagar Factura")
+        private string correoUsuario;
+        public PagarFactura(ListaUsuarioSimple<Usuario> ListaUsuario, ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto, Binariostree ListaServicio, B5Facturas ListaFactura, string correo) : base("Pagar Factura")
         {
             ListaUsuarioSimple = ListaUsuario;
             ListaDobleVehiculos = listaDobleVehiculo;
             listaRepuesto = listarepuesto;
             ListaServicios = ListaServicio;
             ListaFacturas = ListaFactura;
+            correoUsuario = correo;
 
             SetDefaultSize(400, 400);
             SetPosition(WindowPosition.Center);
@@ -76,7 +81,48 @@ namespace InterfacesUsuario.PagarFacturas
         }
         public void Pagar_Factura(object? sender, EventArgs e)
         {
-
+            if (int.TryParse(Id.Text, out int id))
+            {
+                Facturas? factura = ListaFacturas.Buscar(id);
+                if (factura != null)
+                {
+                    Servicio? servicio = ListaServicios.BuscarServicioPorId(factura.Value.ID_servicio);
+                    if (servicio != null)
+                    {
+                        Vehiculos? vehiculo = ListaDobleVehiculos.BuscarVehiculoPorId(servicio.Value.ID_vehiculo);
+                        if (vehiculo != null)
+                        {
+                            Usuario? usuario = ListaUsuarioSimple.BuscarUsuarioPorId(vehiculo.Value.IdUsuario);
+                            if (usuario != null && usuario.Value.Correo == correoUsuario)
+                            {
+                                // Pagar la factura
+                                ListaFacturas.Elminar(id);
+                                MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Factura pagada exitosamente.");
+                                md.Run();
+                                md.Destroy();
+                            }
+                            else
+                            {
+                                MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Error, ButtonsType.Close, "La factura no pertenece al usuario logueado.");
+                                md.Run();
+                                md.Destroy();
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Error, ButtonsType.Close, "Factura no encontrada.");
+                    md.Run();
+                    md.Destroy();
+                }
+            }
+            else
+            {
+                MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Error, ButtonsType.Close, "El ID debe ser un número.");
+                md.Run();
+                md.Destroy();
+            }
         }
 
         public void Buscar_Factura(object? sender, EventArgs e)

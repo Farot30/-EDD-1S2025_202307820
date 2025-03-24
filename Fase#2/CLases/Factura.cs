@@ -4,9 +4,9 @@ namespace Clases.Factura
     {
         public int ID { get; set; }
         public int ID_servicio { get; set; }
-        public int Total { get; set; }
+        public double Total { get; set; }
 
-        public Facturas(int id, int id_servicio, int total)
+        public Facturas(int id, int id_servicio, double total)
         {
             ID = id;
             ID_servicio = id_servicio;

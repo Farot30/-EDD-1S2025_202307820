@@ -1,5 +1,6 @@
 using Gtk;
 using CLases.Usuarios;
+using CLases.Vehiculo;
 using Listas.ListaUsuarioSimple;
 using Listas.ListaDobleVehiculos;
 using Listas.AVLTREEsRE;
@@ -22,13 +23,16 @@ namespace InterfacesUsuario.GenerarVehiculo
         private Entry Modelo;
         private Entry Placa;
         private Button Guardar;
-        public InsertarVehiuclo(ListaUsuarioSimple<Usuario> listaUsuario, ListaDobleVehiculo lIstaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, B5Facturas ListaFactura) : base("Insertar Vehiculo")
+        private int usuarioId;
+
+        public InsertarVehiuclo(ListaUsuarioSimple<Usuario> listaUsuario, ListaDobleVehiculo lIstaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, B5Facturas ListaFactura, int usuarioId) : base("Insertar Vehiculo")
         {
             ListaUsuarioSimple = listaUsuario;
             listaAutos = lIstaAuto;
             ListaRepuestos = ListaRepuesto;
             ListaServicios = ListaServicio;
             ListaFacturas = ListaFactura;
+            this.usuarioId = usuarioId;
 
             SetPosition(WindowPosition.Center);
             SetDefaultSize(400, 400);
@@ -73,12 +77,27 @@ namespace InterfacesUsuario.GenerarVehiculo
             Guardar.Clicked += Guardar_Clicked;
 
             Add(fixedcontainer);
-
         }
 
         private void Guardar_Clicked(object? sender, EventArgs e)
         {
-            
+            if(int.TryParse(ID.Text, out int id))
+            {
+                if (!listaAutos.VehiculoExiste(id))
+                {
+                    Vehiculos vehiculo = new Vehiculos(id, usuarioId, Marca.Text, Modelo.Text, Placa.Text);
+                    listaAutos.Insertar(vehiculo);
+                    MostrarMensaje("Vehículo guardado exitosamente.");
+                }
+                else
+                {
+                    MostrarMensaje("El ID del vehículo ya existe.");
+                }
+            }
+            else
+            {
+                MostrarMensaje("El ID del vehículo debe ser un número.");
+            }
             
         }
 
@@ -91,7 +110,7 @@ namespace InterfacesUsuario.GenerarVehiculo
             return eventBox;
         }
 
-        private  void ApplyFont(Widget widget, string fontDescription)
+        private void ApplyFont(Widget widget, string fontDescription)
         {
             Pango.FontDescription fontDesc = Pango.FontDescription.FromString(fontDescription);
             if (widget is Label label)
@@ -101,6 +120,15 @@ namespace InterfacesUsuario.GenerarVehiculo
             else if (widget is Button button)
             {
                 button.Child.ModifyFont(fontDesc);
+            }
+        }
+
+        private void MostrarMensaje(string mensaje)
+        {
+            using (MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, mensaje))
+            {
+                md.Run();
+                md.Destroy();
             }
         }
     }

@@ -8,6 +8,8 @@ using CLases.Servicios;
 using Listas.B5Factura;
 using System;
 using System.Collections.Generic;
+using Clases.Factura;
+using CLases.Repuesto;
 
 namespace InterfacesAdmin.GenerarServicios
 {
@@ -24,6 +26,8 @@ namespace InterfacesAdmin.GenerarServicios
         private Entry Detalle;
         private Entry Costo;
         private Button Guardar;
+        private int ID_factura = 1;
+
         public GenerarServicio(ListaUsuarioSimple<Usuario> listaUsuario, ListaDobleVehiculo listaDoble, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, B5Facturas ListaFactura) : base("Generar Servicio")
         {
             ListaUsuarioSimple = listaUsuario;
@@ -87,7 +91,7 @@ namespace InterfacesAdmin.GenerarServicios
         {
             if(int.TryParse(ID.Text, out int id) && int.TryParse(ID_repuesto.Text, out int IDrepuesto) && int.TryParse(Id_vehiculo.Text, out int id_vehiculo) && double.TryParse(Costo.Text, out double costo))
             {
-                if(ListaServicios.Existeid(id))
+                if(!ListaServicios.Existeid(id))
                 {
                     if(AVLTree.RepuestoExiste(IDrepuesto))
                     {
@@ -95,9 +99,29 @@ namespace InterfacesAdmin.GenerarServicios
                         {
                             Servicio servicio = new Servicio(id, IDrepuesto, id_vehiculo, Detalle.Text, costo);
                             ListaServicios.Insertar(servicio);
-                            MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Info, ButtonsType.Ok, "Servicio Guardado");
-                            messageDialog.Run();
-                            messageDialog.Destroy();
+
+                            // Calcular el total de la factura
+                            Repuesto? repuesto = AVLTree.BuscarRepuestoPorId(IDrepuesto);
+                            double total = costo + (repuesto?.Precio ?? 0);
+                            if(ListaFacturas.FacturaExiste(ID_factura))
+                            {
+                                // Crear e insertar la factura
+                                Facturas factura1 = new Facturas(ID_factura, id, total);
+                                ListaFacturas.Insertar(factura1.ID, factura1.ID_servicio, factura1.Total);
+                                ID_factura++;
+
+                                MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Info, ButtonsType.Ok, "Servicio y factura guardados exitosamente.");
+                                messageDialog.Run();
+                                messageDialog.Destroy();
+
+                            }
+                            else
+                            {
+                                MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Info, ButtonsType.Ok, "Factura ya existe");
+                                messageDialog.Run();
+                                messageDialog.Destroy();
+                            }
+                            
                         }
                         else
                         {
@@ -121,7 +145,7 @@ namespace InterfacesAdmin.GenerarServicios
                 }
             }else
             {
-                MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, "Debe ingresar con datos enteros y dobules en el los ID y los costos");
+                MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, "Debe ingresar datos válidos en los campos de ID y costo");
                 messageDialog.Run();
                 messageDialog.Destroy();
             }
@@ -148,6 +172,5 @@ namespace InterfacesAdmin.GenerarServicios
                 button.Child.ModifyFont(fontDesc);
             }
         }
-
     }
 }

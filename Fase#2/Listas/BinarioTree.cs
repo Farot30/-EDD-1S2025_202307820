@@ -155,6 +155,32 @@ namespace Listas.BinarioTree
             }
         }
 
+        public Servicio? BuscarServicioPorId(int id)
+        {
+            return BuscarServicioPorId(raiz, id);
+        }
+
+        private Servicio? BuscarServicioPorId(NodoBinario? nodo, int id)
+        {
+            if (nodo == null)
+            {
+                return null;
+            }
+
+            if (nodo.servicios.ID == id)
+            {
+                return nodo.servicios;
+            }
+            else if (id < nodo.servicios.ID)
+            {
+                return BuscarServicioPorId(nodo.izquierdo, id);
+            }
+            else
+            {
+                return BuscarServicioPorId(nodo.derecho, id);
+            }
+        }
+
         public string GenerarGraphviz()
         {
             var graphviz = new System.Text.StringBuilder();

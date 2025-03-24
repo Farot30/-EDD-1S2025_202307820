@@ -84,9 +84,17 @@ namespace InterfacesUsuario.MenuUsuarios
 
         private void InsertarVehiculo(object? sender, EventArgs e)
         {
-            InsertarVehiuclo insertarVehiuclo = new InsertarVehiuclo(ListaUsuarioSimple, ListaDobleVehiculos, listaRepuesto, ListaServicios, ListaFacturas);
-            insertarVehiuclo.DeleteEvent += delegate { insertarVehiuclo.Destroy(); };
-            insertarVehiuclo.ShowAll();
+            Usuario? usuario = ListaUsuarioSimple.BuscarUsuarioCorreo(correoUsuario);
+            if (usuario != null)
+            {
+                InsertarVehiuclo insertarVehiuclo = new InsertarVehiuclo(ListaUsuarioSimple, ListaDobleVehiculos, listaRepuesto, ListaServicios, ListaFacturas, usuario.Value.Id);
+                insertarVehiuclo.DeleteEvent += delegate { insertarVehiuclo.Destroy(); };
+                insertarVehiuclo.ShowAll();
+            }
+            else
+            {
+                MostrarMensaje("Usuario no encontrado.");
+            }
         }
 
         private void Visualizar_servicio(object? sender, EventArgs e)
@@ -105,7 +113,7 @@ namespace InterfacesUsuario.MenuUsuarios
 
         private void Cancelar_reporte(object? sender, EventArgs e)
         {
-            PagarFactura pagarFactura = new PagarFactura(ListaUsuarioSimple, ListaDobleVehiculos, listaRepuesto, ListaServicios, ListaFacturas);
+            PagarFactura pagarFactura = new PagarFactura(ListaUsuarioSimple, ListaDobleVehiculos, listaRepuesto, ListaServicios, ListaFacturas, correoUsuario);
             pagarFactura.DeleteEvent += delegate { pagarFactura.Destroy(); };
             pagarFactura.ShowAll();
         }
@@ -146,6 +154,15 @@ namespace InterfacesUsuario.MenuUsuarios
             EventBox eventBox = new EventBox();
             eventBox.Add(label);
             return eventBox;
+        }
+
+        private void MostrarMensaje(string mensaje)
+        {
+            using (MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, mensaje))
+            {
+                md.Run();
+                md.Destroy();
+            }
         }
     }
 }

@@ -178,5 +178,22 @@ namespace Listas.ListaUsuarioSimple
             }
             return null;
         }
+
+        public Usuario? BuscarUsuarioCorreo(string correo)
+        {
+            NodoUsuario<T>? actual = primero;
+            while (actual != null)
+            {
+                if (actual.Data is Usuario usuario)
+                {
+                    if (usuario.Correo == correo)
+                    {
+                        return usuario;
+                    }
+                }
+                actual = actual.despues;
+            }
+            return null;
+        }
     }
 }

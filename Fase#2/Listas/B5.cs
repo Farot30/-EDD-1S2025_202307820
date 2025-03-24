@@ -18,7 +18,7 @@ namespace Listas.B5Factura
             raiz = new NodoFactura();
         }
 
-        public void Insertar(int id, int id_servicio, int total)
+        public void Insertar(int id, int id_servicio, double total)
         {
             Facturas nuevaFactura = new Facturas(id, id_servicio, total);
 
@@ -345,6 +345,11 @@ namespace Listas.B5Factura
             {
                 RecorridoInOrdenRecursivo(nodo.Hijos[i], restultado);
             }
+        }
+
+        public bool FacturaExiste(int id)
+        {
+            return Buscar(id) != null;
         }
 
         // Método para generar el archivo .dot para Graphviz
