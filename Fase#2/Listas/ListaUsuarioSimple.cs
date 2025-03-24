@@ -62,30 +62,6 @@ namespace Listas.ListaUsuarioSimple
                 }
             }
         }
-
-        public void Actualizar(int id, string nombre, string apellido, string correo, int edad, string contrasena)
-        {
-            if (primero != null)
-            {
-                NodoUsuario<T>? actual = primero;
-                while (actual != null)
-                {
-                    if (actual.Data is Usuario usuario)
-                    {
-                        if (usuario.Id == id)
-                        {
-                            usuario.Nombre = nombre;
-                            usuario.Apellido = apellido;
-                            usuario.Correo = correo;
-                            usuario.Edad = edad;
-                            usuario.Contrasena = contrasena;
-                            break;
-                        }
-                    }
-                    actual = actual.despues;
-                }
-            }
-        }
         
         public string GenerarGraphviz()
         {
@@ -183,6 +159,24 @@ namespace Listas.ListaUsuarioSimple
                 }
                 actual = actual.despues;
             }
+        }
+
+        // Método para buscar un usuario por correo y contraseña
+        public Usuario? BuscarUsuario(string correo, string contrasena)
+        {
+            NodoUsuario<T>? actual = primero;
+            while (actual != null)
+            {
+                if (actual.Data is Usuario usuario)
+                {
+                    if (usuario.Correo == correo && usuario.Contrasena == contrasena)
+                    {
+                        return usuario;
+                    }
+                }
+                actual = actual.despues;
+            }
+            return null;
         }
     }
 }

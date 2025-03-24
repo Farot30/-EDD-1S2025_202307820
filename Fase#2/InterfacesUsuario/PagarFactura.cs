@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using CLases.Usuarios;
 using Listas.ListaUsuarioSimple;
 using Listas.ListaDobleVehiculos;
+using Listas.BinarioTree;
+using Listas.B5Factura;
 using Listas.AVLTREEsRE;
 
 namespace InterfacesUsuario.PagarFacturas
@@ -14,16 +16,20 @@ namespace InterfacesUsuario.PagarFacturas
         private ListaUsuarioSimple<Usuario> ListaUsuarioSimple;
         private ListaDobleVehiculo ListaDobleVehiculos;
         private AVLTREErepues listaRepuesto;
+        private Binariostree ListaServicios;
+        private B5Facturas ListaFacturas;
         private Entry Id;
         private Entry Orden;
         private Entry Total;
         private Button Pagar;
         private Button Buscar;
-        public PagarFactura(ListaUsuarioSimple<Usuario> ListaUsuario, ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto) : base("Pagar Factura")
+        public PagarFactura(ListaUsuarioSimple<Usuario> ListaUsuario, ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto, Binariostree ListaServicio, B5Facturas ListaFactura) : base("Pagar Factura")
         {
             ListaUsuarioSimple = ListaUsuario;
             ListaDobleVehiculos = listaDobleVehiculo;
             listaRepuesto = listarepuesto;
+            ListaServicios = ListaServicio;
+            ListaFacturas = ListaFactura;
 
             SetDefaultSize(400, 400);
             SetPosition(WindowPosition.Center);

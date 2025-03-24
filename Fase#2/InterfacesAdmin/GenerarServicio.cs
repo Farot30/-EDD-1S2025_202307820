@@ -3,6 +3,9 @@ using CLases.Usuarios;
 using Listas.ListaUsuarioSimple;
 using Listas.ListaDobleVehiculos;
 using Listas.AVLTREEsRE;
+using Listas.BinarioTree;
+using CLases.Servicios;
+using Listas.B5Factura;
 using System;
 using System.Collections.Generic;
 
@@ -13,17 +16,21 @@ namespace InterfacesAdmin.GenerarServicios
         private ListaUsuarioSimple<Usuario> ListaUsuarioSimple;
         private ListaDobleVehiculo ListaDobleVehiculos;
         private AVLTREErepues AVLTree;
+        private Binariostree ListaServicios;
+        private B5Facturas ListaFacturas;
         private Entry ID;
         private Entry ID_repuesto;
         private Entry Id_vehiculo;
         private Entry Detalle;
         private Entry Costo;
         private Button Guardar;
-        public GenerarServicio(ListaUsuarioSimple<Usuario> listaUsuario, ListaDobleVehiculo listaDoble, AVLTREErepues ListaRepuesto) : base("Generar Servicio")
+        public GenerarServicio(ListaUsuarioSimple<Usuario> listaUsuario, ListaDobleVehiculo listaDoble, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, B5Facturas ListaFactura) : base("Generar Servicio")
         {
             ListaUsuarioSimple = listaUsuario;
             ListaDobleVehiculos = listaDoble;
             AVLTree = ListaRepuesto;
+            ListaServicios = ListaServicio;
+            ListaFacturas = ListaFactura;
 
             SetPosition(WindowPosition.Center);
             SetDefaultSize(400, 425);
@@ -33,11 +40,11 @@ namespace InterfacesAdmin.GenerarServicios
             fixedcontainer.Put(Titulo, 80, 50);
 
             EventBox IDLabel = CreateStyledLabel("ID:", "Arial 14");
-            fixedcontainer.Put(IDLabel, 80, 100);
+            fixedcontainer.Put(IDLabel, 50, 100);
 
             ID = new Entry();
             ApplyFont(ID, "Arial 12");
-            fixedcontainer.Put(ID, 50, 100);
+            fixedcontainer.Put(ID, 170, 100);
 
             EventBox ID_repuestoLabel = CreateStyledLabel("ID Repuesto:", "Arial 14");
             fixedcontainer.Put(ID_repuestoLabel, 50, 150);
@@ -80,7 +87,38 @@ namespace InterfacesAdmin.GenerarServicios
         {
             if(int.TryParse(ID.Text, out int id) && int.TryParse(ID_repuesto.Text, out int IDrepuesto) && int.TryParse(Id_vehiculo.Text, out int id_vehiculo) && double.TryParse(Costo.Text, out double costo))
             {
-
+                if(ListaServicios.Existeid(id))
+                {
+                    if(AVLTree.RepuestoExiste(IDrepuesto))
+                    {
+                        if(ListaDobleVehiculos.VehiculoExiste(id_vehiculo))
+                        {
+                            Servicio servicio = new Servicio(id, IDrepuesto, id_vehiculo, Detalle.Text, costo);
+                            ListaServicios.Insertar(servicio);
+                            MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Info, ButtonsType.Ok, "Servicio Guardado");
+                            messageDialog.Run();
+                            messageDialog.Destroy();
+                        }
+                        else
+                        {
+                            MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, "El vehiculo no existe");
+                            messageDialog.Run();
+                            messageDialog.Destroy();
+                        }
+                        
+                    }else
+                    {
+                        MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, "El repuesto no existe");
+                        messageDialog.Run();
+                        messageDialog.Destroy();
+                    }
+                }
+                else
+                {
+                    MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, "El servicio ya existe");
+                    messageDialog.Run();
+                    messageDialog.Destroy();
+                }
             }else
             {
                 MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, "Debe ingresar con datos enteros y dobules en el los ID y los costos");

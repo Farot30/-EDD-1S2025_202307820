@@ -3,6 +3,8 @@ using CLases.Usuarios;
 using Listas.ListaUsuarioSimple;
 using Listas.ListaDobleVehiculos;
 using Listas.AVLTREEsRE;
+using Listas.BinarioTree;
+using Listas.B5Factura;
 
 namespace InterfacesAdmin.ActualizarRepuestos
 {
@@ -15,11 +17,15 @@ namespace InterfacesAdmin.ActualizarRepuestos
         private ListaUsuarioSimple<Usuario> ListaUsuarioSimple;
         private ListaDobleVehiculo ListaDobleVehiculos;
         private AVLTREErepues listaRepuesto;
-        public ActualizarRepuesto(ListaUsuarioSimple<Usuario> ListaUsuario, ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto) : base("Actualizar de Repuestos")
+        private Binariostree ListaServicios;
+        private B5Facturas ListaFacturas;
+        public ActualizarRepuesto(ListaUsuarioSimple<Usuario> ListaUsuario, ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto, Binariostree ListaServicio, B5Facturas ListaFactura) : base("Actualizar de Repuestos")
         {
             ListaUsuarioSimple = ListaUsuario;
             ListaDobleVehiculos = listaDobleVehiculo;
             listaRepuesto = listarepuesto;
+            ListaServicios = ListaServicio;
+            ListaFacturas = ListaFactura;
             
             SetPosition(WindowPosition.Center);
             SetDefaultSize(400, 400);

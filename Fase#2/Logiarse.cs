@@ -6,6 +6,10 @@ using CLases.Usuarios;
 using Listas.ListaDobleVehiculos;
 using Listas.AVLTREEsRE;
 using InterfacesUsuario.MenuUsuarios;
+using Listas.BinarioTree;
+using Listas.B5Factura;
+using CLases.ControlLogeo;
+using Program;
 
 namespace logiarse
 {
@@ -16,11 +20,16 @@ namespace logiarse
         private ListaUsuarioSimple<Usuario> ListaUsuarioSimple;
         private ListaDobleVehiculo listaAutos;
         private AVLTREErepues ListaRepuestos;
-        public Logiarse(ListaUsuarioSimple<Usuario> listaUsuario, ListaDobleVehiculo LIstaAutos, AVLTREErepues listaRepuesto) : base("Inicio de sesión")
+        private Binariostree ListaServicios;
+        private B5Facturas ListaFacturas;
+
+        public Logiarse(ListaUsuarioSimple<Usuario> listaUsuario, ListaDobleVehiculo LIstaAutos, AVLTREErepues listaRepuesto, Binariostree ListaServicio, B5Facturas ListaFactura) : base("Inicio de sesión")
         {
             ListaUsuarioSimple = listaUsuario;
             listaAutos = LIstaAutos;
             ListaRepuestos = listaRepuesto;
+            ListaServicios = ListaServicio;
+            ListaFacturas = ListaFactura;
 
             SetDefaultSize(430, 400);
             SetPosition(WindowPosition.Center);
@@ -29,7 +38,6 @@ namespace logiarse
 
             EventBox labelesBox = CreateStyledLabel("Inicio de sesión", "Arial 20");
             fixedcontainer.Put(labelesBox, 120, 50);
-
 
             EventBox SUS = CreateStyledLabel("Correo:", "Arial 14");
             fixedcontainer.Put(SUS, 100, 150);
@@ -83,22 +91,28 @@ namespace logiarse
 
         private void Validacion(object? sender, EventArgs e)
         {
-            if ( correo.Text == "admin@usac.com" && contrasena.Text == "admin123")
+            if (correo.Text == "admin@usac.com" && contrasena.Text == "admin123")
             {
-                Menus menu = new Menus(ListaUsuarioSimple, listaAutos, ListaRepuestos);
+                Menus menu = new Menus(ListaUsuarioSimple, listaAutos, ListaRepuestos, ListaServicios, ListaFacturas);
                 menu.ShowAll();
                 this.Hide();
             }
-            else if(correo.Text == "1"&& contrasena.Text =="123")
+            else
             {
-                MenuUsuario menuUsuario = new MenuUsuario(ListaUsuarioSimple, listaAutos, ListaRepuestos);
-                menuUsuario.ShowAll();
-                this.Hide();
-            }else
-            {
-                MessageDialog md1 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Usuario Incorrecto o Contraseña Incorrecta");
-                md1.Run();
-                md1.Hide();
+                Usuario? usuario = ListaUsuarioSimple.BuscarUsuario(correo.Text, contrasena.Text);
+                if (usuario != null)
+                {
+                    MainClass.LogUsuarios.Add(new LogUsuario(usuario.Value.Correo, DateTime.Now));
+                    MenuUsuario menuUsuario = new MenuUsuario(ListaUsuarioSimple, listaAutos, ListaRepuestos, ListaServicios, ListaFacturas, usuario.Value.Correo);
+                    menuUsuario.ShowAll();
+                    this.Hide();
+                }
+                else
+                {
+                    MessageDialog md1 = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Usuario Incorrecto o Contraseña Incorrecta");
+                    md1.Run();
+                    md1.Hide();
+                }
             }
         }
     }

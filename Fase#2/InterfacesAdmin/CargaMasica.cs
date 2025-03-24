@@ -6,6 +6,8 @@ using Gtk;
 using Listas.ListaUsuarioSimple;
 using Listas.ListaDobleVehiculos;
 using Listas.AVLTREEsRE;
+using Listas.BinarioTree;
+using Listas.B5Factura;
 using CLases.Usuarios;
 using CLases.Vehiculo;
 using CLases.Repuesto;
@@ -19,11 +21,15 @@ namespace InterfacesAdmin.CargaMasiva
         private ListaUsuarioSimple<Usuario> ListaUsuarioSimple;
         private ListaDobleVehiculo listaAutos;
         private AVLTREErepues ListaRepuestos;
-        public CargaMasivas(ListaUsuarioSimple<Usuario> listaUsuario, ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto) : base("Carga Masiva")
+        private Binariostree ListaServicios;
+        private B5Facturas ListaFacturas;
+        public CargaMasivas(ListaUsuarioSimple<Usuario> listaUsuario, ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, B5Facturas ListaFactura) : base("Carga Masiva")
         {
             ListaUsuarioSimple = listaUsuario;
             listaAutos = ListaAuto;
             ListaRepuestos = ListaRepuesto;
+            ListaServicios = ListaServicio;
+            ListaFacturas = ListaFactura;
             
             SetDefaultSize(400, 400);
             SetPosition(WindowPosition.Center);
@@ -35,6 +41,7 @@ namespace InterfacesAdmin.CargaMasiva
 
             Cargar = new Button("Cargar");
             Cargar.SetSizeRequest(150,50);
+            Cargar.Clicked += CargarMasivos;
             ApplyFont(Cargar, "Arial 12");
             fixedcontainer.Put(Cargar, 135, 100);
 
@@ -42,7 +49,7 @@ namespace InterfacesAdmin.CargaMasiva
 
         }
 
-        private void Cargar_Clicked(object? sender, EventArgs e)
+        private void CargarMasivos(object? sender, EventArgs e)
         {
             FileChooserDialog fileChooser = new FileChooserDialog(
                 "Selecciona un archivo JSON",
@@ -119,7 +126,7 @@ namespace InterfacesAdmin.CargaMasiva
 
                 if (string.IsNullOrEmpty(jsonContent))
                 {
-                    Console.WriteLine("El archivo JSON está vacío");
+                    MostrarMensaje("El archivo JSON está vacío");
                     return;
                 }
 
@@ -130,12 +137,12 @@ namespace InterfacesAdmin.CargaMasiva
                     {
                         if (!ListaUsuarioSimple.UsuarioExiste(usuarioTemp.ID))
                         {
-                            Usuario usuario = new Usuario(usuarioTemp.ID, usuarioTemp.Nombres, usuarioTemp.Apellidos, usuarioTemp.Correo, 0, usuarioTemp.Contrasenia);
+                            Usuario usuario = new Usuario(usuarioTemp.ID, usuarioTemp.Nombres, usuarioTemp.Apellidos, usuarioTemp.Correo, usuarioTemp.Edad, usuarioTemp.Contrasenia);
                             ListaUsuarioSimple.Insertar(usuario);
                         }
                         else
                         {
-                            Console.WriteLine($"El ID {usuarioTemp.ID} ya existe en la lista de usuarios.");
+                            MostrarMensaje($"El ID {usuarioTemp.ID} ya existe en la lista de usuarios.");
                         }
                     }
                 }
@@ -144,14 +151,21 @@ namespace InterfacesAdmin.CargaMasiva
                     var vehiculosTemp = JsonConvert.DeserializeObject<List<VehiculoTemp>>(jsonContent);
                     foreach (var vehiculoTemp in vehiculosTemp)
                     {
-                        if (!listaAutos.VehiculoExiste(vehiculoTemp.ID) && ListaUsuarioSimple.UsuarioExiste(vehiculoTemp.ID_Usuario))
+                        if (!listaAutos.VehiculoExiste(vehiculoTemp.ID))
                         {
-                            Vehiculos vehiculo = new Vehiculos(vehiculoTemp.ID, vehiculoTemp.ID_Usuario, vehiculoTemp.Marca, vehiculoTemp.Modelo, vehiculoTemp.Placa);
-                            listaAutos.Insertar(vehiculo);
+                            if (ListaUsuarioSimple.UsuarioExiste(vehiculoTemp.ID_Usuario))
+                            {
+                                Vehiculos vehiculo = new Vehiculos(vehiculoTemp.ID, vehiculoTemp.ID_Usuario, vehiculoTemp.Marca, vehiculoTemp.Modelo, vehiculoTemp.Placa);
+                                listaAutos.Insertar(vehiculo);
+                            }
+                            else
+                            {
+                                MostrarMensaje($"El ID {vehiculoTemp.ID_Usuario} no existe en la lista de usuarios.");
+                            }
                         }
                         else
                         {
-                            Console.WriteLine($"El ID {vehiculoTemp.ID} ya existe en la lista de vehículos.");
+                            MostrarMensaje($"El ID {vehiculoTemp.ID} ya existe en la lista de vehículos.");
                         }
                     }
                 }
@@ -164,18 +178,26 @@ namespace InterfacesAdmin.CargaMasiva
                         {
                             Repuesto repuesto = new Repuesto(repuestoTemp.ID, repuestoTemp.Repuesto, repuestoTemp.Detalles, repuestoTemp.Costo);
                             ListaRepuestos.Add(repuesto);
-                            Console.WriteLine($"Repuesto insertado: ID={repuestoTemp.ID}, Repuesto={repuestoTemp.Repuesto}, Descripcion={repuestoTemp.Detalles}, Costo={repuestoTemp.Costo}");
                         }
                         else
                         {
-                            Console.WriteLine($"El ID {repuestoTemp.ID} ya existe en la lista de repuestos.");
+                            MostrarMensaje($"El ID {repuestoTemp.ID} ya existe en la lista de repuestos.");
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error al leer el archivo JSON: {ex.Message}");
+                MostrarMensaje($"Error al leer el archivo JSON: {ex.Message}");
+            }
+        }
+
+        private void MostrarMensaje(string mensaje)
+        {
+            using (MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, mensaje))
+            {
+                md.Run();
+                md.Destroy();
             }
         }
         
@@ -188,6 +210,7 @@ public class UsuarioTemp
     public string Nombres { get; set; }
     public string Apellidos { get; set; }
     public string Correo { get; set; }
+    public int Edad { get; set; }
     public string Contrasenia { get; set; }
 }
 

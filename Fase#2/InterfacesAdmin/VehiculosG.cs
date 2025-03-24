@@ -4,6 +4,8 @@ using CLases.Vehiculo;
 using Listas.ListaUsuarioSimple;
 using Listas.ListaDobleVehiculos;
 using Listas.AVLTREEsRE;
+using Listas.BinarioTree;
+using Listas.B5Factura;
 
 namespace InterfacesAdmin.VehiculoG
 {
@@ -18,11 +20,15 @@ namespace InterfacesAdmin.VehiculoG
         private ListaUsuarioSimple<Usuario> ListaUsuarioSimple;
         private ListaDobleVehiculo ListaDobleVehiculos;
         private AVLTREErepues listaRepuesto;
-        public VehiculosG(ListaUsuarioSimple<Usuario> listaUsuario, ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto) : base("Gestión de vehículos")
+        private Binariostree ListaServicios;
+        private B5Facturas ListaFacturas;
+        public VehiculosG(ListaUsuarioSimple<Usuario> listaUsuario, ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto, Binariostree ListaServicio, B5Facturas ListaFactura) : base("Gestión de vehículos")
         {
             ListaUsuarioSimple = listaUsuario;
             ListaDobleVehiculos = listaDobleVehiculo;
             listaRepuesto = listarepuesto;
+            ListaServicios = ListaServicio;
+            ListaFacturas = ListaFactura;
 
             SetPosition(WindowPosition.Center);
             SetDefaultSize(450, 350);

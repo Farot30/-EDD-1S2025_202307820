@@ -3,12 +3,18 @@ using CLases.Usuarios;
 using Listas.ListaUsuarioSimple;
 using Listas.ListaDobleVehiculos;
 using Listas.AVLTREEsRE;
+using Listas.BinarioTree;
+using Listas.B5Factura;
 using System;
 using System.Collections.Generic;
 using InterfacesUsuario.GenerarVehiculo;
 using InterfacesUsuario.VisualizarServicio;
 using InterfacesUsuario.VisualizarFactura;
 using InterfacesUsuario.PagarFacturas;
+using logiarse;
+using Clases;
+using Program;
+using CLases.ControlLogeo;
 
 namespace InterfacesUsuario.MenuUsuarios
 {
@@ -17,15 +23,23 @@ namespace InterfacesUsuario.MenuUsuarios
         private ListaUsuarioSimple<Usuario> ListaUsuarioSimple;
         private ListaDobleVehiculo ListaDobleVehiculos;
         private AVLTREErepues listaRepuesto;
+        private Binariostree ListaServicios;
+        private B5Facturas ListaFacturas;
         private Button Insertar_vehiculo;
         private Button Visuarlizar_Servicio;
         private Button Visualizar_Facturas;
         private Button Cancelar_Reporte;
-        public MenuUsuario(ListaUsuarioSimple<Usuario> ListaUsuario, ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto) : base("Menu de Usuarios")
+        private Button Cerrar_Sesion;
+        private string correoUsuario;
+
+        public MenuUsuario(ListaUsuarioSimple<Usuario> ListaUsuario, ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto, Binariostree ListaServicio, B5Facturas ListaFactura, string correo) : base("Menu de Usuarios")
         {
             ListaUsuarioSimple = ListaUsuario;
             ListaDobleVehiculos = listaDobleVehiculo;
             listaRepuesto = listarepuesto;
+            ListaServicios = ListaServicio;
+            ListaFacturas = ListaFactura;
+            correoUsuario = correo;
 
             SetPosition(WindowPosition.Center);
             SetDefaultSize(400, 400);
@@ -59,35 +73,53 @@ namespace InterfacesUsuario.MenuUsuarios
             ApplyFont(Cancelar_Reporte, "Arial 12");
             fixedcontainer.Put(Cancelar_Reporte, 120, 280);
 
+            Cerrar_Sesion = new Button("Cerrar Sesion");
+            Cerrar_Sesion.SetSizeRequest(150, 50);
+            Cerrar_Sesion.Clicked += CerrarSesion;
+            ApplyFont(Cerrar_Sesion, "Arial 12");
+            fixedcontainer.Put(Cerrar_Sesion, 120, 340);
+
             Add(fixedcontainer);
         }
 
         private void InsertarVehiculo(object? sender, EventArgs e)
         {
-            InsertarVehiuclo insertarVehiuclo = new InsertarVehiuclo(ListaUsuarioSimple, ListaDobleVehiculos, listaRepuesto);
+            InsertarVehiuclo insertarVehiuclo = new InsertarVehiuclo(ListaUsuarioSimple, ListaDobleVehiculos, listaRepuesto, ListaServicios, ListaFacturas);
             insertarVehiuclo.DeleteEvent += delegate { insertarVehiuclo.Destroy(); };
             insertarVehiuclo.ShowAll();
         }
 
         private void Visualizar_servicio(object? sender, EventArgs e)
         {
-            VerServicio verServicio = new VerServicio(ListaUsuarioSimple, ListaDobleVehiculos, listaRepuesto);
+            VerServicio verServicio = new VerServicio(ListaUsuarioSimple, ListaDobleVehiculos, listaRepuesto, ListaServicios, ListaFacturas);
             verServicio.DeleteEvent += delegate { verServicio.Destroy(); };
             verServicio.ShowAll();
         }
 
         private void Visualizar_facturas(object? sender, EventArgs e)
         {
-            Visualizar_Facturas visualizarFactura = new Visualizar_Facturas(ListaUsuarioSimple, ListaDobleVehiculos, listaRepuesto);
+            Visualizar_Facturas visualizarFactura = new Visualizar_Facturas(ListaUsuarioSimple, ListaDobleVehiculos, listaRepuesto, ListaServicios, ListaFacturas);
             visualizarFactura.DeleteEvent += delegate { visualizarFactura.Destroy(); };
             visualizarFactura.ShowAll();
         }
 
         private void Cancelar_reporte(object? sender, EventArgs e)
         {
-            PagarFactura pagarFactura = new PagarFactura(ListaUsuarioSimple, ListaDobleVehiculos, listaRepuesto);
+            PagarFactura pagarFactura = new PagarFactura(ListaUsuarioSimple, ListaDobleVehiculos, listaRepuesto, ListaServicios, ListaFacturas);
             pagarFactura.DeleteEvent += delegate { pagarFactura.Destroy(); };
             pagarFactura.ShowAll();
+        }
+
+        private void CerrarSesion(object? sender, EventArgs e)
+        {
+            LogUsuario? logUsuario = MainClass.LogUsuarios.Find(log => log.Usuario == correoUsuario && log.Salida == null);
+            if (logUsuario != null)
+            {
+                logUsuario.Salida = DateTime.Now;
+            }
+            Logiarse login = new Logiarse(ListaUsuarioSimple, ListaDobleVehiculos, listaRepuesto, ListaServicios, ListaFacturas);
+            login.ShowAll();
+            this.Hide();
         }
 
         private void ApplyFont(Widget widget, string fontDescription)

@@ -3,6 +3,8 @@ using CLases.Usuarios;
 using Listas.ListaUsuarioSimple;
 using Listas.ListaDobleVehiculos;
 using Listas.AVLTREEsRE;
+using Listas.BinarioTree;
+using Listas.B5Factura;
 using System;
 
 namespace InterfacesUsuario.VisualizarServicio
@@ -12,17 +14,21 @@ namespace InterfacesUsuario.VisualizarServicio
         private ListaUsuarioSimple<Usuario> ListaUsuarioSimple;
         private ListaDobleVehiculo ListaDobleVehiculos;
         private AVLTREErepues listaRepuesto;
+        private Binariostree ListaServicios;
+        private B5Facturas ListaFacturas;
         private Button Pre_Orden;
         private Button In_Orden;
         private Button Post_Orden;
         private TreeView treeView;
         private ListStore listStore;
-        public VerServicio(ListaUsuarioSimple<Usuario> ListaUsuario, ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto) : base("Visualizar Servicio")
+        public VerServicio(ListaUsuarioSimple<Usuario> ListaUsuario, ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto, Binariostree ListaServicio, B5Facturas ListaFactura) : base("Visualizar Servicio")
         {
             ListaUsuarioSimple = ListaUsuario;
             ListaDobleVehiculos = listaDobleVehiculo;
             listaRepuesto = listarepuesto;
-
+            ListaServicios = ListaServicio;
+            ListaFacturas = ListaFactura;
+                
             SetPosition(WindowPosition.Center);
             SetDefaultSize(400, 400);
 

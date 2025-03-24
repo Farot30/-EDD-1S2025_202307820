@@ -3,6 +3,8 @@ using CLases.Usuarios;
 using Listas.ListaUsuarioSimple;
 using Listas.ListaDobleVehiculos;
 using Listas.AVLTREEsRE;
+using Listas.BinarioTree;
+using Listas.B5Factura;
 using System;
 using System.Collections.Generic;
 
@@ -13,16 +15,20 @@ namespace InterfacesUsuario.GenerarVehiculo
         private ListaUsuarioSimple<Usuario> ListaUsuarioSimple;
         private ListaDobleVehiculo listaAutos;
         private AVLTREErepues ListaRepuestos;
+        private Binariostree ListaServicios;
+        private B5Facturas ListaFacturas;
         private Entry ID;
         private Entry Marca;
         private Entry Modelo;
         private Entry Placa;
         private Button Guardar;
-        public InsertarVehiuclo(ListaUsuarioSimple<Usuario> listaUsuario, ListaDobleVehiculo lIstaAuto, AVLTREErepues ListaRepuesto) : base("Insertar Vehiculo")
+        public InsertarVehiuclo(ListaUsuarioSimple<Usuario> listaUsuario, ListaDobleVehiculo lIstaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, B5Facturas ListaFactura) : base("Insertar Vehiculo")
         {
             ListaUsuarioSimple = listaUsuario;
             listaAutos = lIstaAuto;
             ListaRepuestos = ListaRepuesto;
+            ListaServicios = ListaServicio;
+            ListaFacturas = ListaFactura;
 
             SetPosition(WindowPosition.Center);
             SetDefaultSize(400, 400);
@@ -72,6 +78,7 @@ namespace InterfacesUsuario.GenerarVehiculo
 
         private void Guardar_Clicked(object? sender, EventArgs e)
         {
+            
             
         }
 

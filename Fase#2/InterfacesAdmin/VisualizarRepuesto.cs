@@ -4,6 +4,8 @@ using CLases.Repuesto;
 using Listas.ListaUsuarioSimple;
 using Listas.ListaDobleVehiculos;
 using Listas.AVLTREEsRE;
+using Listas.BinarioTree;
+using Listas.B5Factura;
 using System.Collections.Generic;
 using Nodos.NodoAVLRepus;
 
@@ -14,17 +16,21 @@ namespace InterfacesAdmin.VisualizarRepuestos
         private ListaUsuarioSimple<Usuario> ListaUsuarioSimple;
         private ListaDobleVehiculo ListaDobleVehiculos;
         private AVLTREErepues listaRepuesto;
+        private Binariostree ListaServicios;
+        private B5Facturas ListaFacturas;
         private Button PRE_Orden;
         private Button IN_Orden;
         private Button POST_Orden;
         private TreeView treeView;
         private ListStore listStore;
 
-        public VisualizarRepuesto(ListaUsuarioSimple<Usuario> ListaUsuario, ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto) : base("Visualización de Repuestos")
+        public VisualizarRepuesto(ListaUsuarioSimple<Usuario> ListaUsuario, ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto, Binariostree ListaServicio, B5Facturas ListaFactura) : base("Visualización de Repuestos")
         {
             ListaUsuarioSimple = ListaUsuario;
             ListaDobleVehiculos = listaDobleVehiculo;
             listaRepuesto = listarepuesto;
+            ListaServicios = ListaServicio;
+            ListaFacturas = ListaFactura;
 
             SetPosition(WindowPosition.Center);
             SetDefaultSize(425, 400);
