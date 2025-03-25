@@ -15,18 +15,18 @@ namespace InterfacesUsuario.PagarFacturas
 {
     public class PagarFactura : Window
     {
-
         private ListaUsuarioSimple<Usuario> ListaUsuarioSimple;
         private ListaDobleVehiculo ListaDobleVehiculos;
         private AVLTREErepues listaRepuesto;
         private Binariostree ListaServicios;
         private B5Facturas ListaFacturas;
         private Entry Id;
-        private Entry Orden;
-        private Entry Total;
+        private Label Orden;
+        private Label Total;
         private Button Pagar;
         private Button Buscar;
         private string correoUsuario;
+
         public PagarFactura(ListaUsuarioSimple<Usuario> ListaUsuario, ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto, Binariostree ListaServicio, B5Facturas ListaFactura, string correo) : base("Pagar Factura")
         {
             ListaUsuarioSimple = ListaUsuario;
@@ -54,14 +54,14 @@ namespace InterfacesUsuario.PagarFacturas
             EventBox OrdenLabel = CreateStyledLabel("Orden:", "Arial 14");
             fixedcontainer.Put(OrdenLabel, 50, 150);
 
-            Orden = new Entry();
+            Orden = new Label();
             ApplyFont(Orden, "Arial 12");
             fixedcontainer.Put(Orden, 150, 150);
 
             EventBox TotalLabel = CreateStyledLabel("Total:", "Arial 14");
             fixedcontainer.Put(TotalLabel, 50, 200);
             
-            Total = new Entry();
+            Total = new Label();
             ApplyFont(Total, "Arial 12");
             fixedcontainer.Put(Total, 150, 200);
 
@@ -79,6 +79,7 @@ namespace InterfacesUsuario.PagarFacturas
 
             Add(fixedcontainer);
         }
+
         public void Pagar_Factura(object? sender, EventArgs e)
         {
             if (int.TryParse(Id.Text, out int id))
@@ -97,6 +98,7 @@ namespace InterfacesUsuario.PagarFacturas
                             {
                                 // Pagar la factura
                                 ListaFacturas.Elminar(id);
+                                ListaServicios.Eliminar(servicio.Value.ID);
                                 MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Factura pagada exitosamente.");
                                 md.Run();
                                 md.Destroy();
@@ -127,16 +129,48 @@ namespace InterfacesUsuario.PagarFacturas
 
         public void Buscar_Factura(object? sender, EventArgs e)
         {
-            if(int.TryParse(Id.Text, out int id))
+            if (int.TryParse(Id.Text, out int id))
             {
-                
-            }else
+                Facturas? factura = ListaFacturas.Buscar(id);
+                if (factura != null)
+                {
+                    Servicio? servicio = ListaServicios.BuscarServicioPorId(factura.Value.ID_servicio);
+                    if (servicio != null)
+                    {
+                        Vehiculos? vehiculo = ListaDobleVehiculos.BuscarVehiculoPorId(servicio.Value.ID_vehiculo);
+                        if (vehiculo != null)
+                        {
+                            Usuario? usuario = ListaUsuarioSimple.BuscarUsuarioPorId(vehiculo.Value.IdUsuario);
+                            if (usuario != null && usuario.Value.Correo == correoUsuario)
+                            {
+                                // Actualizar los labels
+                                Orden.Text = factura.Value.ID_servicio.ToString();
+                                Total.Text = factura.Value.Total.ToString();
+                            }
+                            else
+                            {
+                                MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Error, ButtonsType.Close, "La factura no pertenece al usuario logueado.");
+                                md.Run();
+                                md.Destroy();
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Error, ButtonsType.Close, "Factura no encontrada.");
+                    md.Run();
+                    md.Destroy();
+                }
+            }
+            else
             {
-                MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Error, ButtonsType.Close, "El ID debe ser un numero");
+                MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Error, ButtonsType.Close, "El ID debe ser un número.");
                 md.Run();
                 md.Destroy();
             }
         }
+
         private void ApplyFont(Widget widget, string fontDescription)
         {
             Pango.FontDescription fontDesc = Pango.FontDescription.FromString(fontDescription);
@@ -147,10 +181,6 @@ namespace InterfacesUsuario.PagarFacturas
             else if (widget is Button button)
             {
                 button.Child.ModifyFont(fontDesc);
-            }
-            else if (widget is Entry entry)
-            {
-                entry.ModifyFont(fontDesc);
             }
         }
 

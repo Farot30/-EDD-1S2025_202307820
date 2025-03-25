@@ -46,7 +46,7 @@ namespace InterfacesUsuario.MenuUsuarios
 
             Fixed fixedcontainer = new Fixed();
 
-            EventBox Titulo = CreateStyledLabel("Menu de Usuarios", "Arial 20");
+            EventBox Titulo = CreateStyledLabel(correoUsuario, "Arial 20");
             fixedcontainer.Put(Titulo, 100, 50);
 
             Insertar_vehiculo = new Button("Insertar Vehiculo");
@@ -99,16 +99,22 @@ namespace InterfacesUsuario.MenuUsuarios
 
         private void Visualizar_servicio(object? sender, EventArgs e)
         {
-            VerServicio verServicio = new VerServicio(ListaUsuarioSimple, ListaDobleVehiculos, listaRepuesto, ListaServicios, ListaFacturas);
-            verServicio.DeleteEvent += delegate { verServicio.Destroy(); };
-            verServicio.ShowAll();
+            Usuario? usuario = ListaUsuarioSimple.BuscarUsuarioCorreo(correoUsuario);
+            if(usuario != null){
+                VerServicio verServicio = new VerServicio(ListaUsuarioSimple, ListaDobleVehiculos, listaRepuesto, ListaServicios, ListaFacturas, usuario.Value.Id);
+                verServicio.DeleteEvent += delegate { verServicio.Destroy(); };
+                verServicio.ShowAll();
+            }
         }
 
         private void Visualizar_facturas(object? sender, EventArgs e)
         {
-            Visualizar_Facturas visualizarFactura = new Visualizar_Facturas(ListaUsuarioSimple, ListaDobleVehiculos, listaRepuesto, ListaServicios, ListaFacturas);
-            visualizarFactura.DeleteEvent += delegate { visualizarFactura.Destroy(); };
-            visualizarFactura.ShowAll();
+            Usuario? usuario = ListaUsuarioSimple.BuscarUsuarioCorreo(correoUsuario);
+            if(usuario != null){
+                Visualizar_Facturas visualizarFactura = new Visualizar_Facturas(ListaUsuarioSimple, ListaDobleVehiculos, listaRepuesto, ListaServicios, ListaFacturas, usuario.Value.Id);
+                visualizarFactura.DeleteEvent += delegate { visualizarFactura.Destroy(); };
+                visualizarFactura.ShowAll();
+            }
         }
 
         private void Cancelar_reporte(object? sender, EventArgs e)

@@ -5,6 +5,9 @@ using Listas.ListaDobleVehiculos;
 using Listas.AVLTREEsRE;
 using Listas.BinarioTree;
 using Listas.B5Factura;
+using Clases.Factura;
+using CLases.Servicios;
+using CLases.Vehiculo;
 using System;
 using System.Collections.Generic;
 
@@ -19,13 +22,16 @@ namespace InterfacesUsuario.VisualizarFactura
         private B5Facturas ListaFacturas;
         private TreeView treeView;
         private ListStore listStore;
-        public Visualizar_Facturas(ListaUsuarioSimple<Usuario> ListaUsuario, ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto, Binariostree ListaServicio, B5Facturas ListaFactura) : base("Visualizar Facturas")
+        private int idUsuario;
+
+        public Visualizar_Facturas(ListaUsuarioSimple<Usuario> ListaUsuario, ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto, Binariostree ListaServicio, B5Facturas ListaFactura, int IDUsuario) : base("Visualizar Facturas")
         {
             ListaUsuarioSimple = ListaUsuario;
             ListaDobleVehiculos = listaDobleVehiculo;
             listaRepuesto = listarepuesto;
             ListaServicios = ListaServicio;
             ListaFacturas = ListaFactura;
+            idUsuario = IDUsuario;
 
             SetPosition(WindowPosition.Center);
             SetDefaultSize(400, 425);
@@ -50,6 +56,47 @@ namespace InterfacesUsuario.VisualizarFactura
             fixedcontainer.Put(scrolledWindow, 50, 100);
 
             Add(fixedcontainer);
+
+            CargarFacturasUsuario();
+        }
+
+        private void CargarFacturasUsuario()
+        {
+            listStore.Clear();
+            List<Facturas> facturas = ListaFacturas.RecorridoInOrden();
+            bool tieneFacturas = false;
+
+            foreach (Facturas factura in facturas)
+            {
+                Servicio? servicio = ListaServicios.BuscarServicioPorId(factura.ID_servicio);
+                if (servicio != null)
+                {
+                    Vehiculos? vehiculo = ListaDobleVehiculos.BuscarVehiculoPorId(servicio.Value.ID_vehiculo);
+                    if (vehiculo != null)
+                    {
+                        Usuario? usuario = ListaUsuarioSimple.BuscarUsuarioPorId(vehiculo.Value.IdUsuario);
+                        if (usuario != null && usuario.Value.Id == idUsuario)
+                        {
+                            listStore.AppendValues(factura.ID.ToString(), factura.ID_servicio.ToString(), factura.Total);
+                            tieneFacturas = true;
+                        }
+                    }
+                }
+            }
+
+            if (!tieneFacturas)
+            {
+                MostrarMensaje("El usuario no tiene facturas.");
+            }
+        }
+
+        private void MostrarMensaje(string mensaje)
+        {
+            using (MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, mensaje))
+            {
+                md.Run();
+                md.Destroy();
+            }
         }
 
         private void ApplyFont(Widget widget, string fontDescription)
@@ -76,8 +123,6 @@ namespace InterfacesUsuario.VisualizarFactura
             EventBox eventBox = new EventBox();
             eventBox.Add(label);
             return eventBox;
-        }   
-
+        }
     }
-    
 }

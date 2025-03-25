@@ -99,37 +99,7 @@ namespace Listas.ListaUsuarioSimple
             graph += "}\n";
             return graph;
         }
-
-        public Usuario? BuscarUsuarioPorId(int id)
-        {
-            NodoUsuario<T>? actual = primero;
-            while (actual != null)
-            {
-                if (actual.Data is Usuario usuario && usuario.Id == id)
-                {
-                    return usuario;
-                }
-                actual = actual.despues;
-            }
-            return null;
-        }
-
-        public bool UsuarioExiste(int id)
-        {
-            NodoUsuario<T>? actual = primero;
-            while (actual != null)
-            {
-                if (actual.Data is Usuario usuario)
-                {
-                    if (usuario.Id == id)
-                    {
-                        return true;
-                    }
-                }
-                actual = actual.despues;
-            }
-            return false;
-        }
+        
 
         public bool CorreoUsuario(string correo)
         {
@@ -179,6 +149,37 @@ namespace Listas.ListaUsuarioSimple
             return null;
         }
 
+        public bool UsuarioExiste(int id)
+        {
+            NodoUsuario<T>? actual = primero;
+            while (actual != null)
+            {
+                if (actual.Data is Usuario usuario)
+                {
+                    if (usuario.Id == id)
+                    {
+                        return true;
+                    }
+                }
+                actual = actual.despues;
+            }
+            return false;
+        }
+
+        public Usuario? BuscarUsuarioPorId(int id)
+        {
+            NodoUsuario<T>? actual = primero;
+            while (actual != null)
+            {
+                if (actual.Data is Usuario usuario && usuario.Id == id)
+                {
+                    return usuario;
+                }
+                actual = actual.despues;
+            }
+            return null;
+        }
+
         public Usuario? BuscarUsuarioCorreo(string correo)
         {
             NodoUsuario<T>? actual = primero;
@@ -194,6 +195,23 @@ namespace Listas.ListaUsuarioSimple
                 actual = actual.despues;
             }
             return null;
+        }
+
+        public bool UsuarioExisteCorreo(string correo)
+        {
+            NodoUsuario<T>? actual = primero;
+            while(actual != null)
+            {
+                if(actual.Data is Usuario usuario)
+                {
+                    if(usuario.Correo == correo)
+                    {
+                        return true;
+                    }
+                }
+                actual = actual.despues;
+            }
+            return false;
         }
     }
 }

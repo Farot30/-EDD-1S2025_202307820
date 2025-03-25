@@ -1,10 +1,13 @@
 using Gtk;
 using CLases.Usuarios;
+using CLases.Vehiculo;
+using CLases.Servicios;
 using Listas.ListaUsuarioSimple;
 using Listas.ListaDobleVehiculos;
 using Listas.AVLTREEsRE;
 using Listas.BinarioTree;
 using Listas.B5Factura;
+using Nodos.NodoBinarios;
 using System;
 
 namespace InterfacesUsuario.VisualizarServicio
@@ -21,14 +24,17 @@ namespace InterfacesUsuario.VisualizarServicio
         private Button Post_Orden;
         private TreeView treeView;
         private ListStore listStore;
-        public VerServicio(ListaUsuarioSimple<Usuario> ListaUsuario, ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto, Binariostree ListaServicio, B5Facturas ListaFactura) : base("Visualizar Servicio")
+        private int idUsuario;
+
+        public VerServicio(ListaUsuarioSimple<Usuario> ListaUsuario, ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto, Binariostree ListaServicio, B5Facturas ListaFactura, int IDUsuario) : base("Visualizar Servicio")
         {
             ListaUsuarioSimple = ListaUsuario;
             ListaDobleVehiculos = listaDobleVehiculo;
             listaRepuesto = listarepuesto;
             ListaServicios = ListaServicio;
             ListaFacturas = ListaFactura;
-                
+            idUsuario = IDUsuario;
+
             SetPosition(WindowPosition.Center);
             SetDefaultSize(400, 400);
 
@@ -60,7 +66,7 @@ namespace InterfacesUsuario.VisualizarServicio
             treeView.AppendColumn("ID", new CellRendererText(), "text", 0);
             treeView.AppendColumn("Repuesto", new CellRendererText(), "text", 1);
             treeView.AppendColumn("Vehiculo", new CellRendererText(), "text", 2);
-            treeView.AppendColumn("Fecha", new CellRendererText(), "text", 3);
+            treeView.AppendColumn("Detalle", new CellRendererText(), "text", 3);
             treeView.AppendColumn("Costo", new CellRendererText(), "text", 4);
 
             listStore = new ListStore(typeof(string), typeof(string), typeof(string), typeof(string), typeof(double));
@@ -77,20 +83,103 @@ namespace InterfacesUsuario.VisualizarServicio
         private void PreOrden(object? sender, EventArgs e)
         {
             listStore.Clear();
-            //Falta lógica de PreOrden
+            PreOrdenRecursivo(ListaServicios.raiz);
+            if (listStore.IterNChildren() == 0)
+            {
+                MostrarMensaje("No existen servicios para el usuario.");
+            }
         }
+
+        private void PreOrdenRecursivo(NodoBinario? nodo)
+        {
+            if (nodo != null)
+            {
+                Servicio servicio = nodo.servicios;
+                Vehiculos? vehiculo = ListaDobleVehiculos.BuscarVehiculoPorId(servicio.ID_vehiculo);
+                if (vehiculo != null)
+                {
+                    Usuario? usuario = ListaUsuarioSimple.BuscarUsuarioPorId(vehiculo.Value.IdUsuario);
+                    if (usuario != null && usuario.Value.Id == idUsuario)
+                    {
+                        listStore.AppendValues(servicio.ID.ToString(), servicio.ID_repuesto.ToString(), servicio.ID_vehiculo.ToString(), servicio.Detalle, servicio.Costo);
+                    }
+                }
+                PreOrdenRecursivo(nodo.izquierdo);
+                PreOrdenRecursivo(nodo.derecho);
+            }
+        }
+
         private void InOrden(object? sender, EventArgs e)
         {
             listStore.Clear();
-            //Falta lógica de InOrden
+            InOrdenRecursivo(ListaServicios.raiz);
+            if (listStore.IterNChildren() == 0)
+            {
+                MostrarMensaje("No existen servicios para el usuario.");
+            }
+        }
+
+        private void InOrdenRecursivo(NodoBinario? nodo)
+        {
+            if (nodo != null)
+            {
+                InOrdenRecursivo(nodo.izquierdo);
+
+                Servicio servicio = nodo.servicios;
+                Vehiculos? vehiculo = ListaDobleVehiculos.BuscarVehiculoPorId(servicio.ID_vehiculo);
+                if (vehiculo != null)
+                {
+                    Usuario? usuario = ListaUsuarioSimple.BuscarUsuarioPorId(vehiculo.Value.IdUsuario);
+                    if (usuario != null && usuario.Value.Id == idUsuario)
+                    {
+                        listStore.AppendValues(servicio.ID.ToString(), servicio.ID_repuesto.ToString(), servicio.ID_vehiculo.ToString(), servicio.Detalle, servicio.Costo);
+                    }
+                }
+
+                InOrdenRecursivo(nodo.derecho);
+            }
         }
 
         private void PostOrden(object? sender, EventArgs e)
         {
             listStore.Clear();
-            //Falta lógica de PostOrden
+            PostOrdenRecursivo(ListaServicios.raiz);
+            if (listStore.IterNChildren() == 0)
+            {
+                MostrarMensaje("No existen servicios para el usuario.");
+            }
         }
-        private  void ApplyFont(Widget widget, string fontDescription)
+
+        private void PostOrdenRecursivo(NodoBinario? nodo)
+        {
+            if (nodo != null)
+            {
+                PostOrdenRecursivo(nodo.izquierdo);
+                PostOrdenRecursivo(nodo.derecho);
+
+                Servicio servicio = nodo.servicios;
+                Vehiculos? vehiculo = ListaDobleVehiculos.BuscarVehiculoPorId(servicio.ID_vehiculo);
+                if (vehiculo != null)
+                {
+                    Usuario? usuario = ListaUsuarioSimple.BuscarUsuarioPorId(vehiculo.Value.IdUsuario);
+                    if (usuario != null && usuario.Value.Id == idUsuario)
+                    {
+                        listStore.AppendValues(servicio.ID.ToString(), servicio.ID_repuesto.ToString(), servicio.ID_vehiculo.ToString(), servicio.Detalle, servicio.Costo);
+                    }
+                }
+            }
+        }
+
+        private void MostrarMensaje(string mensaje)
+        {
+            using (MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, mensaje))
+            {
+                md.Run();
+                md.Destroy();
+            }
+        }
+
+        private void ApplyFont(Widget widget, string fontDescription)
         {
             Pango.FontDescription fontDesc = Pango.FontDescription.FromString(fontDescription);
             if (widget is Label label)

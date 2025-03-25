@@ -133,55 +133,63 @@ namespace InterfacesAdmin.CargaMasiva
                 if (filePath.Contains("Usuarios"))
                 {
                     var usuariosTemp = JsonConvert.DeserializeObject<List<UsuarioTemp>>(jsonContent);
-                    foreach (var usuarioTemp in usuariosTemp)
-                    {
-                        if (!ListaUsuarioSimple.UsuarioExiste(usuarioTemp.ID))
+                    if(usuariosTemp != null){
+                        foreach (var usuarioTemp in usuariosTemp)
                         {
-                            Usuario usuario = new Usuario(usuarioTemp.ID, usuarioTemp.Nombres, usuarioTemp.Apellidos, usuarioTemp.Correo, usuarioTemp.Edad, usuarioTemp.Contrasenia);
-                            ListaUsuarioSimple.Insertar(usuario);
-                        }
-                        else
-                        {
-                            MostrarMensaje($"El ID {usuarioTemp.ID} ya existe en la lista de usuarios.");
+                            if (!ListaUsuarioSimple.UsuarioExiste(usuarioTemp.ID))
+                            {
+                                if(!ListaUsuarioSimple.UsuarioExisteCorreo(usuarioTemp.Correo)){
+                                    Usuario usuario = new Usuario(usuarioTemp.ID, usuarioTemp.Nombres, usuarioTemp.Apellidos, usuarioTemp.Correo, usuarioTemp.Edad, usuarioTemp.Contrasenia);
+                                    ListaUsuarioSimple.Insertar(usuario);
+                                }
+                            }
+                            else
+                            {
+                                MostrarMensaje($"El ID {usuarioTemp.ID} ya existe en la lista de usuarios.");
+                            }
                         }
                     }
                 }
                 else if (filePath.Contains("Vehiculos"))
                 {
                     var vehiculosTemp = JsonConvert.DeserializeObject<List<VehiculoTemp>>(jsonContent);
-                    foreach (var vehiculoTemp in vehiculosTemp)
-                    {
-                        if (!listaAutos.VehiculoExiste(vehiculoTemp.ID))
+                    if(vehiculosTemp != null){
+                        foreach (var vehiculoTemp in vehiculosTemp)
                         {
-                            if (ListaUsuarioSimple.UsuarioExiste(vehiculoTemp.ID_Usuario))
+                            if (!listaAutos.VehiculoExiste(vehiculoTemp.ID))
                             {
-                                Vehiculos vehiculo = new Vehiculos(vehiculoTemp.ID, vehiculoTemp.ID_Usuario, vehiculoTemp.Marca, vehiculoTemp.Modelo, vehiculoTemp.Placa);
-                                listaAutos.Insertar(vehiculo);
+                                if (ListaUsuarioSimple.UsuarioExiste(vehiculoTemp.ID_Usuario))
+                                {
+                                    Vehiculos vehiculo = new Vehiculos(vehiculoTemp.ID, vehiculoTemp.ID_Usuario, vehiculoTemp.Marca, vehiculoTemp.Modelo, vehiculoTemp.Placa);
+                                    listaAutos.Insertar(vehiculo);
+                                }
+                                else
+                                {
+                                    MostrarMensaje($"El ID {vehiculoTemp.ID_Usuario} no existe en la lista de usuarios.");
+                                }
                             }
                             else
                             {
-                                MostrarMensaje($"El ID {vehiculoTemp.ID_Usuario} no existe en la lista de usuarios.");
+                                MostrarMensaje($"El ID {vehiculoTemp.ID} ya existe en la lista de vehículos.");
                             }
-                        }
-                        else
-                        {
-                            MostrarMensaje($"El ID {vehiculoTemp.ID} ya existe en la lista de vehículos.");
                         }
                     }
                 }
                 else if (filePath.Contains("Repuestos"))
                 {
                     var repuestosTemp = JsonConvert.DeserializeObject<List<RepuestoTemp>>(jsonContent);
-                    foreach (var repuestoTemp in repuestosTemp)
-                    {
-                        if (!ListaRepuestos.RepuestoExiste(repuestoTemp.ID))
+                    if(repuestosTemp != null){
+                        foreach (var repuestoTemp in repuestosTemp)
                         {
-                            Repuesto repuesto = new Repuesto(repuestoTemp.ID, repuestoTemp.Repuesto, repuestoTemp.Detalles, repuestoTemp.Costo);
-                            ListaRepuestos.Add(repuesto);
-                        }
-                        else
-                        {
-                            MostrarMensaje($"El ID {repuestoTemp.ID} ya existe en la lista de repuestos.");
+                            if (!ListaRepuestos.RepuestoExiste(repuestoTemp.ID))
+                            {
+                                Repuesto repuesto = new Repuesto(repuestoTemp.ID, repuestoTemp.Repuesto, repuestoTemp.Detalles, repuestoTemp.Costo);
+                                ListaRepuestos.Add(repuesto);
+                            }
+                            else
+                            {
+                                MostrarMensaje($"El ID {repuestoTemp.ID} ya existe en la lista de repuestos.");
+                            }
                         }
                     }
                 }
