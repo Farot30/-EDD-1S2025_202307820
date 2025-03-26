@@ -30,23 +30,23 @@ namespace InterfacesAdmin.Gestion
             ListaFacturas = ListaFactura;
 
             SetPosition(WindowPosition.Center); 
-            SetDefaultSize(375, 350);
+            SetDefaultSize(410, 350);
             Fixed fixedcontainer = new Fixed();
             
             EventBox Titulo = CreateStyledLabel("Gestiones de usuarios y vehículos", "Arial 20");
             fixedcontainer.Put(Titulo, 25, 50);
             
             Usuarios = new Button("Gestión de usuarios");
-            Usuarios.SetSizeRequest(100, 50);
+            Usuarios.SetSizeRequest(90, 50);
             Usuarios.Clicked += Usuariosg;
             ApplyFont(Usuarios, "Arial 12");
-            fixedcontainer.Put(Usuarios, 180, 100);
+            fixedcontainer.Put(Usuarios, 120, 100);
 
             Vehiculos = new Button("Gestión de vehículos");
-            Vehiculos.SetSizeRequest(100, 50);
+            Vehiculos.SetSizeRequest(85, 50);
             Vehiculos.Clicked += Vehiculosg;
             ApplyFont(Vehiculos, "Arial 12");
-            fixedcontainer.Put(Vehiculos, 180, 160);
+            fixedcontainer.Put(Vehiculos, 115, 160);
             
             Add(fixedcontainer);
         }

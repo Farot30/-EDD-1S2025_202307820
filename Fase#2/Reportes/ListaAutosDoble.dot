@@ -1,0 +1,17 @@
+digraph G {
+rankdir=LR;
+node [shape=record];
+subgraph cluster_ListaDobleEnlazada {
+label = "Lista Doblemente Enlazada";
+"1" [label="ID: 1\nID Usuario: 1\nMarca: Honda Civic\nModelo: 2005\nPlaca: XZJ7H9K"];
+"1" -> "2";
+"2" -> "1";
+"2" [label="ID: 2\nID Usuario: 2\nMarca: Toyota Corolla\nModelo: 2010\nPlaca: JKS8T5A"];
+"2" -> "3";
+"3" -> "2";
+"3" [label="ID: 3\nID Usuario: 3\nMarca: Nissan Sentra\nModelo: 2015\nPlaca: KJH6G4E"];
+"3" -> "4";
+"4" -> "3";
+"4" [label="ID: 4\nID Usuario: 1\nMarca: peco\nModelo: 2005\nPlaca: pfd84"];
+}
+}

@@ -99,6 +99,8 @@ namespace InterfacesUsuario.PagarFacturas
                                 // Pagar la factura
                                 ListaFacturas.Elminar(id);
                                 ListaServicios.Eliminar(servicio.Value.ID);
+                                ListaFacturas.Mostrar();
+                                ListaServicios.Mostrar();
                                 MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Factura pagada exitosamente.");
                                 md.Run();
                                 md.Destroy();

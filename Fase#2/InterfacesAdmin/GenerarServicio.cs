@@ -26,7 +26,7 @@ namespace InterfacesAdmin.GenerarServicios
         private Entry Detalle;
         private Entry Costo;
         private Button Guardar;
-        private int ID_factura = 1;
+        private int o = 1;
 
         public GenerarServicio(ListaUsuarioSimple<Usuario> listaUsuario, ListaDobleVehiculo listaDoble, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, B5Facturas ListaFactura) : base("Generar Servicio")
         {
@@ -89,63 +89,73 @@ namespace InterfacesAdmin.GenerarServicios
 
         private void GuardarServicio(object? sender, EventArgs e)
         {
-            if(int.TryParse(ID.Text, out int id) && int.TryParse(ID_repuesto.Text, out int IDrepuesto) && int.TryParse(Id_vehiculo.Text, out int id_vehiculo) && double.TryParse(Costo.Text, out double costo))
+            if(!string.IsNullOrWhiteSpace(ID.Text) && !string.IsNullOrWhiteSpace(ID_repuesto.Text) && !string.IsNullOrWhiteSpace(Id_vehiculo.Text) && !string.IsNullOrWhiteSpace(Detalle.Text) && !string.IsNullOrWhiteSpace(Costo.Text))
             {
-                if(!ListaServicios.Existeid(id))
+                if(int.TryParse(ID.Text, out int id) && int.TryParse(ID_repuesto.Text, out int IDrepuesto) && int.TryParse(Id_vehiculo.Text, out int id_vehiculo) && double.TryParse(Costo.Text, out double costo))
                 {
-                    if(AVLTree.RepuestoExiste(IDrepuesto))
+                    if(!ListaServicios.Existeid(id))
                     {
-                        if(ListaDobleVehiculos.VehiculoExiste(id_vehiculo))
+                        if(AVLTree.RepuestoExiste(IDrepuesto))
                         {
-                            Servicio servicio = new Servicio(id, IDrepuesto, id_vehiculo, Detalle.Text, costo);
-                            ListaServicios.Insertar(servicio);
-
-                            // Calcular el total de la factura
-                            Repuesto? repuesto = AVLTree.BuscarRepuestoPorId(IDrepuesto);
-                            double total = costo + (repuesto?.Precio ?? 0);
-                            if(ListaFacturas.FacturaExiste(ID_factura))
+                            if(ListaDobleVehiculos.VehiculoExiste(id_vehiculo))
                             {
-                                // Crear e insertar la factura
-                                Facturas factura1 = new Facturas(ID_factura, id, total);
-                                ListaFacturas.Insertar(factura1.ID, factura1.ID_servicio, factura1.Total);
-                                ID_factura++;
+                                Servicio servicio = new Servicio(id, IDrepuesto, id_vehiculo, Detalle.Text, costo);
+                                ListaServicios.Insertar(servicio);
+                                ListaServicios.Mostrar();
 
-                                MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Info, ButtonsType.Ok, "Servicio y factura guardados exitosamente.");
-                                messageDialog.Run();
-                                messageDialog.Destroy();
+                                // Calcular el total de la factura
+                                Repuesto? repuesto = AVLTree.BuscarRepuestoPorId(IDrepuesto);
+                                double total = costo + (repuesto?.Precio ?? 0);
+                                if(!ListaFacturas.FacturaExiste(id))
+                                {
+                                    // Crear e insertar la factura
+                                    int nuevoID = ListaFacturas.GenerarNuevoID();
+                                    Facturas factura1 = new Facturas(nuevoID, id, total);
+                                    ListaFacturas.Insertar(factura1.ID, factura1.ID_servicio, factura1.Total);
+                                    ListaFacturas.Mostrar();
 
+                                    MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Info, ButtonsType.Ok, "Servicio y factura guardados exitosamente.");
+                                    messageDialog.Run();
+                                    messageDialog.Destroy();
+                                }
+                                else
+                                {
+                                    MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Info, ButtonsType.Ok, "Factura ya existe");
+                                    messageDialog.Run();
+                                    messageDialog.Destroy();
+                                }
                             }
                             else
                             {
-                                MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Info, ButtonsType.Ok, "Factura ya existe");
+                                MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, "El vehiculo no existe");
                                 messageDialog.Run();
                                 messageDialog.Destroy();
                             }
-                            
                         }
                         else
                         {
-                            MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, "El vehiculo no existe");
+                            MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, "El repuesto no existe");
                             messageDialog.Run();
                             messageDialog.Destroy();
                         }
-                        
-                    }else
+                    }
+                    else
                     {
-                        MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, "El repuesto no existe");
+                        MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, "El servicio ya existe");
                         messageDialog.Run();
                         messageDialog.Destroy();
                     }
                 }
                 else
                 {
-                    MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, "El servicio ya existe");
+                    MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, "Debe ingresar datos válidos en los campos de ID y costo");
                     messageDialog.Run();
                     messageDialog.Destroy();
                 }
-            }else
+            }
+            else
             {
-                MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, "Debe ingresar datos válidos en los campos de ID y costo");
+                MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, "Debe llenar todos los campos");
                 messageDialog.Run();
                 messageDialog.Destroy();
             }

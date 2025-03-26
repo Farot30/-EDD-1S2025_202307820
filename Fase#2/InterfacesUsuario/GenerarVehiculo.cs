@@ -40,7 +40,7 @@ namespace InterfacesUsuario.GenerarVehiculo
             Fixed fixedcontainer = new Fixed();
 
             EventBox Titulo = CreateStyledLabel("Insertar Vehiculo", "Arial 20");
-            fixedcontainer.Put(Titulo, 80, 50);
+            fixedcontainer.Put(Titulo, 100, 50);
 
             EventBox IDLabel = CreateStyledLabel("ID:", "Arial 14");
             fixedcontainer.Put(IDLabel, 50, 100);
@@ -81,24 +81,31 @@ namespace InterfacesUsuario.GenerarVehiculo
 
         private void Guardar_Clicked(object? sender, EventArgs e)
         {
-            if(int.TryParse(ID.Text, out int id))
+            if(!string.IsNullOrEmpty(ID.Text) || !string.IsNullOrEmpty(Marca.Text) || !string.IsNullOrEmpty(Modelo.Text) || !string.IsNullOrEmpty(Placa.Text))
             {
-                if (!listaAutos.VehiculoExiste(id))
+                if(int.TryParse(ID.Text, out int id) && int.TryParse(Modelo.Text, out int modelos))
                 {
-                    Vehiculos vehiculo = new Vehiculos(id, usuarioId, Marca.Text, Modelo.Text, Placa.Text);
-                    listaAutos.Insertar(vehiculo);
-                    MostrarMensaje("Vehículo guardado exitosamente.");
+                    if (!listaAutos.VehiculoExiste(id))
+                    {
+                        Vehiculos vehiculo = new Vehiculos(id, usuarioId, Marca.Text, modelos, Placa.Text);
+                        listaAutos.Insertar(vehiculo);
+                        listaAutos.Mostrar();
+                        MostrarMensaje("Vehículo guardado exitosamente.");
+                    }
+                    else
+                    {
+                        MostrarMensaje("El ID del vehículo ya existe.");
+                    }
                 }
                 else
                 {
-                    MostrarMensaje("El ID del vehículo ya existe.");
+                    MostrarMensaje("El ID del vehículo debe ser un número.");
                 }
             }
             else
             {
-                MostrarMensaje("El ID del vehículo debe ser un número.");
+                MostrarMensaje("Todos los campos son requeridos.");
             }
-            
         }
 
         private EventBox CreateStyledLabel(string text, string font)

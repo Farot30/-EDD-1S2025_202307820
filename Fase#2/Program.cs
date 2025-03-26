@@ -28,17 +28,17 @@ namespace Program
             B5Facturas ListaFacturas = new B5Facturas();
             Binariostree ListaServicios = new Binariostree();
 
-            listaUsuarios.Insertar(new Usuario(1, "Juan", "Perez", "juan@example.com", 25, "password123"));
+            /*listaUsuarios.Insertar(new Usuario(1, "Juan", "Perez", "juan@example.com", 25, "password123"));
             listaUsuarios.Insertar(new Usuario(2, "Maria", "Lopez", "maria@example.com", 30, "password456"));
             listaUsuarios.Insertar(new Usuario(3, "Carlos", "Garcia", "carlos@example.com", 28, "password789"));
-            listaUsuarios.Mostrar();
+            listaUsuarios.Mostrar();*/
             
             Application.Init();
             Logiarse login = new Logiarse(listaUsuarios, listaAutos, ListaRepuestos, ListaServicios, ListaFacturas);
             login.ShowAll();
             Application.Run();
             
-
+/*
             ListaFacturas.Insertar(1, 1, 100);
             ListaFacturas.Insertar(2, 2, 200);
             ListaFacturas.Insertar(3, 3, 300);
@@ -122,7 +122,7 @@ namespace Program
             string graphviz5 = ListaServicios.GenerarGraphviz();
             Grafica.GenerarArchivoDot("servicios.dot", graphviz5, "Árbol Binario de Servicios");
             Grafica.ConvertirDotAImagen("servicios.dot");
-
+*/
 
             
         }

@@ -33,7 +33,7 @@ namespace InterfacesAdmin.UsuarioG
             SetPosition(WindowPosition.Center);
             SetDefaultSize(400, 350);
             Fixed fixedcontainer = new Fixed();
-            
+
             EventBox Titulo = CreateStyledLabel("Gestión de usuarios", "Arial 20");
             fixedcontainer.Put(Titulo, 100, 50);
 
@@ -62,7 +62,7 @@ namespace InterfacesAdmin.UsuarioG
             IDEliminarButton.SetSizeRequest(50, 50);
             ApplyFont(IDEliminarButton, "Arial 12");
             fixedcontainer.Put(IDEliminarButton, 150, 270);
-            
+
             Add(fixedcontainer);
         }
 
@@ -116,7 +116,7 @@ namespace InterfacesAdmin.UsuarioG
         {
             if (int.TryParse(IDEliminar.Text, out int id))
             {
-                if(ListaUsuarioSimple.UsuarioExiste(id))
+                if (ListaUsuarioSimple.UsuarioExiste(id))
                 {
                     ListaUsuarioSimple.Eliminar(id);
                     MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Usuario eliminado");
@@ -132,7 +132,7 @@ namespace InterfacesAdmin.UsuarioG
             }
         }
 
-        private  void ApplyFont(Widget widget, string fontDescription)
+        private void ApplyFont(Widget widget, string fontDescription)
         {
             Pango.FontDescription fontDesc = Pango.FontDescription.FromString(fontDescription);
             if (widget is Label label)

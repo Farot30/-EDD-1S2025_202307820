@@ -1,0 +1,8 @@
+digraph G {
+    node [shape=record];
+    "2" [label="{ID: 2|Nombre: Bujías|Descripcion: Se usa para laa mezcla de aire y combustible.|Precio: 15,75}"];
+    "2" -> "1";
+    "1" [label="{ID: 1|Nombre: Filtro de aceite|Descripcion: Filtra impurezas del aceite del motor.|Precio: 25,5}"];
+    "2" -> "3";
+    "3" [label="{ID: 3|Nombre: Candelas|Descripcion: Se utiliza para darle chispa al motor.|Precio: 20,85}"];
+}

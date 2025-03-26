@@ -97,7 +97,7 @@ namespace InterfacesAdmin.VisualizarRepuestos
         {
             if (nodo != null)
             {
-                listStore.AppendValues(nodo.val.Id, nodo.val.Nombre, nodo.val.Descripcion, nodo.val.Precio);
+                listStore.AppendValues(nodo.val.Id, nodo.val.Nombre, nodo.val.Descripcion, Math.Round(nodo.val.Precio, 2));
                 Preorden(nodo.izq);
                 Preorden(nodo.der);
             }
@@ -108,7 +108,7 @@ namespace InterfacesAdmin.VisualizarRepuestos
             if (nodo != null)
             {
                 Inorden(nodo.izq);
-                listStore.AppendValues(nodo.val.Id, nodo.val.Nombre, nodo.val.Descripcion, nodo.val.Precio);
+                listStore.AppendValues(nodo.val.Id, nodo.val.Nombre, nodo.val.Descripcion, Math.Round(nodo.val.Precio, 2));
                 Inorden(nodo.der);
             }
         }
@@ -119,7 +119,7 @@ namespace InterfacesAdmin.VisualizarRepuestos
             {
                 Postorden(nodo.izq);
                 Postorden(nodo.der);
-                listStore.AppendValues(nodo.val.Id, nodo.val.Nombre, nodo.val.Descripcion, nodo.val.Precio);
+                listStore.AppendValues(nodo.val.Id, nodo.val.Nombre, nodo.val.Descripcion, Math.Round(nodo.val.Precio, 2));
             }
         }
 

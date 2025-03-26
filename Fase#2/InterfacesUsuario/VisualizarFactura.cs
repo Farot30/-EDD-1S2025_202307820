@@ -77,7 +77,7 @@ namespace InterfacesUsuario.VisualizarFactura
                         Usuario? usuario = ListaUsuarioSimple.BuscarUsuarioPorId(vehiculo.Value.IdUsuario);
                         if (usuario != null && usuario.Value.Id == idUsuario)
                         {
-                            listStore.AppendValues(factura.ID.ToString(), factura.ID_servicio.ToString(), factura.Total);
+                            listStore.AppendValues(factura.ID.ToString(), factura.ID_servicio.ToString(), Math.Round(factura.Total, 2));
                             tieneFacturas = true;
                         }
                     }

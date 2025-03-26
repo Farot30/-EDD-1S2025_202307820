@@ -103,8 +103,6 @@ namespace Listas.ListaDobleVehiculos
             return vehiculos;
         }
 
-        
-
         public bool VehiculoExiste(int id)
         {
             NodoVehiculo? actual = primero;

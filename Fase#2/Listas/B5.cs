@@ -71,28 +71,28 @@ namespace Listas.B5Factura
         {
             int i = nodo.Claves.Count - 1;
 
-            if(nodo.EsHoja)
+            if (nodo.EsHoja)
             {
-                while(i >= 0 && nuevaFactura.ID < nodo.Claves[i].ID)
+                nodo.Claves.Insert(nodo.Claves.Count, nuevaFactura); // Insertar el nuevo elemento en la posición correcta
+                while (i >= 0 && nuevaFactura.ID < nodo.Claves[i].ID)
                 {
                     nodo.Claves[i + 1] = nodo.Claves[i];
                     i--;
                 }
-                nodo.Claves.Insert(i + 1, nuevaFactura);
+                nodo.Claves[i + 1] = nuevaFactura;
             }
             else
             {
-                while(i >= 0 && nuevaFactura.ID < nodo.Claves[i].ID)
+                while (i >= 0 && nuevaFactura.ID < nodo.Claves[i].ID)
                 {
                     i--;
                 }
                 i++;
 
-
-                if(nodo.Hijos[i].EstaLleno())
+                if (nodo.Hijos[i].EstaLleno())
                 {
                     DividirHijo(nodo, i);
-                    if(nuevaFactura.ID > nodo.Claves[i].ID)
+                    if (nuevaFactura.ID > nodo.Claves[i].ID)
                     {
                         i++;
                     }
@@ -126,6 +126,20 @@ namespace Listas.B5Factura
 
             return BuscarRecursivo(nodo.Hijos[i], id);
 
+        }
+
+        public int GenerarNuevoID()
+        {
+            int nuevoID = 1;
+            if (raiz != null)
+            {
+                List<Facturas> facturas = RecorridoInOrden();
+                if (facturas.Count > 0)
+                {
+                    nuevoID = facturas.Max(f => f.ID) + 1;
+                }
+            }
+            return nuevoID;
         }
 
         public void Elminar(int id)
@@ -401,6 +415,15 @@ namespace Listas.B5Factura
                     GraficarGraphvizRecursivo(nodo.Hijos[i], sb, ref contadorNodos);
                     sb.AppendLine($"    node{nodoActual}:f{i} -> node{hijoPosicion};");
                 }
+            }
+        }
+        // Método para mostrar las facturas en la consola
+        public void Mostrar()
+        {
+            List<Facturas> facturas = RecorridoInOrden();
+            foreach (Facturas factura in facturas)
+            {
+                Console.WriteLine($"ID: {factura.ID}, ID Servicio: {factura.ID_servicio}, Total: {factura.Total}");
             }
         }
 

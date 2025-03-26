@@ -12,5 +12,12 @@
         "Marca": "Toyota Corolla",
         "Modelo": 2010,
         "Placa": "JKS8T5A"
+    },
+    {
+        "ID": 3,
+        "ID_Usuario": 3,
+        "Marca": "Nissan Sentra",
+        "Modelo": 2015,
+        "Placa": "KJH6G4E"
     }
 ]

@@ -6,10 +6,10 @@ namespace CLases.Vehiculo
         public int Id { get; set; }
         public int IdUsuario { get; set; }
         public string Marca { get; set; }
-        public string Modelo { get; set; }
+        public int Modelo { get; set; }
         public string Placa { get; set; }
 
-        public Vehiculos(int id, int idUsuario, string marca, string modelo, string placa)
+        public Vehiculos(int id, int idUsuario, string marca, int modelo, string placa)
         {
             Id = id;
             IdUsuario = idUsuario;

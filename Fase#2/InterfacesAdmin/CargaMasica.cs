@@ -227,7 +227,7 @@ public class VehiculoTemp
     public int ID { get; set; }
     public int ID_Usuario { get; set; }
     public string Marca { get; set; }
-    public string Modelo { get; set; }
+    public int Modelo { get; set; }
     public string Placa { get; set; }
 }
 

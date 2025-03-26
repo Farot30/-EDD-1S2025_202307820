@@ -209,5 +209,21 @@ namespace Listas.BinarioTree
                 }
             }
         }
+
+        // Método para mostrar los servicios en la consola
+        public void Mostrar()
+        {
+            MostrarRecursivo(raiz);
+        }
+
+        private void MostrarRecursivo(NodoBinario? nodo)
+        {
+            if (nodo != null)
+            {
+                MostrarRecursivo(nodo.izquierdo);
+                Console.WriteLine($"ID: {nodo.servicios.ID}, ID Repuesto: {nodo.servicios.ID_repuesto}, ID Vehiculo: {nodo.servicios.ID_vehiculo}, Detalle: {nodo.servicios.Detalle}, Costo: {nodo.servicios.Costo}");
+                MostrarRecursivo(nodo.derecho);
+            }
+        }
     }
 }

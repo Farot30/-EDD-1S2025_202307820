@@ -101,7 +101,7 @@ namespace InterfacesUsuario.VisualizarServicio
                     Usuario? usuario = ListaUsuarioSimple.BuscarUsuarioPorId(vehiculo.Value.IdUsuario);
                     if (usuario != null && usuario.Value.Id == idUsuario)
                     {
-                        listStore.AppendValues(servicio.ID.ToString(), servicio.ID_repuesto.ToString(), servicio.ID_vehiculo.ToString(), servicio.Detalle, servicio.Costo);
+                        listStore.AppendValues(servicio.ID.ToString(), servicio.ID_repuesto.ToString(), servicio.ID_vehiculo.ToString(), servicio.Detalle, Math.Round(servicio.Costo, 2));
                     }
                 }
                 PreOrdenRecursivo(nodo.izquierdo);
@@ -132,7 +132,7 @@ namespace InterfacesUsuario.VisualizarServicio
                     Usuario? usuario = ListaUsuarioSimple.BuscarUsuarioPorId(vehiculo.Value.IdUsuario);
                     if (usuario != null && usuario.Value.Id == idUsuario)
                     {
-                        listStore.AppendValues(servicio.ID.ToString(), servicio.ID_repuesto.ToString(), servicio.ID_vehiculo.ToString(), servicio.Detalle, servicio.Costo);
+                        listStore.AppendValues(servicio.ID.ToString(), servicio.ID_repuesto.ToString(), servicio.ID_vehiculo.ToString(), servicio.Detalle, Math.Round(servicio.Costo, 2));
                     }
                 }
 
@@ -164,7 +164,7 @@ namespace InterfacesUsuario.VisualizarServicio
                     Usuario? usuario = ListaUsuarioSimple.BuscarUsuarioPorId(vehiculo.Value.IdUsuario);
                     if (usuario != null && usuario.Value.Id == idUsuario)
                     {
-                        listStore.AppendValues(servicio.ID.ToString(), servicio.ID_repuesto.ToString(), servicio.ID_vehiculo.ToString(), servicio.Detalle, servicio.Costo);
+                        listStore.AppendValues(servicio.ID.ToString(), servicio.ID_repuesto.ToString(), servicio.ID_vehiculo.ToString(), servicio.Detalle, Math.Round(servicio.Costo, 2));
                     }
                 }
             }

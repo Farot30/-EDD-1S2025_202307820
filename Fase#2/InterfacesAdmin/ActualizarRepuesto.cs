@@ -73,34 +73,44 @@ namespace InterfacesAdmin.ActualizarRepuestos
 
         private void Actualizarrepue(object? sender, System.EventArgs e)
         {
-            if (int.TryParse(ID.Text, out int ids) && double.TryParse(Precio.Text, out double precio))
+            if(!string.IsNullOrEmpty(ID.Text) || !string.IsNullOrEmpty(Repuesto.Text) || !string.IsNullOrEmpty(Detalles.Text) || !string.IsNullOrEmpty(Precio.Text))
             {
-                if (listaRepuesto.BuscarRepuestoPorId(ids) != null)
+                if (int.TryParse(ID.Text, out int ids) && double.TryParse(Precio.Text, out double precio))
                 {
-                    bool actualizado = listaRepuesto.ActualizarRepuesto(ids, Repuesto.Text, Detalles.Text, precio);
-                    if (actualizado)
+                    if (listaRepuesto.BuscarRepuestoPorId(ids) != null)
                     {
-                        MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Info, ButtonsType.Ok, "Repuesto actualizado correctamente");
-                        messageDialog.Run();
-                        messageDialog.Destroy();
+                        bool actualizado = listaRepuesto.ActualizarRepuesto(ids, Repuesto.Text, Detalles.Text, precio);
+                        if (actualizado)
+                        {
+                            listaRepuesto.Mostrar();
+                            MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Info, ButtonsType.Ok, "Repuesto actualizado correctamente");
+                            messageDialog.Run();
+                            messageDialog.Destroy();
+                        }
+                        else
+                        {
+                            MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, "Error al actualizar el repuesto");
+                            messageDialog.Run();
+                            messageDialog.Destroy();
+                        }
                     }
                     else
                     {
-                        MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, "Error al actualizar el repuesto");
+                        MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, "El repuesto no existe");
                         messageDialog.Run();
                         messageDialog.Destroy();
                     }
                 }
                 else
                 {
-                    MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, "El repuesto no existe");
+                    MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, "Ingrese un ID y un precio válidos");
                     messageDialog.Run();
                     messageDialog.Destroy();
                 }
             }
             else
             {
-                MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, "Ingrese un ID y un precio válidos");
+                MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, "Llene todos los campos");
                 messageDialog.Run();
                 messageDialog.Destroy();
             }

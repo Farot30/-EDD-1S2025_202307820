@@ -10,5 +10,11 @@
         "Repuesto": "Bujías",
         "Detalles": "Se usa para laa mezcla de aire y combustible.",
         "Costo": 15.75
+    },
+    {
+        "ID": 3,
+        "Repuesto": "Candelas",
+        "Detalles": "Se utiliza para darle chispa al motor.",
+        "Costo": 20.85
     }
 ]

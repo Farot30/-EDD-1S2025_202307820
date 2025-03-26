@@ -1,7 +1,12 @@
 [
   {
-    "usuario": "juan@example.com",
-    "entrada": "2025-03-26 00:38:07.00",
-    "salida": "2025-03-26 00:43:02.00"
+    "usuario": "carlos.alberto@usac.com",
+    "entrada": "2025-03-26 10:32:59.00",
+    "salida": "2025-03-26 10:40:33.00"
+  },
+  {
+    "usuario": "Robert@usac.com",
+    "entrada": "2025-03-26 10:41:09.00",
+    "salida": "2025-03-26 10:42:29.00"
   }
 ]
