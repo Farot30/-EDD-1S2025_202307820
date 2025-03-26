@@ -42,7 +42,7 @@ namespace InterfacesUsuario.PagarFacturas
             Fixed fixedcontainer = new Fixed();
 
             EventBox Titulo = CreateStyledLabel("Pagar Factura", "Arial 20");
-            fixedcontainer.Put(Titulo, 80, 50);
+            fixedcontainer.Put(Titulo, 120, 50);
 
             EventBox IdLabel = CreateStyledLabel("ID:", "Arial 14");
             fixedcontainer.Put(IdLabel, 50, 100);

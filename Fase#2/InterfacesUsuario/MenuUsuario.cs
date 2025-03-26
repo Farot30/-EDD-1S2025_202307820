@@ -42,7 +42,7 @@ namespace InterfacesUsuario.MenuUsuarios
             correoUsuario = correo;
 
             SetPosition(WindowPosition.Center);
-            SetDefaultSize(400, 400);
+            SetDefaultSize(425, 400);
 
             Fixed fixedcontainer = new Fixed();
 
@@ -56,25 +56,25 @@ namespace InterfacesUsuario.MenuUsuarios
             fixedcontainer.Put(Insertar_vehiculo, 120, 100);
 
             Visuarlizar_Servicio = new Button("Visualizar Servicio");
-            Visuarlizar_Servicio.SetSizeRequest(150, 50);
+            Visuarlizar_Servicio.SetSizeRequest(155, 50);
             Visuarlizar_Servicio.Clicked += Visualizar_servicio;
             ApplyFont(Visuarlizar_Servicio, "Arial 12");
             fixedcontainer.Put(Visuarlizar_Servicio, 110, 160);
 
             Visualizar_Facturas = new Button("Visualizar Facturas");
-            Visualizar_Facturas.SetSizeRequest(150, 50);
+            Visualizar_Facturas.SetSizeRequest(160, 50);
             Visualizar_Facturas.Clicked += Visualizar_facturas;
             ApplyFont(Visualizar_Facturas, "Arial 12");
             fixedcontainer.Put(Visualizar_Facturas, 105, 220);
 
-            Cancelar_Reporte = new Button("Cancelar Reporte");
+            Cancelar_Reporte = new Button("Cancelar Factura");
             Cancelar_Reporte.SetSizeRequest(150, 50);
             Cancelar_Reporte.Clicked += Cancelar_reporte;
             ApplyFont(Cancelar_Reporte, "Arial 12");
             fixedcontainer.Put(Cancelar_Reporte, 120, 280);
 
             Cerrar_Sesion = new Button("Cerrar Sesion");
-            Cerrar_Sesion.SetSizeRequest(150, 50);
+            Cerrar_Sesion.SetSizeRequest(155, 50);
             Cerrar_Sesion.Clicked += CerrarSesion;
             ApplyFont(Cerrar_Sesion, "Arial 12");
             fixedcontainer.Put(Cerrar_Sesion, 120, 340);
