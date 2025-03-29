@@ -101,23 +101,6 @@ namespace Listas.ListaUsuarioSimple
         }
         
 
-        public bool CorreoUsuario(string correo)
-        {
-            NodoUsuario<T>? actual = primero;
-            while (actual != null)
-            {
-                if (actual.Data is Usuario usuario)
-                {
-                    if (usuario.Correo == correo)
-                    {
-                        return true;
-                    }
-                }
-                actual = actual.despues;
-            }
-            return false;
-        }
-
         public void Mostrar()
         {
             NodoUsuario<T>? actual = primero;

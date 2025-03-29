@@ -38,7 +38,7 @@ namespace Program
             login.ShowAll();
             Application.Run();
             
-/*
+
             ListaFacturas.Insertar(1, 1, 100);
             ListaFacturas.Insertar(2, 2, 200);
             ListaFacturas.Insertar(3, 3, 300);
@@ -122,9 +122,6 @@ namespace Program
             string graphviz5 = ListaServicios.GenerarGraphviz();
             Grafica.GenerarArchivoDot("servicios.dot", graphviz5, "Árbol Binario de Servicios");
             Grafica.ConvertirDotAImagen("servicios.dot");
-*/
-
-            
         }
     }
 }

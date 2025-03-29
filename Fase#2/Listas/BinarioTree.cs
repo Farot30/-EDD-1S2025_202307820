@@ -180,7 +180,6 @@ namespace Listas.BinarioTree
                 return BuscarServicioPorId(nodo.derecho, id);
             }
         }
-
         public string GenerarGraphviz()
         {
             var graphviz = new System.Text.StringBuilder();

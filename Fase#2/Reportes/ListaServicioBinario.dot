@@ -1,11 +1,5 @@
 digraph G {
-    "1" [label="ID: 1\nID Repuesto: 1\nID Vehiculo: 1\nDetalle: coco\nCosto: 25"];
-    "1" -> "4";
-    "4" [label="ID: 4\nID Repuesto: 3\nID Vehiculo: 3\nDetalle: cocos\nCosto: 60"];
-    "4" -> "5";
-    "5" [label="ID: 5\nID Repuesto: 2\nID Vehiculo: 3\nDetalle: casanoba\nCosto: 100"];
-    "5" -> "6";
-    "6" [label="ID: 6\nID Repuesto: 3\nID Vehiculo: 3\nDetalle: paco\nCosto: 200"];
-    "6" -> "7";
-    "7" [label="ID: 7\nID Repuesto: 1\nID Vehiculo: 3\nDetalle: cocos\nCosto: 300"];
+    "1" [label="ID: 1\nID Repuesto: 1\nID Vehiculo: 1\nDetalle: salsa\nCosto: 150"];
+    "1" -> "2";
+    "2" [label="ID: 2\nID Repuesto: 3\nID Vehiculo: 2\nDetalle: cjoco\nCosto: 500"];
 }

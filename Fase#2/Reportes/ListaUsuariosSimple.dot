@@ -5,8 +5,6 @@ subgraph cluster_ListaSimple {
 label = "Lista Simple";
 node0 [label="ID: 1\nNombre: Carlos Alberto\nApellido: Gomez Martinez\nCorreo: carlos.alberto@usac.com"];
 node0 -> node1;
-node1 [label="ID: 2\nNombre: Ana Lucia\nApellido: Martinez Lopez\nCorreo: ana.lucia@usac.com"];
-node1 -> node2;
-node2 [label="ID: 3\nNombre: Robert\nApellido: Corrola\nCorreo: Robert@usac.com"];
+node1 [label="ID: 3\nNombre: Robert\nApellido: Corrola\nCorreo: Robert@usac.com"];
 }
 }
