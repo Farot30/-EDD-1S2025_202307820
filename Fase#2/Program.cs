@@ -38,7 +38,7 @@ namespace Program
             login.ShowAll();
             Application.Run();
             
-
+            /*
             ListaFacturas.Insertar(1, 1, 100);
             ListaFacturas.Insertar(2, 2, 200);
             ListaFacturas.Insertar(3, 3, 300);
@@ -69,7 +69,7 @@ namespace Program
             
 
             // Crear el árbol AVL y agregar algunos repuestos
-            
+            /*
             ListaRepuestos.Add(new Repuesto(1, "Filtro de aceite", "Filtro para motor", 15.99));
             ListaRepuestos.Add(new Repuesto(2, "Bujía", "Bujía de encendido", 5.99));
             ListaRepuestos.Add(new Repuesto(3, "Pastillas de freno", "Juego de pastillas de freno", 45.99));
@@ -80,6 +80,16 @@ namespace Program
             ListaRepuestos.Add(new Repuesto(8, "Radiador", "Radiador de coche", 150.00));
             ListaRepuestos.Add(new Repuesto(9, "Alternador", "Alternador de coche", 200.00));
             ListaRepuestos.Add(new Repuesto(10, "Faro", "Faro delantero", 60.00));
+
+            ListaRepuestos.Add(new Repuesto(8, "Filtro de aire", "Filtro para motor", 60.0));
+            ListaRepuestos.Add(new Repuesto(1, "Filtro de aire", "Filtro para motor", 50.0));
+            ListaRepuestos.Add(new Repuesto(7, "Aceite", "Aceite mineral", 25.0));
+            ListaRepuestos.Add(new Repuesto(2, "Aceite", "Aceite sintético", 30.0));
+            ListaRepuestos.Add(new Repuesto(9, "Filtro de aceite", "Filtro para aceite", 15.0));
+            ListaRepuestos.Add(new Repuesto(6, "Batería", "Batería de 12V", 120.0));
+            ListaRepuestos.Add(new Repuesto(3, "Bujías", "Juego de 4 bujías", 20.0));
+            ListaRepuestos.Add(new Repuesto(5, "Frenos", "Juego de frenos", 100.0));
+            ListaRepuestos.Add(new Repuesto(4, "Frenos", "Juego de frenos", 100.0));
 
             // Mostrar los repuestos en orden
             Console.WriteLine("Repuestos en preorden:");
@@ -122,6 +132,7 @@ namespace Program
             string graphviz5 = ListaServicios.GenerarGraphviz();
             Grafica.GenerarArchivoDot("servicios.dot", graphviz5, "Árbol Binario de Servicios");
             Grafica.ConvertirDotAImagen("servicios.dot");
+            */
         }
     }
 }

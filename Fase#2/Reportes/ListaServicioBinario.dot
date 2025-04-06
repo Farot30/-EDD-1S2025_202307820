@@ -1,5 +1,11 @@
 digraph G {
-    "1" [label="ID: 1\nID Repuesto: 1\nID Vehiculo: 1\nDetalle: salsa\nCosto: 150"];
-    "1" -> "2";
-    "2" [label="ID: 2\nID Repuesto: 3\nID Vehiculo: 2\nDetalle: cjoco\nCosto: 500"];
+    "4" [label="ID: 4\nID Repuesto: 3\nID Vehiculo: 3\nDetalle: Calificacion servicio 2\nCosto: 100"];
+    "4" -> "6";
+    "6" [label="ID: 6\nID Repuesto: 12\nID Vehiculo: 12\nDetalle: Calificacion servicio 2\nCosto: 150"];
+    "6" -> "5";
+    "5" [label="ID: 5\nID Repuesto: 3\nID Vehiculo: 5\nDetalle: dfsa\nCosto: 125"];
+    "6" -> "9";
+    "9" [label="ID: 9\nID Repuesto: 5\nID Vehiculo: 12\nDetalle: Calificacion servicio 3\nCosto: 150"];
+    "9" -> "8";
+    "8" [label="ID: 8\nID Repuesto: 8\nID Vehiculo: 5\nDetalle: fdsag\nCosto: 50"];
 }

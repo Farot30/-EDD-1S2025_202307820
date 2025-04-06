@@ -1,22 +1,20 @@
 digraph G {
     node [shape=record];
-    "4" [label="{ID: 4|Nombre: Aceite de motor|Descripcion: Aceite sintético|Precio: 29,99}"];
-    "4" -> "2";
-    "2" [label="{ID: 2|Nombre: Bujía|Descripcion: Bujía de encendido|Precio: 5,99}"];
+    "7" [label="{ID: 7|Nombre: Aceite|Descripcion: Aceite mineral|Precio: 25}"];
+    "7" -> "3";
+    "3" [label="{ID: 3|Nombre: Bujías|Descripcion: Juego de 4 bujías|Precio: 20}"];
+    "3" -> "2";
+    "2" [label="{ID: 2|Nombre: Aceite|Descripcion: Aceite sintético|Precio: 30}"];
     "2" -> "1";
-    "1" [label="{ID: 1|Nombre: Filtro de aceite|Descripcion: Filtro para motor|Precio: 15,99}"];
-    "2" -> "3";
-    "3" [label="{ID: 3|Nombre: Pastillas de freno|Descripcion: Juego de pastillas de freno|Precio: 45,99}"];
-    "4" -> "8";
-    "8" [label="{ID: 8|Nombre: Radiador|Descripcion: Radiador de coche|Precio: 150}"];
-    "8" -> "6";
-    "6" [label="{ID: 6|Nombre: Neumático|Descripcion: Neumático de repuesto|Precio: 120}"];
-    "6" -> "5";
-    "5" [label="{ID: 5|Nombre: Batería|Descripcion: Batería de coche|Precio: 89,99}"];
-    "6" -> "7";
-    "7" [label="{ID: 7|Nombre: Amortiguador|Descripcion: Amortiguador delantero|Precio: 75,5}"];
+    "1" [label="{ID: 1|Nombre: Filtro de aire|Descripcion: Filtro para motor|Precio: 50}"];
+    "3" -> "5";
+    "5" [label="{ID: 5|Nombre: Frenos|Descripcion: Juego de frenos|Precio: 100}"];
+    "5" -> "4";
+    "4" [label="{ID: 4|Nombre: Frenos|Descripcion: Juego de frenos|Precio: 100}"];
+    "5" -> "6";
+    "6" [label="{ID: 6|Nombre: Batería|Descripcion: Batería de 12V|Precio: 120}"];
+    "7" -> "8";
+    "8" [label="{ID: 8|Nombre: Filtro de aire|Descripcion: Filtro para motor|Precio: 60}"];
     "8" -> "9";
-    "9" [label="{ID: 9|Nombre: Alternador|Descripcion: Alternador de coche|Precio: 200}"];
-    "9" -> "10";
-    "10" [label="{ID: 10|Nombre: Faro|Descripcion: Faro delantero|Precio: 60}"];
+    "9" [label="{ID: 9|Nombre: Filtro de aceite|Descripcion: Filtro para aceite|Precio: 15}"];
 }

@@ -1,4 +1,8 @@
 digraph BTree {
     node [shape=record];
-node0 [label="<f0> Id: 1|ID_orden: 1|Total: 175,5|<f1> Id: 2|ID_orden: 2|Total: 520,85|<f2>"];
+node0 [label="<f0> Id: 3|ID_orden: 6|Total: 200|<f1>"];
+node1 [label="<f0> Id: 2|ID_orden: 4|Total: 160|<f1>"];
+    node0:f0 -> node1;
+node2 [label="<f0> Id: 4|ID_orden: 9|Total: 245,2|<f1> Id: 5|ID_orden: 5|Total: 185|<f2> Id: 6|ID_orden: 8|Total: 130|<f3>"];
+    node0:f1 -> node2;
 }

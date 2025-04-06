@@ -37,7 +37,6 @@ SECCIÓN C
 ## 2. Objetivos del Proyecto
 
 ### Objetivo General
-Desarrollar un sistema de gestión para un taller de reparación de vehículos que permita administrar de manera eficiente las entidades involucradas, utilizando estructuras de datos avanzadas para optimizar la organización y consulta de la información.
 
 ### Objetivos Específicos
 - **Estructuras de Datos:**

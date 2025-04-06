@@ -15,6 +15,8 @@ namespace InterfacesAdmin.GenerarServicios
 {
     public class GenerarServicio : Window
     {
+
+
         private ListaUsuarioSimple<Usuario> ListaUsuarioSimple;
         private ListaDobleVehiculo ListaDobleVehiculos;
         private AVLTREErepues AVLTree;
@@ -106,24 +108,12 @@ namespace InterfacesAdmin.GenerarServicios
                                 // Calcular el total de la factura
                                 Repuesto? repuesto = AVLTree.BuscarRepuestoPorId(IDrepuesto);
                                 double total = costo + (repuesto?.Precio ?? 0);
-                                if(!ListaFacturas.FacturaExiste(id))
-                                {
-                                    // Crear e insertar la factura
-                                    int nuevoID = ListaFacturas.GenerarNuevoID();
-                                    Facturas factura1 = new Facturas(nuevoID, id, total);
-                                    ListaFacturas.Insertar(factura1.ID, factura1.ID_servicio, factura1.Total);
-                                    ListaFacturas.Mostrar();
+                                // Crear e insertar la factura
+                                int nuevoID = ListaFacturas.GenerarNuevoID();
+                                Facturas factura1 = new Facturas(nuevoID, id, total);
+                                ListaFacturas.Insertar(factura1.ID, factura1.ID_servicio, factura1.Total);
+                                ListaFacturas.Mostrar();
 
-                                    MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Info, ButtonsType.Ok, "Servicio y factura guardados exitosamente.");
-                                    messageDialog.Run();
-                                    messageDialog.Destroy();
-                                }
-                                else
-                                {
-                                    MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Info, ButtonsType.Ok, "Factura ya existe");
-                                    messageDialog.Run();
-                                    messageDialog.Destroy();
-                                }
                             }
                             else
                             {

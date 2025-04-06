@@ -142,6 +142,9 @@ namespace InterfacesAdmin.CargaMasiva
                                     Usuario usuario = new Usuario(usuarioTemp.ID, usuarioTemp.Nombres, usuarioTemp.Apellidos, usuarioTemp.Correo, usuarioTemp.Edad, usuarioTemp.Contrasenia);
                                     ListaUsuarioSimple.Insertar(usuario);
                                 }
+                                else{
+                                    MostrarMensaje($"El correo {usuarioTemp.Correo} ya existe en la lista de usuarios.");
+                                }
                             }
                             else
                             {
