@@ -1,7 +1,9 @@
 using Gtk;
 using System;
-using Listas.BinarioServicio;
 using Listas.ListaDobleVehiculos;
+using Listas.AVLRepuestos;
+using Listas.BinarioServicio;
+using ListasArboles.GrafoNodiri;
 using Clases.Vehiculo;
 using Clases.Servicios;
 using Nodos.NodoBinarios;
@@ -11,15 +13,23 @@ namespace InterfacesUsuario.VisualizarServicios
     public class VisualizarServicio : Window
     {
         private ListaDobleVehiculo ListaDobleVehiculos;
+        private AVLTREErepues listaRepuesto;
         private Binariostree ListaServicios;
+        private ListaDeListas grafoNodiri;
+
         private Button Pre_Orden;
         private Button In_Orden;
         private Button Post_Orden;
         private TreeView treeView;
         private ListStore listStore;
         private int idUsuario;
-        public VisualizarServicio() : base("Visualizar Servicios")
+        public VisualizarServicio(ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Visualizar Servicios")
         {
+            ListaDobleVehiculos = listaDobleVehiculo;
+            listaRepuesto = listarepuesto;
+            ListaServicios = ListaServicio;
+            grafoNodiri = Grafo;
+            
             SetDefaultSize(400, 300);
             SetPosition(WindowPosition.Center);
 

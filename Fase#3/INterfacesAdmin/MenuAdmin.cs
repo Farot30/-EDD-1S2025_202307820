@@ -3,12 +3,25 @@ using System;
 using Programa;
 using Logiarse;
 using INterfacesAdmin.CargasMasivas;
+using INterfacesAdmin.GenerarServicio;
+using INterfacesAdmin.GesionUsuarios;
+using INterfacesAdmin.VisualizarLogueo;
+using INterfacesAdmin.VisualizarRepuesto;
 using Listas.ListaDobleVehiculos;
+using Listas.AVLRepuestos;
+using Listas.BinarioServicio;
+using ListasArboles.GrafoNodiri;
+using GeneracionGrafica;
 
 namespace INterfacesAdmin.Menu
 {
     public class Menus : Window
     {
+        private ListaDobleVehiculo listaVehiculos;
+        private AVLTREErepues avlTreeRepuestos;
+        private Binariostree binarioServicio;
+        private ListaDeListas grafoNodiri;
+
         private Button masivox;
         private Button Gestion_Usuarios;
         private Button Visualizacion_Repuestos;
@@ -18,10 +31,12 @@ namespace INterfacesAdmin.Menu
         private Button Generar_Backup;
         private Button Cerrar_Sesion;
 
-        private ListaDobleVehiculo listaAutos;
-        public Menus(ListaDobleVehiculo lIstaAuto) : base("Menú Principal")
+        public Menus(ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Menú Principal")
         {
-            listaAutos = lIstaAuto;
+            listaVehiculos = ListaAuto;
+            avlTreeRepuestos = ListaRepuesto;
+            binarioServicio = ListaServicio;
+            grafoNodiri = Grafo;
 
             SetDefaultSize(400, 400);
             SetPosition(WindowPosition.Center);
@@ -84,32 +99,54 @@ namespace INterfacesAdmin.Menu
 
         private void GestionMasivas(object? sender, EventArgs e)
         {
-            CargaMasivaS cargasMasivas = new CargaMasivaS(listaAutos);
+            CargaMasivaS cargasMasivas = new CargaMasivaS(listaVehiculos, avlTreeRepuestos, binarioServicio, grafoNodiri);
             cargasMasivas.Show();
         }
         private void GestionarUsuarios(object? sender, EventArgs e)
         {
-            // Implementar la lógica para gestionar usuarios
+            GestionUsuario gestionUsuario = new GestionUsuario(listaVehiculos, avlTreeRepuestos, binarioServicio, grafoNodiri);
+            gestionUsuario.Show();
         }
 
         private void VisualizarRepuestos(object? sender, EventArgs e)
         {
-            // Implementar la lógica para visualizar repuestos
+            VisualizarRepuestos visualizarRepuesto = new VisualizarRepuestos(listaVehiculos, avlTreeRepuestos, binarioServicio, grafoNodiri);
+            visualizarRepuesto.Show();
         }
 
         private void VisualizarLogueo(object? sender, EventArgs e)
         {
-            // Implementar la lógica para visualizar logueo
+            Visualizacion_Logueo visualizacion = new Visualizacion_Logueo(listaVehiculos, avlTreeRepuestos, binarioServicio, grafoNodiri);
+            visualizacion.Show();
         }
 
         private void GenerarServicio(object? sender, EventArgs e)
         {
-            // Implementar la lógica para generar servicio
+            GenerarServicios generarservicio = new GenerarServicios(listaVehiculos, avlTreeRepuestos, binarioServicio, grafoNodiri);
+            generarservicio.Show();
         }
 
         private void GenerarReporte(object? sender, EventArgs e)
         {
-            // Implementar la lógica para generar reporte
+            // Generar y guardar graficas dot
+            GenerarYGUardarGrafica(listaVehiculos.GenerarGraphviz(), "ListaAutosDoble.dot", "Árbol Binario");
+            GenerarYGUardarGrafica(avlTreeRepuestos.GenerarGraphviz(), "ListaRepuestoAVL.dot", "Árbol Binario");
+            GenerarYGUardarGrafica(binarioServicio.GenerarGraphviz(), "ListaServicioBinario.dot", "Árbol Binario");
+
+            // Convertir dot a imagen
+            ConvertirDotAImagen("ListaAutosDoble.dot");
+            ConvertirDotAImagen("ListaRepuestoAVL.dot");
+            ConvertirDotAImagen("ListaServicioBinario.dot");
+        }
+
+        private void GenerarYGUardarGrafica(string graphviz, string nombreArchivo, string titulo)
+        {
+            Grafica.GenerarArchivoDot(nombreArchivo, graphviz, titulo);
+        }
+
+        private void ConvertirDotAImagen(string nombreArchivo)
+        {
+            Grafica.ConvertirDotAImagen(nombreArchivo);
         }
 
         private void GenerarBackup(object? sender, EventArgs e)

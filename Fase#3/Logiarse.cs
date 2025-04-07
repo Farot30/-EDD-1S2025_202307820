@@ -1,18 +1,32 @@
 using Gtk;
 using System;
-using Programa;
+using Listas.ListaDobleVehiculos;
+using Listas.AVLRepuestos;
+using Listas.BinarioServicio;
+using ListasArboles.GrafoNodiri;
+using INterfacesAdmin.Menu;
+using InterfacesUsuario.MenuUsuario;
 
 namespace Logiarse
 {
     public class Logiarses : Window
     {
+        private ListaDobleVehiculo ListaDobleVehiculos;
+        private AVLTREErepues listaRepuesto;
+        private Binariostree ListaServicios;
+        private ListaDeListas grafoNodiri;
+
         private Entry Correo;
         private Entry Contrasena;
         private Button IniciarSesion;
         private EventBox Usus;
         private EventBox Contras;
-        public Logiarses() : base("Inicio de sesión")
+        public Logiarses(ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Inicio de sesión")
         {
+            ListaDobleVehiculos = listaDobleVehiculo;
+            listaRepuesto = listarepuesto;
+            ListaServicios = ListaServicio;
+            grafoNodiri = Grafo;
             
             SetDefaultSize(400, 400);
             SetPosition(WindowPosition.Center);
@@ -54,7 +68,9 @@ namespace Logiarse
 
             if(Correo.Text == "admin@usac.com" || Contrasena.Text == "admin123")
             {
-                Console.WriteLine("Inicio de sesión exitoso");
+                Menus menu = new Menus(ListaDobleVehiculos, listaRepuesto, ListaServicios, grafoNodiri);
+                menu.ShowAll();
+                this.Hide();
             }
             else
             {

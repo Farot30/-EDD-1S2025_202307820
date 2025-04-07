@@ -1,11 +1,24 @@
 using Gtk;
+using Listas.ListaDobleVehiculos;
+using Listas.AVLRepuestos;
+using Listas.BinarioServicio;
+using ListasArboles.GrafoNodiri;
 
 namespace INterfacesAdmin.VisualizarLogueo
 {
     public class Visualizacion_Logueo : Window
     {
-        public Visualizacion_Logueo() : base("Visualización de Logueo")
+        private ListaDobleVehiculo listaVehiculos;
+        private AVLTREErepues avlTreeRepuestos;
+        private Binariostree binarioServicio;
+        private ListaDeListas grafoNodiri;
+        public Visualizacion_Logueo(ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Visualización de Logueo")
         {
+            listaVehiculos = ListaAuto;
+            avlTreeRepuestos = ListaRepuesto;
+            binarioServicio = ListaServicio;
+            grafoNodiri = Grafo;
+            
             SetDefaultSize(400, 300);
             SetPosition(WindowPosition.Center);
 

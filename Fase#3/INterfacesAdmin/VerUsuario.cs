@@ -1,10 +1,18 @@
 using Gtk;
 using System;
+using Listas.ListaDobleVehiculos;
+using Listas.AVLRepuestos;
+using Listas.BinarioServicio;
+using ListasArboles.GrafoNodiri;
 
 namespace INterfacesAdmin.VerUsuario
 {
     public class VerUsuarios : Window
     {
+        private ListaDobleVehiculo listaVehiculos;
+        private AVLTREErepues avlTreeRepuestos;
+        private Binariostree binarioServicio;
+        private ListaDeListas grafoNodiri;
         private EventBox Id;
         private EventBox Nombres;
         private EventBox Apellidos;
@@ -18,8 +26,13 @@ namespace INterfacesAdmin.VerUsuario
         private Label Edad;
         private Label Contrasenia;
         private Button Buscar;
-        public VerUsuarios() : base("Ver Usuarios")
+        public VerUsuarios(ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Ver Usuarios")
         {
+            listaVehiculos = ListaAuto;
+            avlTreeRepuestos = ListaRepuesto;
+            binarioServicio = ListaServicio;
+            grafoNodiri = Grafo;
+            
             SetDefaultSize(400, 300);
             SetPosition(WindowPosition.Center);
 

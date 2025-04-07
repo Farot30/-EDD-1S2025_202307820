@@ -1,0 +1,6 @@
+/home/farot/Documentos/lab EDD/-EDD-1S2025_202307820/Fase#3/obj/Debug/net8.0/Fase#3.csproj.AssemblyReference.cache
+/home/farot/Documentos/lab EDD/-EDD-1S2025_202307820/Fase#3/obj/Debug/net8.0/Fase#3.GeneratedMSBuildEditorConfig.editorconfig
+/home/farot/Documentos/lab EDD/-EDD-1S2025_202307820/Fase#3/obj/Debug/net8.0/Fase#3.AssemblyInfoInputs.cache
+/home/farot/Documentos/lab EDD/-EDD-1S2025_202307820/Fase#3/obj/Debug/net8.0/Fase#3.AssemblyInfo.cs
+/home/farot/Documentos/lab EDD/-EDD-1S2025_202307820/Fase#3/obj/Debug/net8.0/Fase#3.csproj.CoreCompileInputs.cache
+/home/farot/Documentos/lab EDD/-EDD-1S2025_202307820/Fase#3/obj/Debug/net8.0/Fase#3.sourcelink.json

@@ -4,6 +4,7 @@ using System;
 using Listas.ListaDobleVehiculos;
 using Listas.AVLRepuestos;
 using Listas.BinarioServicio;
+using ListasArboles.GrafoNodiri;
 using Clases.Vehiculo;
 using Clases.Repuesto;
 using Clases.Servicios;
@@ -12,12 +13,16 @@ namespace INterfacesAdmin.CargasMasivas
 {
     public class CargaMasivaS : Window
     {
-        private ListaDobleVehiculo listaAutos;
-        private AVLTREErepues ListaRepuestos;
-        private Binariostree ListaServicios;
-        public CargaMasivaS(ListaDobleVehiculo ListaAuto) : base("Carga Masiva")
+        private ListaDobleVehiculo listaVehiculos;
+        private AVLTREErepues avlTreeRepuestos;
+        private Binariostree binarioServicio;
+        private ListaDeListas grafoNodiri;
+        public CargaMasivaS(ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Carga Masiva")
         {
-            listaAutos = ListaAuto;
+            listaVehiculos = ListaAuto;
+            avlTreeRepuestos = ListaRepuesto;
+            binarioServicio = ListaServicio;
+            grafoNodiri = Grafo;
 
             SetDefaultSize(400, 400);
             SetPosition(WindowPosition.Center);
@@ -112,12 +117,12 @@ namespace INterfacesAdmin.CargasMasivas
                     if(vehiculosTemp != null){
                         foreach (var vehiculoTemp in vehiculosTemp)
                         {
-                            if (!listaAutos.VehiculoExiste(vehiculoTemp.ID))
+                            if (!listaVehiculos.VehiculoExiste(vehiculoTemp.ID))
                             {
                                 if (ListaUsuarioSimple.UsuarioExiste(vehiculoTemp.ID_Usuario))
                                 {
                                     Vehiculos vehiculo = new Vehiculos(vehiculoTemp.ID, vehiculoTemp.ID_Usuario, vehiculoTemp.Marca, vehiculoTemp.Modelo, vehiculoTemp.Placa);
-                                    listaAutos.Insertar(vehiculo);
+                                    listaVehiculos.Insertar(vehiculo);
                                 }
                                 else
                                 {
@@ -137,10 +142,10 @@ namespace INterfacesAdmin.CargasMasivas
                     if(repuestosTemp != null){
                         foreach (var repuestoTemp in repuestosTemp)
                         {
-                            if (!ListaRepuestos.RepuestoExiste(repuestoTemp.ID))
+                            if (!avlTreeRepuestos.RepuestoExiste(repuestoTemp.ID))
                             {
                                 Repuesto repuesto = new Repuesto(repuestoTemp.ID, repuestoTemp.Repuesto, repuestoTemp.Detalles, repuestoTemp.Costo);
-                                ListaRepuestos.Add(repuesto);
+                                avlTreeRepuestos.Add(repuesto);
                             }
                             else
                             {
@@ -155,14 +160,14 @@ namespace INterfacesAdmin.CargasMasivas
                     if(serviciosTemp != null){
                         foreach (var servicioTemp in serviciosTemp)
                         {
-                            if (!ListaServicios.Existeid(servicioTemp.ID))
+                            if (!binarioServicio.Existeid(servicioTemp.ID))
                             {
-                                if (ListaRepuestos.RepuestoExiste(servicioTemp.ID_Repuesto))
+                                if (avlTreeRepuestos.RepuestoExiste(servicioTemp.ID_Repuesto))
                                 {
-                                    if (listaAutos.VehiculoExiste(servicioTemp.ID_Vehiculo))
+                                    if (listaVehiculos.VehiculoExiste(servicioTemp.ID_Vehiculo))
                                     {
                                         Servicio servicio = new Servicio(servicioTemp.ID, servicioTemp.ID_Repuesto, servicioTemp.ID_Vehiculo, servicioTemp.Detalles, servicioTemp.Costo);
-                                        ListaServicios.Insertar(servicio);
+                                        binarioServicio.Insertar(servicio);
                                     }
                                     else
                                     {
@@ -198,10 +203,10 @@ namespace INterfacesAdmin.CargasMasivas
             ListaUsuarioSimple.Mostrar();
 
             Console.WriteLine("Vehículos:");
-            listaAutos.Mostrar();
+            listaVehiculos.Mostrar();
 
             Console.WriteLine("Repuestos:");
-            ListaRepuestos.Mostrar();
+            avlTreeRepuestos.Mostrar();
         }
 
         private void MostrarMensaje(string mensaje)

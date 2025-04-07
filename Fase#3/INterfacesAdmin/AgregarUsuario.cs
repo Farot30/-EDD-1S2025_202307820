@@ -1,10 +1,18 @@
 using Gtk;
 using System;
+using Listas.ListaDobleVehiculos;
+using Listas.AVLRepuestos;
+using Listas.BinarioServicio;
+using ListasArboles.GrafoNodiri;
 
 namespace INterfacesAdmin.AgregarUsuarios
 {
     public class AgregarUsuario : Window
     {
+        private ListaDobleVehiculo listaVehiculos;
+        private AVLTREErepues avlTreeRepuestos;
+        private Binariostree binarioServicio;
+        private ListaDeListas grafoNodiri;
         private EventBox Id;
         private EventBox Nombres;
         private EventBox Apellidos;
@@ -19,8 +27,13 @@ namespace INterfacesAdmin.AgregarUsuarios
         private Entry Edad;
         private Entry Contrasenia;
         private Button Insertar;
-        public AgregarUsuario() : base("Agregar Usuario")
+        public AgregarUsuario(ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Agregar Usuario")
         {
+            listaVehiculos = ListaAuto;
+            avlTreeRepuestos = ListaRepuesto;
+            binarioServicio = ListaServicio;
+            grafoNodiri = Grafo;
+
             SetDefaultSize(400, 300);
             SetPosition(WindowPosition.Center);
 

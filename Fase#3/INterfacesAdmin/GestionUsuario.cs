@@ -1,14 +1,27 @@
 using Gtk;
 using System;
+using Listas.ListaDobleVehiculos;
+using Listas.AVLRepuestos;
+using Listas.BinarioServicio;
+using ListasArboles.GrafoNodiri;
 
 namespace INterfacesAdmin.GesionUsuarios
 {
     public class GestionUsuario : Window
     {
+        private ListaDobleVehiculo listaVehiculos;
+        private AVLTREErepues avlTreeRepuestos;
+        private Binariostree binarioServicio;
+        private ListaDeListas grafoNodiri;
         private Button btnAgregarUsuario;
         private Button VisualizarUsuario;
-        public GestionUsuario() : base("Gestion de Usuarios")
+        public GestionUsuario(ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Gestion de Usuarios")
         {
+            listaVehiculos = ListaAuto;
+            avlTreeRepuestos = ListaRepuesto;
+            binarioServicio = ListaServicio;
+            grafoNodiri = Grafo;
+            
             SetDefaultSize(800, 600);
             SetPosition(WindowPosition.Center);
 

@@ -1,21 +1,30 @@
 using Gtk;
 using Clases.Repuesto;
+using Listas.ListaDobleVehiculos;
 using Listas.AVLRepuestos;
+using Listas.BinarioServicio;
+using ListasArboles.GrafoNodiri;
 using Nodos.NodoAVLRepus;
 
 namespace INterfacesAdmin.VisualizarRepuesto
 {
     public class VisualizarRepuestos : Window
     {
-        private AVLTREErepues listaRepuesto;
+        private ListaDobleVehiculo listaVehiculos;
+        private AVLTREErepues avlTreeRepuestos;
+        private Binariostree binarioServicio;
+        private ListaDeListas grafoNodiri;
         private Button PRE_Orden;
         private Button IN_Orden;
         private Button POST_Orden;
         private TreeView treeView;
         private ListStore listStore;
-        public VisualizarRepuestos(AVLTREErepues ArbolRepuesto) : base("Visualizar Repuestos")
+        public VisualizarRepuestos(ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Visualizar Repuestos")
         {
-            listaRepuesto = ArbolRepuesto;
+            listaVehiculos = ListaAuto;
+            avlTreeRepuestos = ListaRepuesto;
+            binarioServicio = ListaServicio;
+            grafoNodiri = Grafo;
             
             SetDefaultSize(400, 300);
             SetPosition(WindowPosition.Center);
@@ -64,19 +73,19 @@ namespace INterfacesAdmin.VisualizarRepuesto
         private void PreOrden(object? sender, System.EventArgs e)
         {
             listStore.Clear();
-            Preorden(listaRepuesto.raiz);
+            Preorden(avlTreeRepuestos.raiz);
         }
 
         private void InOrden(object? sender, System.EventArgs e)
         {
             listStore.Clear();
-            Inorden(listaRepuesto.raiz);
+            Inorden(avlTreeRepuestos.raiz);
         }
 
         private void PostOrden(object? sender, System.EventArgs e)
         {
             listStore.Clear();
-            Postorden(listaRepuesto.raiz);
+            Postorden(avlTreeRepuestos.raiz);
         }
 
         private void Preorden(NodeAVLRepu? nodo)

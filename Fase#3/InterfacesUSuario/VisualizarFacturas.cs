@@ -1,15 +1,29 @@
 using Gtk;
 using System;
+using Listas.ListaDobleVehiculos;
+using Listas.AVLRepuestos;
+using Listas.BinarioServicio;
+using ListasArboles.GrafoNodiri;
 
 namespace InterfacesUsuario.VisualizarFacturas
 {
     public class VisualizarFactura : Window
     {
+        private ListaDobleVehiculo ListaDobleVehiculos;
+        private AVLTREErepues listaRepuesto;
+        private Binariostree ListaServicios;
+        private ListaDeListas grafoNodiri;
+
         private TreeView treeView;
         private ListStore listStore;
 
-        public VisualizarFactura() : base("Visualizar Facturas")
+        public VisualizarFactura(ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Visualizar Facturas")
         {
+            ListaDobleVehiculos = listaDobleVehiculo;
+            listaRepuesto = listarepuesto;
+            ListaServicios = ListaServicio;
+            grafoNodiri = Grafo;
+            
             SetDefaultSize(400, 300);
             SetPosition(WindowPosition.Center);
 

@@ -1,16 +1,27 @@
 using Gtk;
 using System;
 using Listas.ListaDobleVehiculos;
+using Listas.AVLRepuestos;
+using Listas.BinarioServicio;
+using ListasArboles.GrafoNodiri;
 
 namespace InterfacesUsuario.VisualizarVehiculos
 {
     public class VisualizarVehiculo : Window
     {
-        private ListaDobleVehiculo listaDobleVehiculos;
+        private ListaDobleVehiculo ListaDobleVehiculos;
+        private AVLTREErepues listaRepuesto;
+        private Binariostree ListaServicios;
+        private ListaDeListas grafoNodiri;
         private TreeView treeView;
         private ListStore listStore;
-        public VisualizarVehiculo() : base("Visualizar Vehículo")
+        public VisualizarVehiculo(ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Visualizar Vehículo")
         {
+            ListaDobleVehiculos = listaDobleVehiculo;
+            listaRepuesto = listarepuesto;
+            ListaServicios = ListaServicio;
+            grafoNodiri = Grafo;
+            
             SetDefaultSize(400, 300);
             SetPosition(WindowPosition.Center);
 

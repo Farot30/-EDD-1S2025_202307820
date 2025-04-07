@@ -1,17 +1,34 @@
 using Gtk;
 using System;
 using Logiarse;
+using Listas.ListaDobleVehiculos;
+using Listas.AVLRepuestos;
+using Listas.BinarioServicio;
+using ListasArboles.GrafoNodiri;
+using InterfacesUsuario.VisualizarVehiculos;
+using InterfacesUsuario.VisualizarServicios;
+using InterfacesUsuario.VisualizarFacturas;
 
 namespace InterfacesUsuario.MenuUsuario
 {
+    
     public class MenuUsuarios : Window
     {
+        private ListaDobleVehiculo ListaDobleVehiculos;
+        private AVLTREErepues listaRepuesto;
+        private Binariostree ListaServicios;
+        private ListaDeListas grafoNodiri;
         private Button VisualizarVehiculo;
         private Button Visualizar_Servicio;
         private Button Visualizar_Facturas;
         private Button Cerrar_Sesion;
-        public MenuUsuarios() : base("Menu de Usuario")
+        public MenuUsuarios(ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Menu de Usuario")
         {
+            ListaDobleVehiculos = listaDobleVehiculo;
+            listaRepuesto = listarepuesto;
+            ListaServicios = ListaServicio;
+            grafoNodiri = Grafo;
+
             SetDefaultSize(400, 300);
             SetPosition(WindowPosition.Center);
 
@@ -49,19 +66,22 @@ namespace InterfacesUsuario.MenuUsuario
 
         private void VisualizarVehiculo_Clicked(object? sender, EventArgs e)
         {
-            // Implementar la lógica para visualizar vehículos
+            VisualizarVehiculo visualizarVehiculos = new VisualizarVehiculo(ListaDobleVehiculos, listaRepuesto, ListaServicios, grafoNodiri);
+            visualizarVehiculos.ShowAll();
         }
         private void VisualizarServicio_Clicked(object? sender, EventArgs e)
         {
-            // Implementar la lógica para visualizar servicios
+            VisualizarServicio visualizarServicios = new VisualizarServicio(ListaDobleVehiculos, listaRepuesto, ListaServicios, grafoNodiri);
+            visualizarServicios.ShowAll();
         }
         private void VisualizarFacturas_Clicked(object? sender, EventArgs e)
         {
-            // Implementar la lógica para visualizar facturas
+            VisualizarFactura visualizarFacturas = new VisualizarFactura(ListaDobleVehiculos, listaRepuesto, ListaServicios, grafoNodiri);
+            visualizarFacturas.ShowAll();
         }
         private void CerrarSesion_Clicked(object? sender, EventArgs e)
         {
-            Logiarses logiarses = new Logiarses();
+            Logiarses logiarses = new Logiarses(ListaDobleVehiculos, listaRepuesto, ListaServicios, grafoNodiri);
             logiarses.ShowAll();
             this.Hide();
         }

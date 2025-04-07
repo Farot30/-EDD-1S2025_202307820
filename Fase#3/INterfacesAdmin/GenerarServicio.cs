@@ -3,6 +3,7 @@ using System;
 using Listas.BinarioServicio;
 using Listas.AVLRepuestos;
 using Listas.ListaDobleVehiculos;
+using ListasArboles.GrafoNodiri;
 using Clases.Repuesto;
 using Clases.Servicios;
 
@@ -11,9 +12,10 @@ namespace INterfacesAdmin.GenerarServicio
     public class GenerarServicios : Window
     {
 
-        private ListaDobleVehiculo ListaDobleVehiculos;
-        private AVLTREErepues AVLTree;
-        private Binariostree ListaServicios;
+        private ListaDobleVehiculo listaVehiculos;
+        private AVLTREErepues avlTreeRepuestos;
+        private Binariostree binarioServicio;
+        private ListaDeListas grafoNodiri;
         private EventBox Id;
         private EventBox Repuesto;
         private EventBox Vehiculo;
@@ -25,8 +27,13 @@ namespace INterfacesAdmin.GenerarServicio
         private Entry Detalle;
         private Entry Costo;
         private Button Insertar;
-        public GenerarServicios() : base("Generar Servicios")
+        public GenerarServicios(ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Generar Servicios")
         {
+            listaVehiculos = ListaAuto;
+            avlTreeRepuestos = ListaRepuesto;
+            binarioServicio = ListaServicio;
+            grafoNodiri = Grafo;
+            
             SetDefaultSize(400, 300);
             SetPosition(WindowPosition.Center);
 
@@ -91,18 +98,18 @@ namespace INterfacesAdmin.GenerarServicio
             {
                 if(int.TryParse(ID.Text, out int id) && int.TryParse(ID_repuesto.Text, out int IDrepuesto) && int.TryParse(Id_vehiculo.Text, out int id_vehiculo) && double.TryParse(Costo.Text, out double costo))
                 {
-                    if(!ListaServicios.Existeid(id))
+                    if(!binarioServicio.Existeid(id))
                     {
-                        if(AVLTree.RepuestoExiste(IDrepuesto))
+                        if(avlTreeRepuestos.RepuestoExiste(IDrepuesto))
                         {
-                            if(ListaDobleVehiculos.VehiculoExiste(id_vehiculo))
+                            if(listaVehiculos.VehiculoExiste(id_vehiculo))
                             {
                                 Servicio servicio = new Servicio(id, IDrepuesto, id_vehiculo, Detalle.Text, costo);
-                                ListaServicios.Insertar(servicio);
-                                ListaServicios.Mostrar();
+                                binarioServicio.Insertar(servicio);
+                                binarioServicio.Mostrar();
 
                                 // Calcular el total de la factura
-                                Repuesto? repuesto = AVLTree.BuscarRepuestoPorId(IDrepuesto);
+                                Repuesto? repuesto = avlTreeRepuestos.BuscarRepuestoPorId(IDrepuesto);
                                 double total = costo + (repuesto?.Precio ?? 0);
                                 // Crear e insertar la factura
                             }
