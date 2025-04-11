@@ -1,46 +1,51 @@
 using Gtk;
 using System;
+using Listas.Blockchains;
 using Listas.ListaDobleVehiculos;
 using Listas.AVLRepuestos;
 using Listas.BinarioServicio;
 using ListasArboles.GrafoNodiri;
+using INterfacesAdmin.AgregarUsuarios;
+using INterfacesAdmin.VerUsuario;
 
 namespace INterfacesAdmin.GesionUsuarios
 {
     public class GestionUsuario : Window
     {
+        private Blockchain blockchainUsuarios;
         private ListaDobleVehiculo listaVehiculos;
         private AVLTREErepues avlTreeRepuestos;
         private Binariostree binarioServicio;
         private ListaDeListas grafoNodiri;
         private Button btnAgregarUsuario;
         private Button VisualizarUsuario;
-        public GestionUsuario(ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Gestion de Usuarios")
+        public GestionUsuario(Blockchain BlockchainUsuarios,ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Gestion de Usuarios")
         {
+            blockchainUsuarios = BlockchainUsuarios;
             listaVehiculos = ListaAuto;
             avlTreeRepuestos = ListaRepuesto;
             binarioServicio = ListaServicio;
             grafoNodiri = Grafo;
             
-            SetDefaultSize(800, 600);
+            SetDefaultSize(400, 400);
             SetPosition(WindowPosition.Center);
 
             Fixed fixeds = new Fixed();
 
             EventBox label = CreateStyledLabel("Gestión de Usuarios", "Arial 20");
-            fixeds.Put(label, 50, 50);
+            fixeds.Put(label, 85, 50);
 
             btnAgregarUsuario = new Button("Agregar Usuario");
             btnAgregarUsuario.SetSizeRequest(200, 30);
             btnAgregarUsuario.Clicked += AgregarUsuario;
             ApplyFont(btnAgregarUsuario, "Arial 12");
-            fixeds.Put(btnAgregarUsuario, 50, 100);
+            fixeds.Put(btnAgregarUsuario, 90, 100);
 
             VisualizarUsuario = new Button("Visualizar Usuarios");
             VisualizarUsuario.SetSizeRequest(200, 30);
             VisualizarUsuario.Clicked += VisualizarUsuarios;
             ApplyFont(VisualizarUsuario, "Arial 12");
-            fixeds.Put(VisualizarUsuario, 50, 140);
+            fixeds.Put(VisualizarUsuario, 90, 140);
 
             Add(fixeds);
 
@@ -48,14 +53,14 @@ namespace INterfacesAdmin.GesionUsuarios
 
         private void AgregarUsuario(object sender, EventArgs e)
         {
-            // Implementar la lógica para agregar un usuario
-            Console.WriteLine("Agregar Usuario");
+            AgregarUsuario agregarUsuario = new AgregarUsuario(blockchainUsuarios, listaVehiculos, avlTreeRepuestos, binarioServicio, grafoNodiri);
+            agregarUsuario.ShowAll();
         }
 
         private void VisualizarUsuarios(object sender, EventArgs e)
         {
-            // Implementar la lógica para visualizar usuarios
-            Console.WriteLine("Visualizar Usuarios");
+            VerUsuarios verUsuario = new VerUsuarios(blockchainUsuarios, listaVehiculos, avlTreeRepuestos, binarioServicio, grafoNodiri);
+            verUsuario.ShowAll();
         }
 
         private EventBox CreateStyledLabel(string text, string font)

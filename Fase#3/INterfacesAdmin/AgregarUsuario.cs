@@ -1,14 +1,17 @@
 using Gtk;
 using System;
+using Listas.Blockchains;
 using Listas.ListaDobleVehiculos;
 using Listas.AVLRepuestos;
 using Listas.BinarioServicio;
 using ListasArboles.GrafoNodiri;
+using Clases.Usuarios;
 
 namespace INterfacesAdmin.AgregarUsuarios
 {
     public class AgregarUsuario : Window
     {
+        private Blockchain blockchainUsuarios;
         private ListaDobleVehiculo listaVehiculos;
         private AVLTREErepues avlTreeRepuestos;
         private Binariostree binarioServicio;
@@ -27,20 +30,21 @@ namespace INterfacesAdmin.AgregarUsuarios
         private Entry Edad;
         private Entry Contrasenia;
         private Button Insertar;
-        public AgregarUsuario(ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Agregar Usuario")
+        public AgregarUsuario(Blockchain BlockchainUsuarios, ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Agregar Usuario")
         {
+            blockchainUsuarios = BlockchainUsuarios;
             listaVehiculos = ListaAuto;
             avlTreeRepuestos = ListaRepuesto;
             binarioServicio = ListaServicio;
             grafoNodiri = Grafo;
 
-            SetDefaultSize(400, 300);
+            SetDefaultSize(400, 450);
             SetPosition(WindowPosition.Center);
 
             Fixed fixeds = new Fixed();
 
             EventBox label = CreateStyledLabel("Agregar Usuario", "Arial 20");
-            fixeds.Put(label, 50, 50);
+            fixeds.Put(label, 100, 50);
 
             Id = CreateStyledLabel("ID:", "Arial 12");
             fixeds.Put(Id, 50, 100);
@@ -102,8 +106,74 @@ namespace INterfacesAdmin.AgregarUsuarios
 
         private void InsertarUsuario(object? sender, EventArgs e)
         {
-            // Implementar la lógica para insertar un usuario
-            Console.WriteLine("Insertar Usuario");
+            try
+            {
+                // Obtener los valores de los campos de entrada
+                int id = int.Parse(ID.Text);
+                string nombre = Nombre.Text;
+                string apellido = Apellido.Text;
+                string correo = Correo.Text;
+                int edad = int.Parse(Edad.Text);
+                string contrasenia = Contrasenia.Text;
+
+                // Validar que los campos no estén vacíos
+                if (!string.IsNullOrEmpty(nombre) || !string.IsNullOrEmpty(apellido) || !string.IsNullOrEmpty(correo) || !string.IsNullOrEmpty(contrasenia))
+                {
+                    // Validar que el ID no exista en la blockchain
+                        if (!blockchainUsuarios.VerificarId(id))
+                        {
+                            // Validar que el correo no exista en la blockchain
+                            if (!blockchainUsuarios.VerificarCorreo(correo))
+                            {
+                                // Crear el nuevo usuario
+                                Usuario nuevoUsuarios = new Usuario(id, nombre, apellido, correo, edad, contrasenia);
+
+                                // Agregar el usuario a la blockchain
+                                blockchainUsuarios.AddBlock(nuevoUsuarios);
+
+                                // Mostrar mensaje de éxito
+                                MostrarMensaje("Usuario agregado exitosamente.");
+
+                                // Limpiar los campos de entrada
+                                ID.Text = string.Empty;
+                                Nombre.Text = string.Empty;
+                                Apellido.Text = string.Empty;
+                                Correo.Text = string.Empty;
+                                Edad.Text = string.Empty;
+                                Contrasenia.Text = string.Empty;
+                            }
+                            else
+                            {
+                                MostrarMensaje($"El correo {correo} ya existe en la blockchain.");
+                            }
+                        }
+                        else
+                        {
+                            MostrarMensaje($"El ID {id} ya existe en la blockchain.");
+                        }
+                }
+                else
+                {
+                    MostrarMensaje("Por favor, complete todos los campos.");
+                }
+            }
+            catch (FormatException)
+            {
+                MostrarMensaje("Por favor, ingrese valores válidos en los campos.");
+            }
+            catch (Exception ex)
+            {
+                MostrarMensaje($"Ocurrió un error al insertar el usuario: {ex.Message}");
+            }
+        }
+
+        private void MostrarMensaje(string mensaje)
+        {
+            using (MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, mensaje))
+            {
+                md.Run();
+                md.Destroy();
+            }
         }
 
         private EventBox CreateStyledLabel(string text, string font)

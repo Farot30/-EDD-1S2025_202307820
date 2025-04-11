@@ -1,5 +1,6 @@
 using Gtk;
 using System;
+using Listas.Blockchains;
 using Listas.ListaDobleVehiculos;
 using Listas.AVLRepuestos;
 using Listas.BinarioServicio;
@@ -9,45 +10,84 @@ namespace InterfacesUsuario.VisualizarVehiculos
 {
     public class VisualizarVehiculo : Window
     {
+        private Blockchain blockchainUsuarios; 
         private ListaDobleVehiculo ListaDobleVehiculos;
         private AVLTREErepues listaRepuesto;
         private Binariostree ListaServicios;
         private ListaDeListas grafoNodiri;
+        private int IdUsuario;
         private TreeView treeView;
         private ListStore listStore;
-        public VisualizarVehiculo(ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Visualizar Vehículo")
+        public VisualizarVehiculo(Blockchain BlockchainUsuarios, ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto, Binariostree ListaServicio, ListaDeListas Grafo, int idUsuario) : base("Visualizar Vehículo")
         {
+            blockchainUsuarios = BlockchainUsuarios;
             ListaDobleVehiculos = listaDobleVehiculo;
             listaRepuesto = listarepuesto;
             ListaServicios = ListaServicio;
             grafoNodiri = Grafo;
-            
-            SetDefaultSize(400, 300);
+            IdUsuario = idUsuario;
+
+            SetDefaultSize(600, 400);
             SetPosition(WindowPosition.Center);
 
             Fixed fixeds = new Fixed();
 
-            EventBox label = CreateStyledLabel("Visualizar Vehículo", "Arial 20");
-            fixeds.Put(label, 50, 50);
+            EventBox label = CreateStyledLabel("Vehículos del Usuario", "Arial 20");
+            fixeds.Put(label, 250, 20);
 
             treeView = new TreeView();
             treeView.HeadersVisible = true;
             treeView.AppendColumn("Id", new CellRendererText(), "text", 0);
-            treeView.AppendColumn("Id_Usuario", new CellRendererText(), "text", 1);
+            treeView.AppendColumn("Id Usuario", new CellRendererText(), "text", 1);
             treeView.AppendColumn("Marca", new CellRendererText(), "text", 2);
             treeView.AppendColumn("Modelo", new CellRendererText(), "text", 3);
             treeView.AppendColumn("Placa", new CellRendererText(), "text", 4);
 
-
-            listStore = new ListStore(typeof(string), typeof(string), typeof(double));
+            listStore = new ListStore(typeof(string), typeof(string), typeof(string), typeof(string), typeof(string));
             treeView.Model = listStore;
 
             ScrolledWindow scrolledWindow = new ScrolledWindow();
             scrolledWindow.Add(treeView);
-            scrolledWindow.SetSizeRequest(300, 275);
-            fixeds.Put(scrolledWindow, 50, 100);
+            scrolledWindow.SetSizeRequest(500, 250);
+            fixeds.Put(scrolledWindow, 50, 60);
+
+            // Cargar los vehículos del usuario
+            CargarVehiculosUsuario();
 
             Add(fixeds);
+        }
+
+        private void CargarVehiculosUsuario()
+        {
+            // Obtener los vehículos asociados al usuario actual
+            var vehiculos = ListaDobleVehiculos.BuscarVehiculosPorIdUsuario(IdUsuario);
+
+            // Agregar los vehículos al TreeView
+            foreach (var vehiculo in vehiculos)
+            {
+                listStore.AppendValues(
+                    vehiculo.Id.ToString(),
+                    vehiculo.IdUsuario.ToString(),
+                    vehiculo.Marca,
+                    vehiculo.Modelo.ToString(),
+                    vehiculo.Placa
+                );
+            }
+
+            // Mostrar mensaje si no hay vehículos
+            if (listStore.IterNChildren() == 0)
+            {
+                MostrarMensaje("No existen vehículos asociados a este usuario.");
+            }
+        }
+
+        private void MostrarMensaje(string mensaje)
+        {
+            using (MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, mensaje))
+            {
+                md.Run();
+                md.Destroy();
+            }
         }
         private EventBox CreateStyledLabel(string text, string font)
         {
@@ -64,14 +104,6 @@ namespace InterfacesUsuario.VisualizarVehiculos
             if (widget is Label label)
             {
                 label.ModifyFont(fontDesc);
-            }
-            else if (widget is Button button)
-            {
-                button.Child.ModifyFont(fontDesc);
-            }
-            else if (widget is Entry entry)
-            {
-                entry.ModifyFont(fontDesc);
             }
         }
     }

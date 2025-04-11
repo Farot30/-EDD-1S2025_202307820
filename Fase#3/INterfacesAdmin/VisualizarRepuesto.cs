@@ -1,5 +1,6 @@
 using Gtk;
 using Clases.Repuesto;
+using Listas.Blockchains;
 using Listas.ListaDobleVehiculos;
 using Listas.AVLRepuestos;
 using Listas.BinarioServicio;
@@ -10,6 +11,7 @@ namespace INterfacesAdmin.VisualizarRepuesto
 {
     public class VisualizarRepuestos : Window
     {
+        private Blockchain blockchainUsuarios;
         private ListaDobleVehiculo listaVehiculos;
         private AVLTREErepues avlTreeRepuestos;
         private Binariostree binarioServicio;
@@ -19,20 +21,21 @@ namespace INterfacesAdmin.VisualizarRepuesto
         private Button POST_Orden;
         private TreeView treeView;
         private ListStore listStore;
-        public VisualizarRepuestos(ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Visualizar Repuestos")
+        public VisualizarRepuestos(Blockchain BlockchainUsuarios, ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Visualizar Repuestos")
         {
+            blockchainUsuarios = BlockchainUsuarios;
             listaVehiculos = ListaAuto;
             avlTreeRepuestos = ListaRepuesto;
             binarioServicio = ListaServicio;
             grafoNodiri = Grafo;
             
-            SetDefaultSize(400, 300);
+            SetDefaultSize(425, 300);
             SetPosition(WindowPosition.Center);
 
             Fixed fixeds = new Fixed();
 
             EventBox label = CreateStyledLabel("Visualizar Repuestos", "Arial 20");
-            fixeds.Put(label, 50, 50);
+            fixeds.Put(label, 100, 25);
 
             PRE_Orden = new Button("Pre-Orden");
             PRE_Orden.Clicked += PreOrden;
@@ -137,10 +140,6 @@ namespace INterfacesAdmin.VisualizarRepuesto
             else if (widget is Button button)
             {
                 button.Child.ModifyFont(fontDesc);
-            }
-            else if (widget is Entry entry)
-            {
-                entry.ModifyFont(fontDesc);
             }
         }
     }

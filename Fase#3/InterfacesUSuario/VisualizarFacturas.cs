@@ -1,36 +1,43 @@
 using Gtk;
 using System;
+
+using Listas.Blockchains;
 using Listas.ListaDobleVehiculos;
 using Listas.AVLRepuestos;
 using Listas.BinarioServicio;
 using ListasArboles.GrafoNodiri;
+using System.Diagnostics;
 
 namespace InterfacesUsuario.VisualizarFacturas
 {
     public class VisualizarFactura : Window
     {
+        private Blockchain blockchainUsuarios;
         private ListaDobleVehiculo ListaDobleVehiculos;
         private AVLTREErepues listaRepuesto;
         private Binariostree ListaServicios;
         private ListaDeListas grafoNodiri;
+        private int IdUsuario;
 
         private TreeView treeView;
         private ListStore listStore;
 
-        public VisualizarFactura(ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Visualizar Facturas")
+        public VisualizarFactura(Blockchain BlockchainUsuarios, ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto, Binariostree ListaServicio, ListaDeListas Grafo, int idUsuario) : base("Visualizar Facturas")
         {
+            blockchainUsuarios = BlockchainUsuarios;
             ListaDobleVehiculos = listaDobleVehiculo;
             listaRepuesto = listarepuesto;
             ListaServicios = ListaServicio;
             grafoNodiri = Grafo;
-            
-            SetDefaultSize(400, 300);
+            IdUsuario = idUsuario;
+
+            SetDefaultSize(425, 400);
             SetPosition(WindowPosition.Center);
 
             Fixed fixeds = new Fixed();
 
             EventBox label = CreateStyledLabel("Visualizar Facturas", "Arial 20");
-            fixeds.Put(label, 50, 50);
+            fixeds.Put(label, 120, 50);
 
             treeView = new TreeView();
             treeView.HeadersVisible = true;
@@ -45,7 +52,7 @@ namespace InterfacesUsuario.VisualizarFacturas
 
             ScrolledWindow scrolledWindow = new ScrolledWindow();
             scrolledWindow.Add(treeView);
-            scrolledWindow.SetSizeRequest(300, 275);
+            scrolledWindow.SetSizeRequest(300, 350);
             fixeds.Put(scrolledWindow, 50, 100);
 
             Add(fixeds);
@@ -66,14 +73,6 @@ namespace InterfacesUsuario.VisualizarFacturas
             if (widget is Label label)
             {
                 label.ModifyFont(fontDesc);
-            }
-            else if (widget is Button button)
-            {
-                button.Child.ModifyFont(fontDesc);
-            }
-            else if (widget is Entry entry)
-            {
-                entry.ModifyFont(fontDesc);
             }
         }
         private EventBox CreateStyledLabel(string text, string font)

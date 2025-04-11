@@ -1,5 +1,9 @@
 using Gtk;
 using System;
+using System.IO;
+using System.Diagnostics;
+using System.Collections.Generic;
+using System.Text;
 using Programa;
 using Logiarse;
 using INterfacesAdmin.CargasMasivas;
@@ -7,6 +11,7 @@ using INterfacesAdmin.GenerarServicio;
 using INterfacesAdmin.GesionUsuarios;
 using INterfacesAdmin.VisualizarLogueo;
 using INterfacesAdmin.VisualizarRepuesto;
+using Listas.Blockchains;
 using Listas.ListaDobleVehiculos;
 using Listas.AVLRepuestos;
 using Listas.BinarioServicio;
@@ -17,6 +22,7 @@ namespace INterfacesAdmin.Menu
 {
     public class Menus : Window
     {
+        private Blockchain blockchainUsuarios;
         private ListaDobleVehiculo listaVehiculos;
         private AVLTREErepues avlTreeRepuestos;
         private Binariostree binarioServicio;
@@ -31,99 +37,100 @@ namespace INterfacesAdmin.Menu
         private Button Generar_Backup;
         private Button Cerrar_Sesion;
 
-        public Menus(ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Menú Principal")
+        public Menus(Blockchain BlockchainUsuarios, ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Menú Principal")
         {
+            blockchainUsuarios = BlockchainUsuarios;
             listaVehiculos = ListaAuto;
             avlTreeRepuestos = ListaRepuesto;
             binarioServicio = ListaServicio;
             grafoNodiri = Grafo;
 
-            SetDefaultSize(400, 400);
+            SetDefaultSize(400, 450);
             SetPosition(WindowPosition.Center);
 
             Fixed fixeds = new Fixed();
 
             EventBox label = CreateStyledLabel("Menú Principal", "Arial 20");
-            fixeds.Put(label, 50, 50);
+            fixeds.Put(label, 120, 50);
 
             masivox = new Button("Carga Masiva");
             masivox.SetSizeRequest(200, 30);
             masivox.Clicked += GestionMasivas;
             ApplyFont(masivox, "Arial 12");
-            fixeds.Put(masivox, 50, 100);
+            fixeds.Put(masivox, 100, 100);
 
             Gestion_Usuarios = new Button("Gestión de Usuarios");
             Gestion_Usuarios.SetSizeRequest(200, 30);
             Gestion_Usuarios.Clicked += GestionarUsuarios;
             ApplyFont(Gestion_Usuarios, "Arial 12");
-            fixeds.Put(Gestion_Usuarios, 50, 140);
+            fixeds.Put(Gestion_Usuarios, 100, 140);
 
             Visualizacion_Repuestos = new Button("Visualización de Repuestos");
             Visualizacion_Repuestos.SetSizeRequest(200, 30);
             Visualizacion_Repuestos.Clicked += VisualizarRepuestos;
             ApplyFont(Visualizacion_Repuestos, "Arial 12");
-            fixeds.Put(Visualizacion_Repuestos, 50, 180);
+            fixeds.Put(Visualizacion_Repuestos, 90, 180);
 
             Visualizacion_Logueo = new Button("Visualización de Logueo");
             Visualizacion_Logueo.SetSizeRequest(200, 30);
             Visualizacion_Logueo.Clicked += VisualizarLogueo;
             ApplyFont(Visualizacion_Logueo, "Arial 12");
-            fixeds.Put(Visualizacion_Logueo, 50, 220);
+            fixeds.Put(Visualizacion_Logueo, 95, 220);
 
             Generar_servicio = new Button("Generar Servicio");
             Generar_servicio.SetSizeRequest(200, 30);
             Generar_servicio.Clicked += GenerarServicio;
             ApplyFont(Generar_servicio, "Arial 12");
-            fixeds.Put(Generar_servicio, 50, 260);
+            fixeds.Put(Generar_servicio, 100, 260);
 
             Generar_Reporte = new Button("Generar Reporte");
             Generar_Reporte.SetSizeRequest(200, 30);
             Generar_Reporte.Clicked += GenerarReporte;
             ApplyFont(Generar_Reporte, "Arial 12");
-            fixeds.Put(Generar_Reporte, 50, 300);
+            fixeds.Put(Generar_Reporte, 100, 300);
 
             Generar_Backup = new Button("Generar Backup");
             Generar_Backup.SetSizeRequest(200, 30);
             Generar_Backup.Clicked += GenerarBackup;
             ApplyFont(Generar_Backup, "Arial 12");
-            fixeds.Put(Generar_Backup, 50, 340);
+            fixeds.Put(Generar_Backup, 100, 340);
 
             Cerrar_Sesion = new Button("Cerrar Sesión");
             Cerrar_Sesion.SetSizeRequest(200, 30);
             Cerrar_Sesion.Clicked += CerrarSesion;
             ApplyFont(Cerrar_Sesion, "Arial 12");
-            fixeds.Put(Cerrar_Sesion, 50, 380);
+            fixeds.Put(Cerrar_Sesion, 100, 380);
 
             Add(fixeds);
         }
 
         private void GestionMasivas(object? sender, EventArgs e)
         {
-            CargaMasivaS cargasMasivas = new CargaMasivaS(listaVehiculos, avlTreeRepuestos, binarioServicio, grafoNodiri);
-            cargasMasivas.Show();
+            CargaMasivaS cargasMasivas = new CargaMasivaS(blockchainUsuarios, listaVehiculos, avlTreeRepuestos, binarioServicio, grafoNodiri);
+            cargasMasivas.ShowAll();
         }
         private void GestionarUsuarios(object? sender, EventArgs e)
         {
-            GestionUsuario gestionUsuario = new GestionUsuario(listaVehiculos, avlTreeRepuestos, binarioServicio, grafoNodiri);
-            gestionUsuario.Show();
+            GestionUsuario gestionUsuario = new GestionUsuario(blockchainUsuarios, listaVehiculos, avlTreeRepuestos, binarioServicio, grafoNodiri);
+            gestionUsuario.ShowAll();
         }
 
         private void VisualizarRepuestos(object? sender, EventArgs e)
         {
-            VisualizarRepuestos visualizarRepuesto = new VisualizarRepuestos(listaVehiculos, avlTreeRepuestos, binarioServicio, grafoNodiri);
-            visualizarRepuesto.Show();
+            VisualizarRepuestos visualizarRepuesto = new VisualizarRepuestos(blockchainUsuarios, listaVehiculos, avlTreeRepuestos, binarioServicio, grafoNodiri);
+            visualizarRepuesto.ShowAll();
         }
 
         private void VisualizarLogueo(object? sender, EventArgs e)
         {
-            Visualizacion_Logueo visualizacion = new Visualizacion_Logueo(listaVehiculos, avlTreeRepuestos, binarioServicio, grafoNodiri);
-            visualizacion.Show();
+            Visualizacion_Logueo visualizacion = new Visualizacion_Logueo(blockchainUsuarios, listaVehiculos, avlTreeRepuestos, binarioServicio, grafoNodiri);
+            visualizacion.ShowAll();
         }
 
         private void GenerarServicio(object? sender, EventArgs e)
         {
-            GenerarServicios generarservicio = new GenerarServicios(listaVehiculos, avlTreeRepuestos, binarioServicio, grafoNodiri);
-            generarservicio.Show();
+            GenerarServicios generarservicio = new GenerarServicios(blockchainUsuarios, listaVehiculos, avlTreeRepuestos, binarioServicio, grafoNodiri);
+            generarservicio.ShowAll();
         }
 
         private void GenerarReporte(object? sender, EventArgs e)
@@ -137,6 +144,9 @@ namespace INterfacesAdmin.Menu
             ConvertirDotAImagen("ListaAutosDoble.dot");
             ConvertirDotAImagen("ListaRepuestoAVL.dot");
             ConvertirDotAImagen("ListaServicioBinario.dot");
+            string reportesPath = System.IO.Path.Combine("Reportes");
+            grafoNodiri.GenerarGrafo(reportesPath);
+            blockchainUsuarios.GenerarDot("blockchain");
         }
 
         private void GenerarYGUardarGrafica(string graphviz, string nombreArchivo, string titulo)
@@ -156,7 +166,7 @@ namespace INterfacesAdmin.Menu
 
         private void CerrarSesion(object? sender, EventArgs e)
         {
-            Logiarses logiarses = new Logiarses();
+            Logiarses logiarses = new Logiarses(blockchainUsuarios, listaVehiculos, avlTreeRepuestos, binarioServicio, grafoNodiri);
             logiarses.ShowAll();
             this.Hide();
         }

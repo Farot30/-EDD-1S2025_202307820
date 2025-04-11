@@ -4,10 +4,12 @@ using System;
 using Listas.ListaDobleVehiculos;
 using Listas.AVLRepuestos;
 using Listas.BinarioServicio;
+using Listas.Blockchains;
 using ListasArboles.GrafoNodiri;
 using Clases.Vehiculo;
 using Clases.Repuesto;
 using Clases.Servicios;
+using Clases.Usuarios;
 
 namespace INterfacesAdmin.CargasMasivas
 {
@@ -17,26 +19,28 @@ namespace INterfacesAdmin.CargasMasivas
         private AVLTREErepues avlTreeRepuestos;
         private Binariostree binarioServicio;
         private ListaDeListas grafoNodiri;
-        public CargaMasivaS(ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Carga Masiva")
+        private Blockchain blockchainUsuarios;
+        public CargaMasivaS(Blockchain BlockchainUsuarios, ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Carga Masiva")
         {
+            blockchainUsuarios = BlockchainUsuarios;
             listaVehiculos = ListaAuto;
             avlTreeRepuestos = ListaRepuesto;
             binarioServicio = ListaServicio;
             grafoNodiri = Grafo;
-
-            SetDefaultSize(400, 400);
+            
+            SetDefaultSize(400, 300);
             SetPosition(WindowPosition.Center);
 
             Fixed fixeds = new Fixed();
 
             EventBox label = CreateStyledLabel("Carga Masiva", "Arial 20");
-            fixeds.Put(label, 50, 50);
+            fixeds.Put(label, 120, 50);
 
             Button cargarDatos = new Button("Cargar Datos");
             cargarDatos.SetSizeRequest(200, 30);
             cargarDatos.Clicked += CargarDatosMasivos;
             ApplyFont(cargarDatos, "Arial 12");
-            fixeds.Put(cargarDatos, 50, 100);
+            fixeds.Put(cargarDatos, 110, 100);
 
             Add(fixeds);
         }
@@ -56,9 +60,8 @@ namespace INterfacesAdmin.CargasMasivas
             if (fileChooser.Run() == (int)ResponseType.Accept)
             {
                 string filePath = fileChooser.Filename;
-                fileChooser.Destroy();
+                fileChooser.Destroy(); // Destruir el diálogo antes de continuar
 
-                // Verificar que el archivo no sea nulo o vacío
                 if (!string.IsNullOrEmpty(filePath))
                 {
                     DeserializarYGuardar(filePath);
@@ -66,13 +69,13 @@ namespace INterfacesAdmin.CargasMasivas
                     using (MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Archivo cargado exitosamente"))
                     {
                         md.Run();
-                        md.Destroy();
+                        md.Destroy(); // Destruir el diálogo después de usarlo
                     }
                 }
             }
             else
             {
-                fileChooser.Destroy();
+                fileChooser.Destroy(); // Asegúrate de destruir el diálogo en todos los casos
             }
         }
 
@@ -87,26 +90,28 @@ namespace INterfacesAdmin.CargasMasivas
                     MostrarMensaje("El archivo JSON está vacío");
                     return;
                 }
-
                 if (filePath.Contains("Usuarios"))
                 {
                     var usuariosTemp = JsonConvert.DeserializeObject<List<UsuarioTemp>>(jsonContent);
-                    if(usuariosTemp != null){
+                    if (usuariosTemp != null)
+                    {
                         foreach (var usuarioTemp in usuariosTemp)
                         {
-                            if (!ListaUsuarioSimple.UsuarioExiste(usuarioTemp.ID))
+                            if (!blockchainUsuarios.VerificarId(usuarioTemp.ID))
                             {
-                                if(!ListaUsuarioSimple.UsuarioExisteCorreo(usuarioTemp.Correo)){
+                                if (!blockchainUsuarios.VerificarCorreo(usuarioTemp.Correo))
+                                {
                                     Usuario usuario = new Usuario(usuarioTemp.ID, usuarioTemp.Nombres, usuarioTemp.Apellidos, usuarioTemp.Correo, usuarioTemp.Edad, usuarioTemp.Contrasenia);
-                                    ListaUsuarioSimple.Insertar(usuario);
+                                    blockchainUsuarios.AddBlock(usuario); // Agregar usuario como bloque en la blockchain
                                 }
-                                else{
-                                    MostrarMensaje($"El correo {usuarioTemp.Correo} ya existe en la lista de usuarios.");
+                                else
+                                {
+                                    MostrarMensaje($"El correo {usuarioTemp.Correo} ya existe en la blockchain.");
                                 }
                             }
                             else
                             {
-                                MostrarMensaje($"El ID {usuarioTemp.ID} ya existe en la lista de usuarios.");
+                                MostrarMensaje($"El ID {usuarioTemp.ID} ya existe en la blockchain.");
                             }
                         }
                     }
@@ -119,7 +124,7 @@ namespace INterfacesAdmin.CargasMasivas
                         {
                             if (!listaVehiculos.VehiculoExiste(vehiculoTemp.ID))
                             {
-                                if (ListaUsuarioSimple.UsuarioExiste(vehiculoTemp.ID_Usuario))
+                                if (blockchainUsuarios.VerificarId(vehiculoTemp.ID_Usuario))
                                 {
                                     Vehiculos vehiculo = new Vehiculos(vehiculoTemp.ID, vehiculoTemp.ID_Usuario, vehiculoTemp.Marca, vehiculoTemp.Modelo, vehiculoTemp.Placa);
                                     listaVehiculos.Insertar(vehiculo);
@@ -200,7 +205,7 @@ namespace INterfacesAdmin.CargasMasivas
         private void ImprimirDatos()
         {
             Console.WriteLine("Usuarios:");
-            ListaUsuarioSimple.Mostrar();
+            blockchainUsuarios.Chain.ForEach(block => Console.WriteLine(block.Data.ToString()));
 
             Console.WriteLine("Vehículos:");
             listaVehiculos.Mostrar();

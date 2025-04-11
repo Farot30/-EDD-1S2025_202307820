@@ -1,9 +1,11 @@
 using Gtk;
 using System;
+using Listas.Blockchains;
 using Listas.ListaDobleVehiculos;
 using Listas.AVLRepuestos;
 using Listas.BinarioServicio;
 using ListasArboles.GrafoNodiri;
+using Clases.Usuarios;
 using Clases.Vehiculo;
 using Clases.Servicios;
 using Nodos.NodoBinarios;
@@ -12,6 +14,7 @@ namespace InterfacesUsuario.VisualizarServicios
 {
     public class VisualizarServicio : Window
     {
+        private Blockchain blockchainUsuarios;
         private ListaDobleVehiculo ListaDobleVehiculos;
         private AVLTREErepues listaRepuesto;
         private Binariostree ListaServicios;
@@ -22,21 +25,23 @@ namespace InterfacesUsuario.VisualizarServicios
         private Button Post_Orden;
         private TreeView treeView;
         private ListStore listStore;
-        private int idUsuario;
-        public VisualizarServicio(ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Visualizar Servicios")
+        private int IdUsuario;
+        public VisualizarServicio(Blockchain BlockchainUsuarios, ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto, Binariostree ListaServicio, ListaDeListas Grafo, int idUsuario) : base("Visualizar Servicios")
         {
+            blockchainUsuarios = BlockchainUsuarios;
             ListaDobleVehiculos = listaDobleVehiculo;
             listaRepuesto = listarepuesto;
             ListaServicios = ListaServicio;
             grafoNodiri = Grafo;
+            IdUsuario = idUsuario;
             
-            SetDefaultSize(400, 300);
+            SetDefaultSize(425, 400);
             SetPosition(WindowPosition.Center);
 
             Fixed fixeds = new Fixed();
 
             EventBox label = CreateStyledLabel("Visualizar Servicios", "Arial 20");
-            fixeds.Put(label, 50, 50);
+            fixeds.Put(label, 120, 50);
 
             Pre_Orden = new Button("Pre-Orden");
             Pre_Orden.Clicked += PreOrden;
@@ -91,13 +96,10 @@ namespace InterfacesUsuario.VisualizarServicios
             {
                 Servicio servicio = nodo.servicios;
                 Vehiculos? vehiculo = ListaDobleVehiculos.BuscarVehiculoPorId(servicio.ID_vehiculo);
-                if (vehiculo != null)
+                if (vehiculo != null && vehiculo.Value.IdUsuario == IdUsuario)
                 {
-                    Usuario? usuario = ListaUsuarioSimple.BuscarUsuarioPorId(vehiculo.Value.IdUsuario);
-                    if (usuario != null && usuario.Value.Id == idUsuario)
-                    {
-                        listStore.AppendValues(servicio.ID.ToString(), servicio.ID_repuesto.ToString(), servicio.ID_vehiculo.ToString(), servicio.Detalle, Math.Round(servicio.Costo, 2));
-                    }
+                    // Agregar el servicio al TreeView si pertenece al usuario actual
+                    listStore.AppendValues(servicio.ID.ToString(), servicio.ID_repuesto.ToString(), servicio.ID_vehiculo.ToString(), servicio.Detalle, Math.Round(servicio.Costo, 2));
                 }
                 PreOrdenRecursivo(nodo.izquierdo);
                 PreOrdenRecursivo(nodo.derecho);
@@ -122,13 +124,10 @@ namespace InterfacesUsuario.VisualizarServicios
 
                 Servicio servicio = nodo.servicios;
                 Vehiculos? vehiculo = ListaDobleVehiculos.BuscarVehiculoPorId(servicio.ID_vehiculo);
-                if (vehiculo != null)
+                if (vehiculo != null && vehiculo.Value.IdUsuario == IdUsuario)
                 {
-                    Usuario? usuario = ListaUsuarioSimple.BuscarUsuarioPorId(vehiculo.Value.IdUsuario);
-                    if (usuario != null && usuario.Value.Id == idUsuario)
-                    {
-                        listStore.AppendValues(servicio.ID.ToString(), servicio.ID_repuesto.ToString(), servicio.ID_vehiculo.ToString(), servicio.Detalle, Math.Round(servicio.Costo, 2));
-                    }
+                    // Agregar el servicio al TreeView si pertenece al usuario actual
+                    listStore.AppendValues(servicio.ID.ToString(), servicio.ID_repuesto.ToString(), servicio.ID_vehiculo.ToString(), servicio.Detalle, Math.Round(servicio.Costo, 2));
                 }
 
                 InOrdenRecursivo(nodo.derecho);
@@ -154,16 +153,13 @@ namespace InterfacesUsuario.VisualizarServicios
 
                 Servicio servicio = nodo.servicios;
                 Vehiculos? vehiculo = ListaDobleVehiculos.BuscarVehiculoPorId(servicio.ID_vehiculo);
-                if (vehiculo != null)
+                if (vehiculo != null && vehiculo.Value.IdUsuario == IdUsuario)
                 {
-                    Usuario? usuario = ListaUsuarioSimple.BuscarUsuarioPorId(vehiculo.Value.IdUsuario);
-                    if (usuario != null && usuario.Value.Id == idUsuario)
-                    {
-                        listStore.AppendValues(servicio.ID.ToString(), servicio.ID_repuesto.ToString(), servicio.ID_vehiculo.ToString(), servicio.Detalle, Math.Round(servicio.Costo, 2));
-                    }
+                    // Agregar el servicio al TreeView si pertenece al usuario actual
+                    listStore.AppendValues(servicio.ID.ToString(), servicio.ID_repuesto.ToString(), servicio.ID_vehiculo.ToString(), servicio.Detalle, Math.Round(servicio.Costo, 2));
                 }
             }
-        }
+        }   
 
         private void MostrarMensaje(string mensaje)
         {
@@ -193,10 +189,6 @@ namespace InterfacesUsuario.VisualizarServicios
             else if (widget is Button button)
             {
                 button.Child.ModifyFont(fontDesc);
-            }
-            else if (widget is Entry entry)
-            {
-                entry.ModifyFont(fontDesc);
             }
         }
     }

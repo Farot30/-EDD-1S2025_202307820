@@ -1,14 +1,17 @@
 using Gtk;
 using System;
+using Listas.Blockchains;
 using Listas.ListaDobleVehiculos;
 using Listas.AVLRepuestos;
 using Listas.BinarioServicio;
 using ListasArboles.GrafoNodiri;
+using Clases.Usuarios;
 
 namespace INterfacesAdmin.VerUsuario
 {
     public class VerUsuarios : Window
     {
+        private Blockchain blockchainUsuarios;
         private ListaDobleVehiculo listaVehiculos;
         private AVLTREErepues avlTreeRepuestos;
         private Binariostree binarioServicio;
@@ -18,28 +21,27 @@ namespace INterfacesAdmin.VerUsuario
         private EventBox Apellidos;
         private EventBox Correos;
         private EventBox Edades;
-        private EventBox Contrasenias;
         private Entry ID;
         private Label Nombre;
         private Label Apellido;
         private Label Correo;
         private Label Edad;
-        private Label Contrasenia;
         private Button Buscar;
-        public VerUsuarios(ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Ver Usuarios")
+        public VerUsuarios(Blockchain BlockchainUsuarios, ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Ver Usuarios")
         {
+            blockchainUsuarios = BlockchainUsuarios;
             listaVehiculos = ListaAuto;
             avlTreeRepuestos = ListaRepuesto;
             binarioServicio = ListaServicio;
             grafoNodiri = Grafo;
             
-            SetDefaultSize(400, 300);
+            SetDefaultSize(400, 400);
             SetPosition(WindowPosition.Center);
 
             Fixed fixeds = new Fixed();
 
             EventBox label = CreateStyledLabel("Ver Usuarios", "Arial 20");
-            fixeds.Put(label, 50, 50);
+            fixeds.Put(label, 100, 50);
 
             Id = CreateStyledLabel("ID:", "Arial 12");
             fixeds.Put(Id, 50, 100);
@@ -81,14 +83,6 @@ namespace INterfacesAdmin.VerUsuario
             ApplyFont(Edad, "Arial 12");
             fixeds.Put(Edad, 150, 260);
 
-            Contrasenias = CreateStyledLabel("Contraseña:", "Arial 12");
-            fixeds.Put(Contrasenias, 50, 300);
-
-            Contrasenia = new Label();
-            Contrasenia.SetSizeRequest(200, 30);
-            ApplyFont(Contrasenia, "Arial 12");
-            fixeds.Put(Contrasenia, 150, 300);
-
             Buscar = new Button("Buscar");
             Buscar.SetSizeRequest(200, 30);
             Buscar.Clicked += BuscarUsuario;
@@ -100,8 +94,45 @@ namespace INterfacesAdmin.VerUsuario
 
         private void BuscarUsuario(object? sender, EventArgs e)
         {
-            // Implementar la lógica para buscar un usuario
-            Console.WriteLine("Buscar Usuario");
+            // Obtener el ID ingresado
+            if (int.TryParse(ID.Text, out int id))
+            {
+                // Buscar el usuario en la blockchain
+                Usuario? usuario = blockchainUsuarios.BuscarUsuarioPorId(id);
+
+                if (usuario != null)
+                {
+                    // Mostrar los datos del usuario en los labels
+                    Nombre.Text = usuario.Value.Nombre;
+                    Apellido.Text = usuario.Value.Apellido;
+                    Correo.Text = usuario.Value.Correo;
+                    Edad.Text = usuario.Value.Edad.ToString();
+                }
+                else
+                {
+                    // Mostrar mensaje si no se encuentra el usuario
+                    using (MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Usuario no encontrado."))
+                    {
+                        md.Run();
+                        md.Destroy();
+                    }
+
+                    // Limpiar los labels
+                    Nombre.Text = string.Empty;
+                    Apellido.Text = string.Empty;
+                    Correo.Text = string.Empty;
+                    Edad.Text = string.Empty;
+                }
+            }
+            else
+            {
+                // Mostrar mensaje si el ID no es válido
+                using (MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "Por favor, ingrese un ID válido."))
+                {
+                    md.Run();
+                    md.Destroy();
+                }
+            }
         }
 
         private EventBox CreateStyledLabel(string text, string font)

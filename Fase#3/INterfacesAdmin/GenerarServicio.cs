@@ -1,5 +1,6 @@
 using Gtk;
 using System;
+using Listas.Blockchains;
 using Listas.BinarioServicio;
 using Listas.AVLRepuestos;
 using Listas.ListaDobleVehiculos;
@@ -11,7 +12,7 @@ namespace INterfacesAdmin.GenerarServicio
 {
     public class GenerarServicios : Window
     {
-
+        private Blockchain blockchainUsuarios;
         private ListaDobleVehiculo listaVehiculos;
         private AVLTREErepues avlTreeRepuestos;
         private Binariostree binarioServicio;
@@ -27,20 +28,21 @@ namespace INterfacesAdmin.GenerarServicio
         private Entry Detalle;
         private Entry Costo;
         private Button Insertar;
-        public GenerarServicios(ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Generar Servicios")
+        public GenerarServicios(Blockchain BlockchainUsuarios, ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Generar Servicios")
         {
+            blockchainUsuarios = BlockchainUsuarios;
             listaVehiculos = ListaAuto;
             avlTreeRepuestos = ListaRepuesto;
             binarioServicio = ListaServicio;
             grafoNodiri = Grafo;
             
-            SetDefaultSize(400, 300);
+            SetDefaultSize(400, 400);
             SetPosition(WindowPosition.Center);
 
             Fixed fixeds = new Fixed();
 
             EventBox label = CreateStyledLabel("Generar Servicios", "Arial 20");
-            fixeds.Put(label, 50, 50);
+            fixeds.Put(label, 100, 50);
 
             Id = CreateStyledLabel("ID Servicio:", "Arial 12");
             fixeds.Put(Id, 50, 100);
@@ -107,11 +109,15 @@ namespace INterfacesAdmin.GenerarServicio
                                 Servicio servicio = new Servicio(id, IDrepuesto, id_vehiculo, Detalle.Text, costo);
                                 binarioServicio.Insertar(servicio);
                                 binarioServicio.Mostrar();
+                                grafoNodiri.AgregarVehiculoConRepuesto(id_vehiculo, IDrepuesto);
 
                                 // Calcular el total de la factura
                                 Repuesto? repuesto = avlTreeRepuestos.BuscarRepuestoPorId(IDrepuesto);
                                 double total = costo + (repuesto?.Precio ?? 0);
                                 // Crear e insertar la factura
+                                MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, "Servicio creado con éxito");
+                                messageDialog.Run();
+                                messageDialog.Destroy();
                             }
                             else
                             {

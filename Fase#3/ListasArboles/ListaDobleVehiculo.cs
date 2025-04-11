@@ -1,5 +1,7 @@
 using Clases.Vehiculo;
 using Nodos.NodoVehiculo;
+using Clases.Usuarios;
+using Listas.Blockchains;
 
 namespace Listas.ListaDobleVehiculos
 {
@@ -101,6 +103,31 @@ namespace Listas.ListaDobleVehiculos
                 actual = actual.Siguiente;
             }
             return vehiculos;
+        }
+
+        public List<Vehiculos> BuscarVehiculosPorCorreo(string correoUsuario, Blockchain blockchainUsuarios)
+        {
+            List<Vehiculos> vehiculosUsuario = new List<Vehiculos>();
+            NodoVehiculo? actual = primero;
+
+            // Buscar el usuario en la blockchain por correo
+            Usuario? usuario = blockchainUsuarios.BuscarUsuarioPorCorreo(correoUsuario);
+            if (usuario == null)
+            {
+                return vehiculosUsuario; // Retornar lista vacía si el usuario no existe
+            }
+
+            // Buscar vehículos asociados al ID del usuario
+            while (actual != null)
+            {
+                if (actual.Data.IdUsuario == usuario.Value.Id)
+                {
+                    vehiculosUsuario.Add(actual.Data);
+                }
+                actual = actual.Siguiente;
+            }
+
+            return vehiculosUsuario;
         }
 
         public bool VehiculoExiste(int id)
