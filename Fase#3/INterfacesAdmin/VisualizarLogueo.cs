@@ -3,6 +3,7 @@ using Listas.Blockchains;
 using Listas.ListaDobleVehiculos;
 using Listas.AVLRepuestos;
 using Listas.BinarioServicio;
+using ListasArboles.ArbolMerkles;
 using ListasArboles.GrafoNodiri;
 using Programa;
 
@@ -14,16 +15,18 @@ namespace INterfacesAdmin.VisualizarLogueo
         private ListaDobleVehiculo listaVehiculos;
         private AVLTREErepues avlTreeRepuestos;
         private Binariostree binarioServicio;
+        private ArbolMerklesFac ListaFacturas;
         private ListaDeListas grafoNodiri;
 
         private TreeView treeView;
         private ListStore listStore;
-        public Visualizacion_Logueo(Blockchain BlockcahinUsuarios, ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Visualización de Logueo")
+        public Visualizacion_Logueo(Blockchain BlockcahinUsuarios, ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, ArbolMerklesFac ListaFactura, ListaDeListas Grafo) : base("Visualización de Logueo")
         {
             blockchainUsuarios = BlockcahinUsuarios;
             listaVehiculos = ListaAuto;
             avlTreeRepuestos = ListaRepuesto;
             binarioServicio = ListaServicio;
+            ListaFacturas = ListaFactura;
             grafoNodiri = Grafo;
             
             SetDefaultSize(600, 400);

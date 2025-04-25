@@ -4,6 +4,7 @@ using Listas.Blockchains;
 using Listas.ListaDobleVehiculos;
 using Listas.AVLRepuestos;
 using Listas.BinarioServicio;
+using ListasArboles.ArbolMerkles;
 using ListasArboles.GrafoNodiri;
 using Nodos.NodoAVLRepus;
 
@@ -15,18 +16,20 @@ namespace INterfacesAdmin.VisualizarRepuesto
         private ListaDobleVehiculo listaVehiculos;
         private AVLTREErepues avlTreeRepuestos;
         private Binariostree binarioServicio;
+        private ArbolMerklesFac ListaFacturas;
         private ListaDeListas grafoNodiri;
         private Button PRE_Orden;
         private Button IN_Orden;
         private Button POST_Orden;
         private TreeView treeView;
         private ListStore listStore;
-        public VisualizarRepuestos(Blockchain BlockchainUsuarios, ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Visualizar Repuestos")
+        public VisualizarRepuestos(Blockchain BlockchainUsuarios, ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, ArbolMerklesFac ListaFactura, ListaDeListas Grafo) : base("Visualizar Repuestos")
         {
             blockchainUsuarios = BlockchainUsuarios;
             listaVehiculos = ListaAuto;
             avlTreeRepuestos = ListaRepuesto;
             binarioServicio = ListaServicio;
+            ListaFacturas = ListaFactura;
             grafoNodiri = Grafo;
             
             SetDefaultSize(425, 300);

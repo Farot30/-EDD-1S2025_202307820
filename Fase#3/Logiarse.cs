@@ -6,6 +6,7 @@ using Listas.ListaDobleVehiculos;
 using Listas.AVLRepuestos;
 using Listas.BinarioServicio;
 using ListasArboles.GrafoNodiri;
+using ListasArboles.ArbolMerkles;
 using Clases.Usuarios;
 using INterfacesAdmin.Menu;
 using InterfacesUsuario.MenuUsuario;
@@ -20,6 +21,7 @@ namespace Logiarse
         private ListaDobleVehiculo ListaDobleVehiculos;
         private AVLTREErepues listaRepuesto;
         private Binariostree ListaServicios;
+        private ArbolMerklesFac ListaFacturas;
         private ListaDeListas grafoNodiri;
 
         private Entry Correo;
@@ -27,12 +29,13 @@ namespace Logiarse
         private Button IniciarSesion;
         private EventBox Usus;
         private EventBox Contras;
-        public Logiarses(Blockchain BlockchainUsuarios, ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Inicio de sesión")
+        public Logiarses(Blockchain BlockchainUsuarios, ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto, Binariostree ListaServicio, ArbolMerklesFac ListaFactura, ListaDeListas Grafo) : base("Inicio de sesión")
         {
             blockchainUsuarios = BlockchainUsuarios;
             ListaDobleVehiculos = listaDobleVehiculo;
             listaRepuesto = listarepuesto;
             ListaServicios = ListaServicio;
+            ListaFacturas = ListaFactura;
             grafoNodiri = Grafo;
             
             SetDefaultSize(400, 400);
@@ -78,7 +81,7 @@ namespace Logiarse
             if (correo == "admin@usac.com" && contrasena == "admin123")
             {
 
-                Menus menu = new Menus(blockchainUsuarios, ListaDobleVehiculos, listaRepuesto, ListaServicios, grafoNodiri);
+                Menus menu = new Menus(blockchainUsuarios, ListaDobleVehiculos, listaRepuesto, ListaServicios, ListaFacturas , grafoNodiri);
                 menu.ShowAll();
                 this.Hide();
             }
@@ -92,7 +95,7 @@ namespace Logiarse
                     MainClass.LogUsuarios.Add(new LogUsuario(correo, DateTime.Now));
 
                     // Redirigir al menú de usuario con el ID del usuario
-                    MenuUsuarios menuUsuario = new MenuUsuarios(blockchainUsuarios, ListaDobleVehiculos, listaRepuesto, ListaServicios, grafoNodiri, usuario.Value.Id);
+                    MenuUsuarios menuUsuario = new MenuUsuarios(blockchainUsuarios, ListaDobleVehiculos, listaRepuesto, ListaServicios, ListaFacturas, grafoNodiri, usuario.Value.Id);
                     menuUsuario.ShowAll();
                     this.Hide();
                 }

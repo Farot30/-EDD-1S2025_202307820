@@ -4,6 +4,7 @@ using Listas.Blockchains;
 using Listas.ListaDobleVehiculos;
 using Listas.AVLRepuestos;
 using Listas.BinarioServicio;
+using ListasArboles.ArbolMerkles;
 using ListasArboles.GrafoNodiri;
 using Clases.Usuarios;
 using Clases.Vehiculo;
@@ -18,6 +19,7 @@ namespace InterfacesUsuario.VisualizarServicios
         private ListaDobleVehiculo ListaDobleVehiculos;
         private AVLTREErepues listaRepuesto;
         private Binariostree ListaServicios;
+        private ArbolMerklesFac ListaFacturas;
         private ListaDeListas grafoNodiri;
 
         private Button Pre_Orden;
@@ -26,11 +28,12 @@ namespace InterfacesUsuario.VisualizarServicios
         private TreeView treeView;
         private ListStore listStore;
         private int IdUsuario;
-        public VisualizarServicio(Blockchain BlockchainUsuarios, ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto, Binariostree ListaServicio, ListaDeListas Grafo, int idUsuario) : base("Visualizar Servicios")
+        public VisualizarServicio(Blockchain BlockchainUsuarios, ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto, Binariostree ListaServicio, ArbolMerklesFac ListaFactura, ListaDeListas Grafo, int idUsuario) : base("Visualizar Servicios")
         {
             blockchainUsuarios = BlockchainUsuarios;
             ListaDobleVehiculos = listaDobleVehiculo;
             listaRepuesto = listarepuesto;
+            ListaFacturas = ListaFactura;
             ListaServicios = ListaServicio;
             grafoNodiri = Grafo;
             IdUsuario = idUsuario;

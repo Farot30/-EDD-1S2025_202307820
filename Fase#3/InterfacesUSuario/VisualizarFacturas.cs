@@ -5,6 +5,7 @@ using Listas.Blockchains;
 using Listas.ListaDobleVehiculos;
 using Listas.AVLRepuestos;
 using Listas.BinarioServicio;
+using ListasArboles.ArbolMerkles;
 using ListasArboles.GrafoNodiri;
 using System.Diagnostics;
 
@@ -16,18 +17,20 @@ namespace InterfacesUsuario.VisualizarFacturas
         private ListaDobleVehiculo ListaDobleVehiculos;
         private AVLTREErepues listaRepuesto;
         private Binariostree ListaServicios;
+        private ArbolMerklesFac ListaFacturas;
         private ListaDeListas grafoNodiri;
         private int IdUsuario;
 
         private TreeView treeView;
         private ListStore listStore;
 
-        public VisualizarFactura(Blockchain BlockchainUsuarios, ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto, Binariostree ListaServicio, ListaDeListas Grafo, int idUsuario) : base("Visualizar Facturas")
+        public VisualizarFactura(Blockchain BlockchainUsuarios, ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto, Binariostree ListaServicio, ArbolMerklesFac ListaFactura, ListaDeListas Grafo, int idUsuario) : base("Visualizar Facturas")
         {
             blockchainUsuarios = BlockchainUsuarios;
             ListaDobleVehiculos = listaDobleVehiculo;
             listaRepuesto = listarepuesto;
             ListaServicios = ListaServicio;
+            ListaFacturas = ListaFactura;
             grafoNodiri = Grafo;
             IdUsuario = idUsuario;
 

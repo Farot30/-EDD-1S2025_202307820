@@ -4,6 +4,7 @@ using Listas.Blockchains;
 using Listas.BinarioServicio;
 using Listas.AVLRepuestos;
 using Listas.ListaDobleVehiculos;
+using ListasArboles.ArbolMerkles;
 using ListasArboles.GrafoNodiri;
 using Clases.Repuesto;
 using Clases.Servicios;
@@ -16,6 +17,7 @@ namespace INterfacesAdmin.GenerarServicio
         private ListaDobleVehiculo listaVehiculos;
         private AVLTREErepues avlTreeRepuestos;
         private Binariostree binarioServicio;
+        private ArbolMerklesFac ListaFacturas;
         private ListaDeListas grafoNodiri;
         private EventBox Id;
         private EventBox Repuesto;
@@ -28,12 +30,13 @@ namespace INterfacesAdmin.GenerarServicio
         private Entry Detalle;
         private Entry Costo;
         private Button Insertar;
-        public GenerarServicios(Blockchain BlockchainUsuarios, ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Generar Servicios")
+        public GenerarServicios(Blockchain BlockchainUsuarios, ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, ArbolMerklesFac ListaFactura, ListaDeListas Grafo) : base("Generar Servicios")
         {
             blockchainUsuarios = BlockchainUsuarios;
             listaVehiculos = ListaAuto;
             avlTreeRepuestos = ListaRepuesto;
             binarioServicio = ListaServicio;
+            ListaFacturas = ListaFactura;
             grafoNodiri = Grafo;
             
             SetDefaultSize(400, 400);

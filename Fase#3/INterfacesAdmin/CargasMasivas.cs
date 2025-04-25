@@ -5,6 +5,7 @@ using Listas.ListaDobleVehiculos;
 using Listas.AVLRepuestos;
 using Listas.BinarioServicio;
 using Listas.Blockchains;
+using ListasArboles.ArbolMerkles;
 using ListasArboles.GrafoNodiri;
 using Clases.Vehiculo;
 using Clases.Repuesto;
@@ -18,14 +19,16 @@ namespace INterfacesAdmin.CargasMasivas
         private ListaDobleVehiculo listaVehiculos;
         private AVLTREErepues avlTreeRepuestos;
         private Binariostree binarioServicio;
+        private ArbolMerklesFac ListaFacturas;
         private ListaDeListas grafoNodiri;
         private Blockchain blockchainUsuarios;
-        public CargaMasivaS(Blockchain BlockchainUsuarios, ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Carga Masiva")
+        public CargaMasivaS(Blockchain BlockchainUsuarios, ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, ArbolMerklesFac ListaFactura, ListaDeListas Grafo) : base("Carga Masiva")
         {
             blockchainUsuarios = BlockchainUsuarios;
             listaVehiculos = ListaAuto;
             avlTreeRepuestos = ListaRepuesto;
             binarioServicio = ListaServicio;
+            ListaFacturas = ListaFactura;
             grafoNodiri = Grafo;
             
             SetDefaultSize(400, 300);

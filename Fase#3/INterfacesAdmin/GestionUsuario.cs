@@ -4,6 +4,7 @@ using Listas.Blockchains;
 using Listas.ListaDobleVehiculos;
 using Listas.AVLRepuestos;
 using Listas.BinarioServicio;
+using ListasArboles.ArbolMerkles;
 using ListasArboles.GrafoNodiri;
 using INterfacesAdmin.AgregarUsuarios;
 using INterfacesAdmin.VerUsuario;
@@ -16,15 +17,17 @@ namespace INterfacesAdmin.GesionUsuarios
         private ListaDobleVehiculo listaVehiculos;
         private AVLTREErepues avlTreeRepuestos;
         private Binariostree binarioServicio;
+        private ArbolMerklesFac ListaFacturas;
         private ListaDeListas grafoNodiri;
         private Button btnAgregarUsuario;
         private Button VisualizarUsuario;
-        public GestionUsuario(Blockchain BlockchainUsuarios,ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Gestion de Usuarios")
+        public GestionUsuario(Blockchain BlockchainUsuarios,ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, ArbolMerklesFac ListaFactura, ListaDeListas Grafo) : base("Gestion de Usuarios")
         {
             blockchainUsuarios = BlockchainUsuarios;
             listaVehiculos = ListaAuto;
             avlTreeRepuestos = ListaRepuesto;
             binarioServicio = ListaServicio;
+            ListaFacturas = ListaFactura;
             grafoNodiri = Grafo;
             
             SetDefaultSize(400, 400);
@@ -53,13 +56,13 @@ namespace INterfacesAdmin.GesionUsuarios
 
         private void AgregarUsuario(object sender, EventArgs e)
         {
-            AgregarUsuario agregarUsuario = new AgregarUsuario(blockchainUsuarios, listaVehiculos, avlTreeRepuestos, binarioServicio, grafoNodiri);
+            AgregarUsuario agregarUsuario = new AgregarUsuario(blockchainUsuarios, listaVehiculos, avlTreeRepuestos, binarioServicio, ListaFacturas, grafoNodiri);
             agregarUsuario.ShowAll();
         }
 
         private void VisualizarUsuarios(object sender, EventArgs e)
         {
-            VerUsuarios verUsuario = new VerUsuarios(blockchainUsuarios, listaVehiculos, avlTreeRepuestos, binarioServicio, grafoNodiri);
+            VerUsuarios verUsuario = new VerUsuarios(blockchainUsuarios, listaVehiculos, avlTreeRepuestos, binarioServicio, ListaFacturas, grafoNodiri);
             verUsuario.ShowAll();
         }
 

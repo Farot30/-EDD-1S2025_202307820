@@ -4,8 +4,10 @@ using Listas.Blockchains;
 using Listas.ListaDobleVehiculos;
 using Listas.AVLRepuestos;
 using Listas.BinarioServicio;
+using ListasArboles.ArbolMerkles;
 using ListasArboles.GrafoNodiri;
 using Clases.Usuarios;
+using Clases.Vehiculo;
 
 namespace INterfacesAdmin.VerUsuario
 {
@@ -15,6 +17,7 @@ namespace INterfacesAdmin.VerUsuario
         private ListaDobleVehiculo listaVehiculos;
         private AVLTREErepues avlTreeRepuestos;
         private Binariostree binarioServicio;
+        private ArbolMerklesFac ListaFacturas;
         private ListaDeListas grafoNodiri;
         private EventBox Id;
         private EventBox Nombres;
@@ -27,12 +30,15 @@ namespace INterfacesAdmin.VerUsuario
         private Label Correo;
         private Label Edad;
         private Button Buscar;
-        public VerUsuarios(Blockchain BlockchainUsuarios, ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Ver Usuarios")
+        private TreeView treeViewVehiculos;
+        private ListStore listStoreVehiculos;
+        public VerUsuarios(Blockchain BlockchainUsuarios, ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, ArbolMerklesFac ListaFactura, ListaDeListas Grafo) : base("Ver Usuarios")
         {
             blockchainUsuarios = BlockchainUsuarios;
             listaVehiculos = ListaAuto;
             avlTreeRepuestos = ListaRepuesto;
             binarioServicio = ListaServicio;
+            ListaFacturas = ListaFactura;
             grafoNodiri = Grafo;
             
             SetDefaultSize(400, 400);
@@ -89,6 +95,22 @@ namespace INterfacesAdmin.VerUsuario
             ApplyFont(Buscar, "Arial 12");
             fixeds.Put(Buscar, 50, 340);
 
+            // Configurar el TreeView para mostrar los vehículos
+            treeViewVehiculos = new TreeView();
+            treeViewVehiculos.HeadersVisible = true;
+            treeViewVehiculos.AppendColumn("ID", new CellRendererText(), "text", 0);
+            treeViewVehiculos.AppendColumn("Marca", new CellRendererText(), "text", 1);
+            treeViewVehiculos.AppendColumn("Modelo", new CellRendererText(), "text", 2);
+            treeViewVehiculos.AppendColumn("Placa", new CellRendererText(), "text", 3);
+
+            listStoreVehiculos = new ListStore(typeof(string), typeof(string), typeof(string), typeof(string));
+            treeViewVehiculos.Model = listStoreVehiculos;
+
+            ScrolledWindow scrolledWindow = new ScrolledWindow();
+            scrolledWindow.Add(treeViewVehiculos);
+            scrolledWindow.SetSizeRequest(500, 200);
+            fixeds.Put(scrolledWindow, 50, 400);
+
             Add(fixeds);
         }
 
@@ -107,6 +129,35 @@ namespace INterfacesAdmin.VerUsuario
                     Apellido.Text = usuario.Value.Apellido;
                     Correo.Text = usuario.Value.Correo;
                     Edad.Text = usuario.Value.Edad.ToString();
+
+                    // Limpiar el TreeView antes de agregar nuevos datos
+                    listStoreVehiculos.Clear();
+
+                    // Buscar los vehículos asociados al usuario
+                    List<Vehiculos> vehiculos = listaVehiculos.BuscarVehiculosPorIdUsuario(id);
+
+                    if (vehiculos.Count > 0)
+                    {
+                        // Agregar los vehículos al TreeView
+                        foreach (var vehiculo in vehiculos)
+                        {
+                            listStoreVehiculos.AppendValues(
+                                vehiculo.Id.ToString(),
+                                vehiculo.Marca,
+                                vehiculo.Modelo.ToString(),
+                                vehiculo.Placa
+                            );
+                        }
+                    }
+                    else
+                    {
+                        // Mostrar mensaje si no tiene vehículos
+                        using (MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "El usuario no tiene vehículos asociados."))
+                        {
+                            md.Run();
+                            md.Destroy();
+                        }
+                    }
                 }
                 else
                 {
@@ -117,11 +168,12 @@ namespace INterfacesAdmin.VerUsuario
                         md.Destroy();
                     }
 
-                    // Limpiar los labels
+                    // Limpiar los labels y el TreeView
                     Nombre.Text = string.Empty;
                     Apellido.Text = string.Empty;
                     Correo.Text = string.Empty;
                     Edad.Text = string.Empty;
+                    listStoreVehiculos.Clear();
                 }
             }
             else

@@ -6,6 +6,7 @@ using Listas.Blockchains;
 using Listas.ListaDobleVehiculos;
 using Listas.AVLRepuestos;
 using Listas.BinarioServicio;
+using ListasArboles.ArbolMerkles;
 using ListasArboles.GrafoNodiri;
 using InterfacesUsuario.VisualizarVehiculos;
 using InterfacesUsuario.VisualizarServicios;
@@ -21,18 +22,20 @@ namespace InterfacesUsuario.MenuUsuario
         private ListaDobleVehiculo ListaDobleVehiculos;
         private AVLTREErepues listaRepuesto;
         private Binariostree ListaServicios;
+        private ArbolMerklesFac ListaFacturas;
         private ListaDeListas grafoNodiri;
         private Button VisualizarVehiculo;
         private Button Visualizar_Servicio;
         private Button Visualizar_Facturas;
         private Button Cerrar_Sesion;
         private int IdUsuario;
-        public MenuUsuarios(Blockchain BlockchainUsuarios, ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto, Binariostree ListaServicio, ListaDeListas Grafo, int idUsuario) : base("Menu de Usuario")
+        public MenuUsuarios(Blockchain BlockchainUsuarios, ListaDobleVehiculo listaDobleVehiculo, AVLTREErepues listarepuesto, Binariostree ListaServicio, ArbolMerklesFac ListaFactura, ListaDeListas Grafo, int idUsuario) : base("Menu de Usuario")
         {
             blockchainUsuarios = BlockchainUsuarios;
             ListaDobleVehiculos = listaDobleVehiculo;
             listaRepuesto = listarepuesto;
             ListaServicios = ListaServicio;
+            ListaFacturas = ListaFactura;
             grafoNodiri = Grafo;
             IdUsuario = idUsuario;
 
@@ -73,17 +76,17 @@ namespace InterfacesUsuario.MenuUsuario
 
         private void VisualizarVehiculo_Clicked(object? sender, EventArgs e)
         {
-            VisualizarVehiculo visualizarVehiculos = new VisualizarVehiculo(blockchainUsuarios, ListaDobleVehiculos, listaRepuesto, ListaServicios, grafoNodiri, IdUsuario);
+            VisualizarVehiculo visualizarVehiculos = new VisualizarVehiculo(blockchainUsuarios, ListaDobleVehiculos, listaRepuesto, ListaServicios, ListaFacturas, grafoNodiri, IdUsuario);
             visualizarVehiculos.ShowAll();
         }
         private void VisualizarServicio_Clicked(object? sender, EventArgs e)
         {
-            VisualizarServicio visualizarServicios = new VisualizarServicio(blockchainUsuarios, ListaDobleVehiculos, listaRepuesto, ListaServicios, grafoNodiri, IdUsuario);
+            VisualizarServicio visualizarServicios = new VisualizarServicio(blockchainUsuarios, ListaDobleVehiculos, listaRepuesto, ListaServicios, ListaFacturas, grafoNodiri, IdUsuario);
             visualizarServicios.ShowAll();
         }
         private void VisualizarFacturas_Clicked(object? sender, EventArgs e)
         {
-            VisualizarFactura visualizarFacturas = new VisualizarFactura(blockchainUsuarios, ListaDobleVehiculos, listaRepuesto, ListaServicios, grafoNodiri, IdUsuario);
+            VisualizarFactura visualizarFacturas = new VisualizarFactura(blockchainUsuarios, ListaDobleVehiculos, listaRepuesto, ListaServicios, ListaFacturas, grafoNodiri, IdUsuario);
             visualizarFacturas.ShowAll();
         }
         private void CerrarSesion_Clicked(object? sender, EventArgs e)
@@ -106,7 +109,7 @@ namespace InterfacesUsuario.MenuUsuario
                 ControlLogeo.ExportarLogUsuarios(MainClass.LogUsuarios);
 
                 // Redirigir al login
-                Logiarses logiarses = new Logiarses(blockchainUsuarios, ListaDobleVehiculos, listaRepuesto, ListaServicios, grafoNodiri);
+                Logiarses logiarses = new Logiarses(blockchainUsuarios, ListaDobleVehiculos, listaRepuesto, ListaServicios, ListaFacturas, grafoNodiri);
                 logiarses.ShowAll();
                 this.Hide();
             }

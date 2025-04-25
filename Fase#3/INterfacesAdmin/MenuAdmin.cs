@@ -15,6 +15,7 @@ using Listas.Blockchains;
 using Listas.ListaDobleVehiculos;
 using Listas.AVLRepuestos;
 using Listas.BinarioServicio;
+using ListasArboles.ArbolMerkles;
 using ListasArboles.GrafoNodiri;
 using GeneracionGrafica;
 
@@ -26,6 +27,7 @@ namespace INterfacesAdmin.Menu
         private ListaDobleVehiculo listaVehiculos;
         private AVLTREErepues avlTreeRepuestos;
         private Binariostree binarioServicio;
+        private ArbolMerklesFac listaFacturas;
         private ListaDeListas grafoNodiri;
 
         private Button masivox;
@@ -37,12 +39,13 @@ namespace INterfacesAdmin.Menu
         private Button Generar_Backup;
         private Button Cerrar_Sesion;
 
-        public Menus(Blockchain BlockchainUsuarios, ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, ListaDeListas Grafo) : base("Menú Principal")
+        public Menus(Blockchain BlockchainUsuarios, ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, ArbolMerklesFac ListaFactura, ListaDeListas Grafo) : base("Menú Principal")
         {
             blockchainUsuarios = BlockchainUsuarios;
             listaVehiculos = ListaAuto;
             avlTreeRepuestos = ListaRepuesto;
             binarioServicio = ListaServicio;
+            listaFacturas = ListaFactura;
             grafoNodiri = Grafo;
 
             SetDefaultSize(400, 450);
@@ -106,30 +109,30 @@ namespace INterfacesAdmin.Menu
 
         private void GestionMasivas(object? sender, EventArgs e)
         {
-            CargaMasivaS cargasMasivas = new CargaMasivaS(blockchainUsuarios, listaVehiculos, avlTreeRepuestos, binarioServicio, grafoNodiri);
+            CargaMasivaS cargasMasivas = new CargaMasivaS(blockchainUsuarios, listaVehiculos, avlTreeRepuestos, binarioServicio, listaFacturas, grafoNodiri);
             cargasMasivas.ShowAll();
         }
         private void GestionarUsuarios(object? sender, EventArgs e)
         {
-            GestionUsuario gestionUsuario = new GestionUsuario(blockchainUsuarios, listaVehiculos, avlTreeRepuestos, binarioServicio, grafoNodiri);
+            GestionUsuario gestionUsuario = new GestionUsuario(blockchainUsuarios, listaVehiculos, avlTreeRepuestos, binarioServicio, listaFacturas, grafoNodiri);
             gestionUsuario.ShowAll();
         }
 
         private void VisualizarRepuestos(object? sender, EventArgs e)
         {
-            VisualizarRepuestos visualizarRepuesto = new VisualizarRepuestos(blockchainUsuarios, listaVehiculos, avlTreeRepuestos, binarioServicio, grafoNodiri);
+            VisualizarRepuestos visualizarRepuesto = new VisualizarRepuestos(blockchainUsuarios, listaVehiculos, avlTreeRepuestos, binarioServicio, listaFacturas, grafoNodiri);
             visualizarRepuesto.ShowAll();
         }
 
         private void VisualizarLogueo(object? sender, EventArgs e)
         {
-            Visualizacion_Logueo visualizacion = new Visualizacion_Logueo(blockchainUsuarios, listaVehiculos, avlTreeRepuestos, binarioServicio, grafoNodiri);
+            Visualizacion_Logueo visualizacion = new Visualizacion_Logueo(blockchainUsuarios, listaVehiculos, avlTreeRepuestos, binarioServicio, listaFacturas, grafoNodiri);
             visualizacion.ShowAll();
         }
 
         private void GenerarServicio(object? sender, EventArgs e)
         {
-            GenerarServicios generarservicio = new GenerarServicios(blockchainUsuarios, listaVehiculos, avlTreeRepuestos, binarioServicio, grafoNodiri);
+            GenerarServicios generarservicio = new GenerarServicios(blockchainUsuarios, listaVehiculos, avlTreeRepuestos, binarioServicio, listaFacturas, grafoNodiri);
             generarservicio.ShowAll();
         }
 
@@ -147,6 +150,8 @@ namespace INterfacesAdmin.Menu
             string reportesPath = System.IO.Path.Combine("Reportes");
             grafoNodiri.GenerarGrafo(reportesPath);
             blockchainUsuarios.GenerarDot("blockchain");
+
+            listaFacturas.GenerateDotAndConvertToImage("MerkleFacturas", reportesPath);
         }
 
         private void GenerarYGUardarGrafica(string graphviz, string nombreArchivo, string titulo)
@@ -166,7 +171,7 @@ namespace INterfacesAdmin.Menu
 
         private void CerrarSesion(object? sender, EventArgs e)
         {
-            Logiarses logiarses = new Logiarses(blockchainUsuarios, listaVehiculos, avlTreeRepuestos, binarioServicio, grafoNodiri);
+            Logiarses logiarses = new Logiarses(blockchainUsuarios, listaVehiculos, avlTreeRepuestos, binarioServicio, listaFacturas, grafoNodiri);
             logiarses.ShowAll();
             this.Hide();
         }
