@@ -1,5 +1,2 @@
 graph G {
-  V3 [label="V 3"];
-  R5 [label="R 5"];
-  V3 -- R5;
 }

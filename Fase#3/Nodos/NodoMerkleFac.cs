@@ -27,7 +27,7 @@ namespace Nodos.NodoFactura
             Factura = null;
             Left = left;
             Right = right;
-            Hash = CalculateHash(left.Hash, right.Hash); // Si right es null, usa solo left
+            Hash = CalculateHash(left.Hash, right?.Hash); // Si right es null, usa solo left
         }
 
         // Método para calcular el hash combinado de dos nodos

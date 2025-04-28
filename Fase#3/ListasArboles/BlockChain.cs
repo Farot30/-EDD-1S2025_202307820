@@ -41,6 +41,34 @@ namespace Listas.Blockchains
             Chain.Insert(0, newBlock);
         }
 
+        public string GenerarJson()
+        {
+            try
+            {
+                // Crear una lista para almacenar los datos de los usuarios
+                List<Usuario> usuarios = new List<Usuario>();
+
+                // Recorrer la cadena de bloques y extraer los datos de los usuarios
+                foreach (var block in Chain)
+                {
+                    if (block.Data.Id > 0) // Verificar si el usuario tiene un ID válido
+                    {
+                        usuarios.Add(block.Data);
+                    }
+                }
+
+                // Convertir la lista de usuarios a formato JSON
+                string json = Newtonsoft.Json.JsonConvert.SerializeObject(usuarios, Newtonsoft.Json.Formatting.Indented);
+
+                return json; // Devolver el JSON generado
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al generar el JSON: {ex.Message}");
+                return string.Empty; // Devolver una cadena vacía en caso de error
+            }
+        }
+
         public bool ValidarUsuario(string correo, string contrasena)
         {
             // Encriptar la contraseña ingresada
@@ -102,6 +130,7 @@ namespace Listas.Blockchains
                 // Generar el contenido del archivo .dot
                 StringBuilder dot = new StringBuilder();
                 dot.AppendLine("digraph Blockchain {");
+                dot.AppendLine("    rankdir=LR;");
                 dot.AppendLine("    node [shape=box, style=filled, fontname=\"Arial\"];");
 
                 for (int i = 0; i < Chain.Count; i++)

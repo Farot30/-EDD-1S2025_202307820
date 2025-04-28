@@ -220,7 +220,7 @@ namespace Listas.BinarioServicio
             if (nodo != null)
             {
                 MostrarRecursivo(nodo.izquierdo);
-                Console.WriteLine($"ID: {nodo.servicios.ID}, ID Repuesto: {nodo.servicios.ID_repuesto}, ID Vehiculo: {nodo.servicios.ID_vehiculo}, Detalle: {nodo.servicios.Detalle}, Costo: {nodo.servicios.Costo}");
+                Console.WriteLine($"ID: {nodo.servicios.ID}, ID Repuesto: {nodo.servicios.ID_repuesto}, ID Vehiculo: {nodo.servicios.ID_vehiculo}, Detalle: {nodo.servicios.Detalle}, Costo: {nodo.servicios.Costo}, Metodo De Pago: {nodo.servicios.Metodo_pago}");
                 MostrarRecursivo(nodo.derecho);
             }
         }

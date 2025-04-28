@@ -11,6 +11,7 @@ using Clases.Vehiculo;
 using Clases.Repuesto;
 using Clases.Servicios;
 using Clases.Usuarios;
+using Clases.Facturas;
 
 namespace INterfacesAdmin.CargasMasivas
 {
@@ -164,49 +165,105 @@ namespace INterfacesAdmin.CargasMasivas
                 }
                 else if (filePath.Contains("Servicios"))
                 {
+                try
+                {
                     var serviciosTemp = JsonConvert.DeserializeObject<List<ServicioTemp>>(jsonContent);
-                    if(serviciosTemp != null){
+                    if (serviciosTemp != null)
+                    {
+                        Console.WriteLine($"Se encontraron {serviciosTemp.Count} servicios en el archivo JSON.");
                         foreach (var servicioTemp in serviciosTemp)
                         {
-                            if (!binarioServicio.Existeid(servicioTemp.ID))
+                            // Validar que todos los campos estén presentes
+                            if (servicioTemp.Id == 0 || servicioTemp.Id_repuesto == 0 || servicioTemp.Id_vehiculo == 0 ||
+                                string.IsNullOrWhiteSpace(servicioTemp.Detalles) || servicioTemp.Costo == 0 ||
+                                string.IsNullOrWhiteSpace(servicioTemp.MetodoPago))
                             {
-                                if (avlTreeRepuestos.RepuestoExiste(servicioTemp.ID_Repuesto))
+                                Console.WriteLine($"Error: Servicio con datos incompletos o inválidos: {JsonConvert.SerializeObject(servicioTemp)}");
+                                continue;
+                            }
+
+                            // Procesar el servicio
+                            if (!binarioServicio.Existeid(servicioTemp.Id))
+                            {
+                                if (avlTreeRepuestos.RepuestoExiste(servicioTemp.Id_repuesto))
                                 {
-                                    if (listaVehiculos.VehiculoExiste(servicioTemp.ID_Vehiculo))
+                                    if (listaVehiculos.VehiculoExiste(servicioTemp.Id_vehiculo))
                                     {
-                                        Servicio servicio = new Servicio(servicioTemp.ID, servicioTemp.ID_Repuesto, servicioTemp.ID_Vehiculo, servicioTemp.Detalles, servicioTemp.Costo);
+                                        Servicio servicio = new Servicio(servicioTemp.Id, servicioTemp.Id_repuesto, servicioTemp.Id_vehiculo, servicioTemp.Detalles, servicioTemp.Costo, servicioTemp.MetodoPago);
                                         binarioServicio.Insertar(servicio);
+                                        binarioServicio.Mostrar();
+                                        grafoNodiri.AgregarVehiculoConRepuesto(servicioTemp.Id_vehiculo, servicioTemp.Id_repuesto);
+                                        string MetodoPago = servicioTemp.MetodoPago;
+                                        int IdServicio = servicioTemp.Id;
+                                        
+                                        // Calcular el total de la factura
+                                        Repuesto? repuesto = avlTreeRepuestos.BuscarRepuestoPorId(servicioTemp.Id_repuesto);
+                                        if (repuesto != null)
+                                        {
+                                            double total = servicioTemp.Costo + repuesto.Value.Precio;
+                                            // Crear e insertar la factura
+                                            try
+                                            {
+                                                if (ListaFacturas == null)
+                                                {
+                                                    Console.WriteLine("Error: ListaFacturas no está inicializada.");
+                                                    return;
+                                                }
+                                                Console.WriteLine($"Factura creada: {IdServicio}, Total: {total}, Método de Pago: {MetodoPago}");
+                                                
+                                                // Agregar la factura al árbol de Merkle
+                                                ListaFacturas.InsertarFactura(IdServicio, total, MetodoPago);
+                                                Console.WriteLine($"Factura insertada en el árbol de Merkle para el servicio con ID {servicioTemp.Id}");
+
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                Console.WriteLine($"Error al crear o insertar la factura para el servicio con ID {servicioTemp.Id}: {ex.Message}");
+                                            }
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine($"Error: El repuesto con ID {servicioTemp.Id_repuesto} no se encontró al calcular la factura.");
+                                            MostrarMensaje($"Error: El repuesto con ID {servicioTemp.Id_repuesto} no se encontró al calcular la factura.");
+                                        }
                                     }
                                     else
                                     {
-                                        MostrarMensaje($"El ID {servicioTemp.ID_Vehiculo} no existe en la lista de vehículos.");
+                                        MostrarMensaje($"Error: El vehículo con ID {servicioTemp.Id_vehiculo} no existe en la lista de vehículos.");
                                     }
                                 }
                                 else
                                 {
-                                    MostrarMensaje($"El ID {servicioTemp.ID_Repuesto} no existe en la lista de repuestos.");
+                                    MostrarMensaje($"Error: El repuesto con ID {servicioTemp.Id_repuesto} no existe en la lista de repuestos.");
                                 }
                             }
                             else
                             {
-                                MostrarMensaje($"El ID {servicioTemp.ID} ya existe en la lista de servicios.");
+                                MostrarMensaje($"Error: El servicio con ID {servicioTemp.Id} ya existe en la lista de servicios.");
                             }
                         }
                     }
+                    else
+                    {
+                        MostrarMensaje("El archivo JSON de servicios no contiene datos válidos.");
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    MostrarMensaje("El archivo JSON no es válido o no se reconoce su formato.");
+                    Console.WriteLine($"Error al procesar el archivo JSON de servicios: {ex.Message}");
+                    MostrarMensaje($"Error al procesar el archivo JSON de servicios: {ex.Message}");
+                }
                 }
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Error al leer el archivo JSON: {ex.Message}");
                 MostrarMensaje($"Error al leer el archivo JSON: {ex.Message}");
             }
         }
 
         private void ImprimirDatos()
-        {
+        {/*
             Console.WriteLine("Usuarios:");
             blockchainUsuarios.Chain.ForEach(block => Console.WriteLine(block.Data.ToString()));
 
@@ -215,6 +272,12 @@ namespace INterfacesAdmin.CargasMasivas
 
             Console.WriteLine("Repuestos:");
             avlTreeRepuestos.Mostrar();
+
+            Console.WriteLine("Servicios:");
+            binarioServicio.Mostrar();*/
+
+            Console.WriteLine("Facturas:");
+            ListaFacturas.MostrarFacturas();
         }
 
         private void MostrarMensaje(string mensaje)
@@ -278,9 +341,10 @@ public class RepuestoTemp
 
 public class ServicioTemp
 {
-    public int ID { get; set; }
-    public int ID_Repuesto { get; set; }
-    public int ID_Vehiculo { get; set; }
+    public int Id { get; set; }
+    public int Id_repuesto { get; set; }
+    public int Id_vehiculo { get; set; }
     public string Detalles { get; set; }
     public double Costo { get; set; }
+    public string MetodoPago { get; set; }
 }

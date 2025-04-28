@@ -7,6 +7,7 @@ namespace ListasArboles.ArbolMerkles
 {
     public class ArbolMerklesFac
     {
+        int contador = 0;
         private List<NodoFacturas> nodosHojas;
         private NodoFacturas? RaizArbol;
 
@@ -15,25 +16,56 @@ namespace ListasArboles.ArbolMerkles
             nodosHojas = new List<NodoFacturas>();
             RaizArbol = null;
         }
-
-        public void InsertarFactura(Factura factura)
+        private int GenerarIdUnico()
         {
-            foreach (var nodo in nodosHojas)
-            {
-                if (nodo.Factura.Value.ID == factura.ID)
-                {
-                    Console.WriteLine("Factura ya existe en el árbol.");
-                    return;
-                }
-            }
-
-            NodoFacturas nuevoNodo = new NodoFacturas(factura);
-            nodosHojas.Add(nuevoNodo);
-
-            ContrucArbol();
+            return contador++; // Incrementa el contador y devuelve el valor actual
         }
 
-        private void ContrucArbol()
+        // Método para insertar una nueva factura
+        public void InsertarFactura(int idServicio, double total, string metodoPago)
+        {
+            int idFactura = GenerarIdUnico();
+
+            foreach (var nodo in nodosHojas)
+            {
+                if (nodo.Factura.HasValue && nodo.Factura.Value.ID == idFactura)
+                {
+                    Console.WriteLine($"Factura con ID {idFactura} ya existe en el árbol.");
+                    return; // Salir del método si la factura ya existe
+                }
+            }
+            // Crear la factura y el nodo hoja
+            Factura factura = new Factura(idFactura, idServicio, total, metodoPago);
+            NodoFacturas newLeaf = new NodoFacturas(factura);
+            nodosHojas.Add(newLeaf);
+
+            // Reconstruir el árbol con las hojas actuales
+            BuildTree();
+        }
+
+        public void MostrarFacturas()
+        {
+            if (nodosHojas.Count == 0)
+            {
+                Console.WriteLine("No hay facturas registradas en el árbol.");
+                return;
+            }
+
+            Console.WriteLine("Facturas registradas:");
+            foreach (var nodo in nodosHojas)
+            {
+                if (nodo.Factura != null)
+                {
+                    Console.WriteLine($"ID: {nodo.Factura.Value.ID}, " +
+                                    $"ID Servicio: {nodo.Factura.Value.ID_servicio}, " +
+                                    $"Total: {nodo.Factura.Value.Total}, " +
+                                    $"Fecha: {nodo.Factura.Value.Fecha}, " +
+                                    $"Método de Pago: {nodo.Factura.Value.Metodo_pago}");
+                }
+            }
+        }
+
+        private void BuildTree()
         {
             if (nodosHojas.Count == 0)
             {
@@ -50,7 +82,7 @@ namespace ListasArboles.ArbolMerkles
                 for (int i = 0; i < currentLevel.Count; i += 2)
                 {
                     NodoFacturas left = currentLevel[i];
-                    NodoFacturas? right = (i + 1 < currentLevel.Count) ? currentLevel[i + 1] : null;
+                    NodoFacturas right = (i + 1 < currentLevel.Count) ? currentLevel[i + 1] : null;
                     NodoFacturas parent = new NodoFacturas(left, right);
                     nextLevel.Add(parent);
                 }

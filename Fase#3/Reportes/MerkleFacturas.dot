@@ -1,0 +1,8 @@
+digraph MerkleTree {
+  node [shape=record];
+  graph [rankdir=TB];
+  subgraph cluster_0 {
+    label="Facturas";
+    empty [label="Árbol vacío"];
+  }
+}

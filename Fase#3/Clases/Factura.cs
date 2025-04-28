@@ -12,12 +12,12 @@ namespace Clases.Facturas
         public string Fecha { get; set; }
         public string Metodo_pago { get; set; }
 
-        public Factura(int id, int id_servicio, double total, string fecha, string metodo_pago)
+        public Factura(int Id, int id_servicio, double total, string metodo_pago)
         {
-            ID = id;
+            ID = Id;
             ID_servicio = id_servicio;
             Total = total;
-            Fecha = fecha;
+            Fecha = DateTime.Now.ToString("yyyy-MM-dd");
             Metodo_pago = metodo_pago;
         }
 

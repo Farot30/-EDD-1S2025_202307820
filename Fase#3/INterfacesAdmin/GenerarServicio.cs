@@ -8,6 +8,7 @@ using ListasArboles.ArbolMerkles;
 using ListasArboles.GrafoNodiri;
 using Clases.Repuesto;
 using Clases.Servicios;
+using Clases.Facturas;
 
 namespace INterfacesAdmin.GenerarServicio
 {
@@ -24,11 +25,13 @@ namespace INterfacesAdmin.GenerarServicio
         private EventBox Vehiculo;
         private EventBox Detalles;
         private EventBox Costos;
+        private EventBox Metodo_pagos;
         private Entry ID;
         private Entry ID_repuesto;
         private Entry Id_vehiculo;
         private Entry Detalle;
         private Entry Costo;
+        private Entry Metodo_pago;
         private Button Insertar;
         public GenerarServicios(Blockchain BlockchainUsuarios, ListaDobleVehiculo ListaAuto, AVLTREErepues ListaRepuesto, Binariostree ListaServicio, ArbolMerklesFac ListaFactura, ListaDeListas Grafo) : base("Generar Servicios")
         {
@@ -39,7 +42,7 @@ namespace INterfacesAdmin.GenerarServicio
             ListaFacturas = ListaFactura;
             grafoNodiri = Grafo;
             
-            SetDefaultSize(400, 400);
+            SetDefaultSize(420, 425);
             SetPosition(WindowPosition.Center);
 
             Fixed fixeds = new Fixed();
@@ -53,7 +56,7 @@ namespace INterfacesAdmin.GenerarServicio
             ID = new Entry();
             ID.SetSizeRequest(200, 30);
             ApplyFont(ID, "Arial 12");
-            fixeds.Put(ID, 150, 100);
+            fixeds.Put(ID, 200, 100);
 
             Repuesto = CreateStyledLabel("ID Repuesto:", "Arial 12");
             fixeds.Put(Repuesto, 50, 140);
@@ -61,7 +64,7 @@ namespace INterfacesAdmin.GenerarServicio
             ID_repuesto = new Entry();
             ID_repuesto.SetSizeRequest(200, 30);
             ApplyFont(ID_repuesto, "Arial 12");
-            fixeds.Put(ID_repuesto, 150, 140);
+            fixeds.Put(ID_repuesto, 200, 140);
 
             Vehiculo = CreateStyledLabel("ID Vehículo:", "Arial 12");
             fixeds.Put(Vehiculo, 50, 180);
@@ -69,7 +72,7 @@ namespace INterfacesAdmin.GenerarServicio
             Id_vehiculo = new Entry();
             Id_vehiculo.SetSizeRequest(200, 30);
             ApplyFont(Id_vehiculo, "Arial 12");
-            fixeds.Put(Id_vehiculo, 150, 180);
+            fixeds.Put(Id_vehiculo, 200, 180);
 
             Detalles = CreateStyledLabel("Detalles:", "Arial 12");
             fixeds.Put(Detalles, 50, 220);
@@ -77,7 +80,7 @@ namespace INterfacesAdmin.GenerarServicio
             Detalle = new Entry();
             Detalle.SetSizeRequest(200, 30);
             ApplyFont(Detalle, "Arial 12");
-            fixeds.Put(Detalle, 150, 220);
+            fixeds.Put(Detalle, 200, 220);
 
             Costos = CreateStyledLabel("Costo:", "Arial 12");
             fixeds.Put(Costos, 50, 260);
@@ -85,13 +88,21 @@ namespace INterfacesAdmin.GenerarServicio
             Costo = new Entry();
             Costo.SetSizeRequest(200, 30);
             ApplyFont(Costo, "Arial 12");
-            fixeds.Put(Costo, 150, 260);
+            fixeds.Put(Costo, 200, 260);
+
+            Metodo_pagos = CreateStyledLabel("Método de Pago:", "Arial 12");
+            fixeds.Put(Metodo_pagos, 50, 300);
+
+            Metodo_pago = new Entry();
+            Metodo_pago.SetSizeRequest(200, 30);
+            ApplyFont(Metodo_pago, "Arial 12");
+            fixeds.Put(Metodo_pago, 200, 300);
 
             Insertar = new Button("Insertar");
             Insertar.SetSizeRequest(200, 30);
             Insertar.Clicked += InsertarServicio;
             ApplyFont(Insertar, "Arial 12");
-            fixeds.Put(Insertar, 50, 300);
+            fixeds.Put(Insertar, 50, 350);
 
             Add(fixeds);
 
@@ -99,7 +110,7 @@ namespace INterfacesAdmin.GenerarServicio
 
         private void InsertarServicio(object? sender, EventArgs e)
         {
-            if(!string.IsNullOrWhiteSpace(ID.Text) && !string.IsNullOrWhiteSpace(ID_repuesto.Text) && !string.IsNullOrWhiteSpace(Id_vehiculo.Text) && !string.IsNullOrWhiteSpace(Detalle.Text) && !string.IsNullOrWhiteSpace(Costo.Text))
+            if(!string.IsNullOrWhiteSpace(ID.Text) && !string.IsNullOrWhiteSpace(ID_repuesto.Text) && !string.IsNullOrWhiteSpace(Id_vehiculo.Text) && !string.IsNullOrWhiteSpace(Detalle.Text) && !string.IsNullOrWhiteSpace(Costo.Text) && !string.IsNullOrWhiteSpace(Metodo_pago.Text))
             {
                 if(int.TryParse(ID.Text, out int id) && int.TryParse(ID_repuesto.Text, out int IDrepuesto) && int.TryParse(Id_vehiculo.Text, out int id_vehiculo) && double.TryParse(Costo.Text, out double costo))
                 {
@@ -109,7 +120,7 @@ namespace INterfacesAdmin.GenerarServicio
                         {
                             if(listaVehiculos.VehiculoExiste(id_vehiculo))
                             {
-                                Servicio servicio = new Servicio(id, IDrepuesto, id_vehiculo, Detalle.Text, costo);
+                                Servicio servicio = new Servicio(id, IDrepuesto, id_vehiculo, Detalle.Text, costo, Metodo_pago.Text);
                                 binarioServicio.Insertar(servicio);
                                 binarioServicio.Mostrar();
                                 grafoNodiri.AgregarVehiculoConRepuesto(id_vehiculo, IDrepuesto);
@@ -118,7 +129,9 @@ namespace INterfacesAdmin.GenerarServicio
                                 Repuesto? repuesto = avlTreeRepuestos.BuscarRepuestoPorId(IDrepuesto);
                                 double total = costo + (repuesto?.Precio ?? 0);
                                 // Crear e insertar la factura
-                                MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, "Servicio creado con éxito");
+                                ListaFacturas.InsertarFactura(id, total, Metodo_pago.Text);
+                                // Mostrar mensaje de éxito
+                                MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Info, ButtonsType.Ok, "Servicio y Factura creado con éxito");
                                 messageDialog.Run();
                                 messageDialog.Destroy();
                             }

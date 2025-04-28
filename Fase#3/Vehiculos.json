@@ -112,8 +112,22 @@
     "Placa": "VWL3P0D"
   },
   {
-    "ID": 1,
+    "ID": 17,
     "ID_Usuario": 12,
+    "Marca": "Mazda CX-5",
+    "Modelo": 2017,
+    "Placa": "VWL3P0D"
+  },
+  {
+    "ID": 18,
+    "ID_Usuario": 5,
+    "Marca": "Mazda CX-5",
+    "Modelo": 2017,
+    "Placa": "VWL3P0D"
+  },
+  {
+    "ID": 1,
+    "ID_Usuario": 4,
     "Marca": "Mazda CX-6",
     "Modelo": 2015,
     "Placa": "VWL3Pf0D"

@@ -166,7 +166,41 @@ namespace INterfacesAdmin.Menu
 
         private void GenerarBackup(object? sender, EventArgs e)
         {
-            // Implementar la lógica para generar backup
+            try
+            {
+                string backupPath = "Backups";
+                if (!Directory.Exists(backupPath))
+                {
+                    Directory.CreateDirectory(backupPath);
+                }
+
+                // 1. Generar archivo JSON para Usuarios (Blockchain)
+                string usuariosJsonPath = System.IO.Path.Combine(backupPath, "Usuarios.json");
+                string usuariosJson = blockchainUsuarios.GenerarJson(); // Método que genera el JSON de usuarios
+                File.WriteAllText(usuariosJsonPath, usuariosJson);
+                Console.WriteLine($"Backup de usuarios generado en: {usuariosJsonPath}");
+/*
+                // 2. Generar archivo .edd para Vehículos
+                string vehiculosPath = Path.Combine(backupPath, "Vehiculos.edd");
+                string vehiculosData = listaVehiculos.GenerarTextoPlano(); // Método que genera el texto plano de vehículos
+                string vehiculosComprimido = ComprimirHuffman(vehiculosData); // Método para comprimir con Huffman
+                File.WriteAllText(vehiculosPath, vehiculosComprimido);
+                Console.WriteLine($"Backup comprimido de vehículos generado en: {vehiculosPath}");
+
+                // 3. Generar archivo .edd para Repuestos
+                string repuestosPath = Path.Combine(backupPath, "Repuestos.edd");
+                string repuestosData = avlTreeRepuestos.GenerarTextoPlano(); // Método que genera el texto plano de repuestos
+                string repuestosComprimido = ComprimirHuffman(repuestosData); // Método para comprimir con Huffman
+                File.WriteAllText(repuestosPath, repuestosComprimido);
+                Console.WriteLine($"Backup comprimido de repuestos generado en: {repuestosPath}");
+*/
+                MostrarMensaje("Backup generado exitosamente.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al generar el backup: {ex.Message}");
+                MostrarMensaje($"Error al generar el backup: {ex.Message}");
+            }
         }
 
         private void CerrarSesion(object? sender, EventArgs e)
@@ -174,6 +208,13 @@ namespace INterfacesAdmin.Menu
             Logiarses logiarses = new Logiarses(blockchainUsuarios, listaVehiculos, avlTreeRepuestos, binarioServicio, listaFacturas, grafoNodiri);
             logiarses.ShowAll();
             this.Hide();
+        }
+
+        private void MostrarMensaje(string mensaje)
+        {
+            MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Info, ButtonsType.Ok, mensaje);
+            messageDialog.Run();
+            messageDialog.Destroy();
         }
 
         private EventBox CreateStyledLabel(string text, string font)
