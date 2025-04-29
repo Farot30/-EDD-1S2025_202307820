@@ -1,3 +1,34 @@
 digraph G {
     node [shape=record];
+    "8" [label="{ID: 8|Nombre: Correa de distribución|Descripcion: Componente que sincroniza el motor.|Precio: 80}"];
+    "8" -> "4";
+    "4" [label="{ID: 4|Nombre: Pastillas de freno traseras|Descripcion: Piezas para frenar el vehículo en la parte trasera.|Precio: 45,3}"];
+    "4" -> "2";
+    "2" [label="{ID: 2|Nombre: Bujías|Descripcion: Componente esencial para encender la mezcla de aire y combustible.|Precio: 15,75}"];
+    "2" -> "1";
+    "1" [label="{ID: 1|Nombre: Filtro de aceite|Descripcion: Filtra impurezas del aceite del motor.|Precio: 25,5}"];
+    "2" -> "3";
+    "3" [label="{ID: 3|Nombre: Frenos delanteros|Descripcion: Piezas para frenar el vehículo en la parte delantera.|Precio: 60}"];
+    "4" -> "6";
+    "6" [label="{ID: 6|Nombre: Aceite de motor|Descripcion: Lubricante para el motor del vehículo.|Precio: 18,6}"];
+    "6" -> "5";
+    "5" [label="{ID: 5|Nombre: Amortiguadores|Descripcion: Componente de suspensión para absorber impactos.|Precio: 95,2}"];
+    "6" -> "7";
+    "7" [label="{ID: 7|Nombre: Filtro de aire|Descripcion: Filtra el aire que entra al motor para mejorar la combustión.|Precio: 22,1}"];
+    "8" -> "12";
+    "12" [label="{ID: 12|Nombre: Espejos laterales|Descripcion: Espejos para una mejor visibilidad en el vehículo.|Precio: 50}"];
+    "12" -> "10";
+    "10" [label="{ID: 10|Nombre: Batería|Descripcion: Fuente de energía para el vehículo.|Precio: 100,5}"];
+    "10" -> "9";
+    "9" [label="{ID: 9|Nombre: Radiador|Descripcion: Sistema para mantener el motor a temperatura adecuada.|Precio: 150}"];
+    "10" -> "11";
+    "11" [label="{ID: 11|Nombre: Cables de encendido|Descripcion: Conducen energía desde la batería a las bujías.|Precio: 30,4}"];
+    "12" -> "14";
+    "14" [label="{ID: 14|Nombre: Suspensión trasera|Descripcion: Sistema que absorbe impactos en la parte trasera del vehículo.|Precio: 120}"];
+    "14" -> "13";
+    "13" [label="{ID: 13|Nombre: Manguera de radiador|Descripcion: Transporta el líquido refrigerante en el sistema de enfriamiento.|Precio: 20,8}"];
+    "14" -> "15";
+    "15" [label="{ID: 15|Nombre: Bombas de freno|Descripcion: Componente que genera presión para accionar los frenos.|Precio: 75}"];
+    "15" -> "16";
+    "16" [label="{ID: 16|Nombre: Batería|Descripcion: Componente necesario para energia del carro y funcione.|Precio: 75}"];
 }

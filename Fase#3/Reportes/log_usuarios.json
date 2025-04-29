@@ -1,7 +1,17 @@
 [
   {
-    "usuario": "luis.enrique@usac.com",
-    "entrada": "2025-04-10 22:38:56.00",
-    "salida": "2025-04-10 22:38:59.00"
+    "usuario": "ana.lucia@usac.com",
+    "entrada": "2025-04-29 15:10:47.00",
+    "salida": "2025-04-29 15:10:52.00"
+  },
+  {
+    "usuario": "ana.lucia@usac.com",
+    "entrada": "2025-04-29 15:12:53.00",
+    "salida": "2025-04-29 15:21:06.00"
+  },
+  {
+    "usuario": "ana.lucia@usac.com",
+    "entrada": "2025-04-29 15:34:06.00",
+    "salida": "2025-04-29 15:34:23.00"
   }
 ]

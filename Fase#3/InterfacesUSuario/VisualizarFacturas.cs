@@ -55,7 +55,7 @@ namespace InterfacesUsuario.VisualizarFacturas
 
             ScrolledWindow scrolledWindow = new ScrolledWindow();
             scrolledWindow.Add(treeView);
-            scrolledWindow.SetSizeRequest(300, 350);
+            scrolledWindow.SetSizeRequest(380, 325);
             fixeds.Put(scrolledWindow, 50, 100);
 
             Add(fixeds);

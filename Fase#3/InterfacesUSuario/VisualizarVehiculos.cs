@@ -36,7 +36,7 @@ namespace InterfacesUsuario.VisualizarVehiculos
             Fixed fixeds = new Fixed();
 
             EventBox label = CreateStyledLabel("Vehículos del Usuario", "Arial 20");
-            fixeds.Put(label, 250, 20);
+            fixeds.Put(label, 190, 20);
 
             treeView = new TreeView();
             treeView.HeadersVisible = true;

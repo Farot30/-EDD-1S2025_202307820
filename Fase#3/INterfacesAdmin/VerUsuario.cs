@@ -41,59 +41,59 @@ namespace INterfacesAdmin.VerUsuario
             ListaFacturas = ListaFactura;
             grafoNodiri = Grafo;
             
-            SetDefaultSize(400, 400);
+            SetDefaultSize(400, 540);
             SetPosition(WindowPosition.Center);
 
             Fixed fixeds = new Fixed();
 
             EventBox label = CreateStyledLabel("Ver Usuarios", "Arial 20");
-            fixeds.Put(label, 100, 50);
+            fixeds.Put(label, 125, 20);
 
             Id = CreateStyledLabel("ID:", "Arial 12");
-            fixeds.Put(Id, 50, 100);
+            fixeds.Put(Id, 50, 70);
 
             ID = new Entry();
             ID.SetSizeRequest(200, 30);
             ApplyFont(ID, "Arial 12");
-            fixeds.Put(ID, 150, 100);
+            fixeds.Put(ID, 150, 70);
 
             Nombres = CreateStyledLabel("Nombre:", "Arial 12");
-            fixeds.Put(Nombres, 50, 140);
+            fixeds.Put(Nombres, 50, 110);
 
             Nombre = new Label();
             Nombre.SetSizeRequest(200, 30);
             ApplyFont(Nombre, "Arial 12");
-            fixeds.Put(Nombre, 150, 140);
+            fixeds.Put(Nombre, 150, 110);
 
             Apellidos = CreateStyledLabel("Apellido:", "Arial 12");
-            fixeds.Put(Apellidos, 50, 180);
+            fixeds.Put(Apellidos, 50, 150);
 
             Apellido = new Label();
             Apellido.SetSizeRequest(200, 30);
             ApplyFont(Apellido, "Arial 12");
-            fixeds.Put(Apellido, 150, 180);
+            fixeds.Put(Apellido, 150, 150);
 
             Correos = CreateStyledLabel("Correo:", "Arial 12");
-            fixeds.Put(Correos, 50, 220);
+            fixeds.Put(Correos, 50, 190);
 
             Correo = new Label();
             Correo.SetSizeRequest(200, 30);
             ApplyFont(Correo, "Arial 12");
-            fixeds.Put(Correo, 150, 220);
+            fixeds.Put(Correo, 150, 190);
 
             Edades = CreateStyledLabel("Edad:", "Arial 12");
-            fixeds.Put(Edades, 50, 260);
+            fixeds.Put(Edades, 50, 230);
 
             Edad = new Label();
             Edad.SetSizeRequest(200, 30);
             ApplyFont(Edad, "Arial 12");
-            fixeds.Put(Edad, 150, 260);
+            fixeds.Put(Edad, 150, 230);
 
             Buscar = new Button("Buscar");
             Buscar.SetSizeRequest(200, 30);
             Buscar.Clicked += BuscarUsuario;
             ApplyFont(Buscar, "Arial 12");
-            fixeds.Put(Buscar, 50, 340);
+            fixeds.Put(Buscar, 50, 260);
 
             // Configurar el TreeView para mostrar los vehículos
             treeViewVehiculos = new TreeView();
@@ -108,8 +108,8 @@ namespace INterfacesAdmin.VerUsuario
 
             ScrolledWindow scrolledWindow = new ScrolledWindow();
             scrolledWindow.Add(treeViewVehiculos);
-            scrolledWindow.SetSizeRequest(500, 200);
-            fixeds.Put(scrolledWindow, 50, 400);
+            scrolledWindow.SetSizeRequest(310, 200);
+            fixeds.Put(scrolledWindow, 50, 310);
 
             Add(fixeds);
         }

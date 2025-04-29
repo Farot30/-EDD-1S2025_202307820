@@ -254,3 +254,5 @@ Los usuarios pueden ver sus facturas pendientes y proceder al pago (cancelación
 <p align="center">
  <img src="CancelarFactura.png" width="400">
 </p>
+
+

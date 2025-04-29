@@ -40,7 +40,7 @@ namespace ListasArboles.ArbolMerkles
             nodosHojas.Add(newLeaf);
 
             // Reconstruir el árbol con las hojas actuales
-            BuildTree();
+            ConstrucMek();
         }
 
         public void MostrarFacturas()
@@ -65,7 +65,7 @@ namespace ListasArboles.ArbolMerkles
             }
         }
 
-        private void BuildTree()
+        private void ConstrucMek()
         {
             if (nodosHojas.Count == 0)
             {
