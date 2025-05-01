@@ -24,14 +24,6 @@
     "Contrasena": "c8b52f8f6658d575e47f80e6d1dd2921845868bc787ff279c564d807eb37fde8"
   },
   {
-    "Id": 7,
-    "Nombre": "Pedro Pablo",
-    "Apellido": "Rodriguez Torres",
-    "Correo": "pedro.pablo@usac.com",
-    "Edad": 20,
-    "Contrasena": "37221c5c448531a16f21a01c66f01818fa4fe656c6e69bc606cf33504f964706"
-  },
-  {
     "Id": 6,
     "Nombre": "Maria Fernanda",
     "Apellido": "Garcia Lopez",

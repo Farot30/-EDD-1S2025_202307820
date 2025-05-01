@@ -71,6 +71,16 @@ namespace Logiarse
             fixeds.Put(Contrasena, 100, 200);
             ApplyFont(Contrasena, "Arial 12");
 
+            // Botón para alternar visibilidad de la contraseña
+            Button toggleVisibilityButton = new Button("👁");
+            toggleVisibilityButton.SetSizeRequest(40, 30);
+            toggleVisibilityButton.Clicked += (sender, e) =>
+            {
+                Contrasena.Visibility = !Contrasena.Visibility; // Alternar visibilidad
+                toggleVisibilityButton.Label = Contrasena.Visibility ? "🙈" : "👁"; // Cambiar ícono
+            };
+            fixeds.Put(toggleVisibilityButton, 310, 200);
+
             IniciarSesion = new Button("Iniciar sesión");
             IniciarSesion.SetSizeRequest(200, 30);
             IniciarSesion.Clicked += Validación;
@@ -132,11 +142,6 @@ namespace Logiarse
 
                     if (usuarios != null)
                     {
-                        foreach (var usuario in usuarios)
-                        {
-                            blockchainUsuarios.AddBlock(usuario);
-                        }
-
                         // Validar la integridad del Blockchain
                         if (!blockchainUsuarios.ValidarIntegridad())
                         {
@@ -144,6 +149,12 @@ namespace Logiarse
                             MostrarMensaje("Error: La cadena de bloques está corrupta. No se cargará el backup.");
                             return;
                         }
+
+                        foreach (var usuario in usuarios)
+                        {
+                            blockchainUsuarios.AddBlock(usuario);
+                        }
+
                     }
                 }
                 else
