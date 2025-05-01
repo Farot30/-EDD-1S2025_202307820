@@ -1,6 +1,7 @@
 using Clases.Repuesto;
 using Nodos.NodoAVLRepus;
 using System;
+using System.Text;
 
 namespace Listas.AVLRepuestos
 {
@@ -25,6 +26,33 @@ namespace Listas.AVLRepuestos
             }
         }
 
+        public string GenerarTextoPlano()
+        {
+            StringBuilder texto = new StringBuilder();
+            GenerarTextoPlano(raiz, texto);
+            return texto.ToString();
+        }
+
+        private void GenerarTextoPlano(NodeAVLRepu? nodo, StringBuilder texto)
+        {
+            if (nodo != null)
+            {
+                GenerarTextoPlano(nodo.izq, texto);
+                texto.AppendLine($"{nodo.val.Id},{nodo.val.Nombre},{nodo.val.Descripcion},{nodo.val.Precio}");
+                GenerarTextoPlano(nodo.der, texto);
+            }
+        }
+
+        public int ContarRepuestos()
+        {
+            return ContarNodos(raiz);
+        }
+
+        private int ContarNodos(NodeAVLRepu? nodo)
+        {
+            if (nodo == null) return 0;
+            return 1 + ContarNodos(nodo.izq) + ContarNodos(nodo.der);
+        }
         public void Add(Repuesto val, ref NodeAVLRepu? padre)
         {
             if (padre == null)

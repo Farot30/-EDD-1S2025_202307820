@@ -32,7 +32,7 @@ namespace INterfacesAdmin.VisualizarRepuesto
             ListaFacturas = ListaFactura;
             grafoNodiri = Grafo;
             
-            SetDefaultSize(425, 350);
+            SetDefaultSize(425, 400);
             SetPosition(WindowPosition.Center);
 
             Fixed fixeds = new Fixed();

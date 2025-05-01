@@ -128,8 +128,8 @@ namespace INterfacesAdmin.AgregarUsuarios
                             // Validar que el correo no exista en la blockchain
                             if (!blockchainUsuarios.VerificarCorreo(correo))
                             {
-                                // Crear el nuevo usuario
-                                Usuario nuevoUsuarios = new Usuario(id, nombre, apellido, correo, edad, contrasenia);
+                                string contrasenaEncriptada = Blockchain.EncriptacionSHa256(contrasenia);
+                                Usuario nuevoUsuarios = new Usuario(id, nombre, apellido, correo, edad, contrasenaEncriptada);
 
                                 // Agregar el usuario a la blockchain
                                 blockchainUsuarios.AddBlock(nuevoUsuarios);

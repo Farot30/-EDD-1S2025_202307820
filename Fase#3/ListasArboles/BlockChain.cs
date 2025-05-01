@@ -16,6 +16,7 @@ namespace Listas.Blockchains
             Chain = new List<Block>();
             // Crear el bloque génesis
             var genesisBlock = new Block(0, new Usuario(), "0000");
+            genesisBlock.Hash = genesisBlock.CalculateHash(); // Calcular el hash del bloque génesis
             Chain.Insert(0, genesisBlock);
         }
         public void AddBlock(Usuario data)
@@ -32,13 +33,53 @@ namespace Listas.Blockchains
                 return;
             }
 
-            // Encriptar la contraseña del usuario antes de agregarlo
-            data.Contrasena = EncriptacionSHa256(data.Contrasena);
-
-            int index = Chain[0].Index + 1;
-            string previousHash = Chain[0].Hash;
+            int index = Chain.Count; // El índice del nuevo bloque
+            string previousHash = Chain.Count > 0 ? Chain[Chain.Count - 1].Hash : "0000"; // Hash del bloque anterior o "0000" para el bloque génesis
             var newBlock = new Block(index, data, previousHash);
-            Chain.Insert(0, newBlock);
+            Chain.Add(newBlock); // Agregar el bloque al final de la lista
+        }
+
+        public bool ValidarIntegridad()
+        {
+            try
+            {
+                for (int i = 0; i < Chain.Count; i++)
+                {
+                    Block currentBlock = Chain[i];
+
+                    Console.WriteLine($"Bloque {i}:");
+                    Console.WriteLine($"Hash almacenado: {currentBlock.Hash}");
+                    Console.WriteLine($"PreviousHash: {currentBlock.PreviousHash}");
+
+                    // Verificar que el PreviousHash coincida con el hash del bloque anterior
+                    if (i > 0)
+                    {
+                        Block previousBlock = Chain[i - 1];
+                        if (currentBlock.PreviousHash != previousBlock.Hash)
+                        {
+                            Console.WriteLine($"Error: El PreviousHash del bloque {i} no coincide con el hash del bloque anterior.");
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        // Verificar que el bloque génesis tenga un PreviousHash de "0000"
+                        if (currentBlock.PreviousHash != "0000")
+                        {
+                            Console.WriteLine("Error: El bloque génesis tiene un PreviousHash inválido.");
+                            return false;
+                        }
+                    }
+                }
+
+                Console.WriteLine("La cadena de bloques es válida.");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al validar la integridad de la cadena: {ex.Message}");
+                return false;
+            }
         }
 
         public string GenerarJson()
@@ -48,9 +89,10 @@ namespace Listas.Blockchains
                 // Crear una lista para almacenar los datos de los usuarios
                 List<Usuario> usuarios = new List<Usuario>();
 
-                // Recorrer la cadena de bloques y extraer los datos de los usuarios
-                foreach (var block in Chain)
+                // Recorrer la cadena de bloques en orden ascendente (del bloque más antiguo al más reciente)
+                for (int i = Chain.Count - 1; i >= 0; i--)
                 {
+                    Block block = Chain[i];
                     if (block.Data.Id > 0) // Verificar si el usuario tiene un ID válido
                     {
                         usuarios.Add(block.Data);
@@ -147,7 +189,7 @@ namespace Listas.Blockchains
 
                     if (i > 0)
                     {
-                        dot.AppendLine($"    Block{i} -> Block{i - 1};");
+                        dot.AppendLine($"    Block{i} <- Block{i - 1};");
                     }
                 }
 

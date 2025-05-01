@@ -25,8 +25,10 @@ namespace Programa
 
             Application.Init();
             Logiarses login = new Logiarses(blockChain, listaVehiculos, avlTreeRepuestos, binarioServicio, arbolMerkle, grafoNodiri);
+            login.CargarBackup();
             login.ShowAll();
             Application.Run();
         }
+        
     }
 }

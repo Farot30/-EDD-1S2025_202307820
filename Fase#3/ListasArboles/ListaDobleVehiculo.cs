@@ -2,6 +2,7 @@ using Clases.Vehiculo;
 using Nodos.NodoVehiculo;
 using Clases.Usuarios;
 using Listas.Blockchains;
+using System.Text;
 
 namespace Listas.ListaDobleVehiculos
 {
@@ -76,6 +77,18 @@ namespace Listas.ListaDobleVehiculos
             }
         }
 
+        public int ContarVehiculos()
+        {
+            int contador = 0;
+            NodoVehiculo? actual = primero;
+            while (actual != null)
+            {
+                contador++;
+                actual = actual.Siguiente;
+            }
+            return contador;
+        }
+
         public Vehiculos? BuscarVehiculoPorId(int id)
         {
             NodoVehiculo? actual = primero;
@@ -90,6 +103,19 @@ namespace Listas.ListaDobleVehiculos
             return null;
         }
 
+        public string GenerarTextoPlano()
+        {
+            StringBuilder texto = new StringBuilder();
+            NodoVehiculo? actual = primero;
+
+            while (actual != null)
+            {
+                texto.AppendLine($"{actual.Data.Id},{actual.Data.IdUsuario},{actual.Data.Marca},{actual.Data.Modelo},{actual.Data.Placa}");
+                actual = actual.Siguiente;
+            }
+
+            return texto.ToString();
+        }
         public List<Vehiculos> BuscarVehiculosPorIdUsuario(int idUsuario)
         {
             List<Vehiculos> vehiculos = new List<Vehiculos>();

@@ -29,7 +29,7 @@ namespace Clases.Blocks
         }
         private string GenerateHash()
         {
-            string rawdata = Index + Timestamp + SerializeUsuario(Data) + Nonce + PreviousHash;
+            string rawdata = $"{Index}{Timestamp}{SerializeUsuario(Data)}{Nonce}{PreviousHash}";
             using (SHA256 sha256 = SHA256.Create())
             {
                 byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(rawdata));
@@ -37,7 +37,7 @@ namespace Clases.Blocks
             }
 
         }
-        private string CalculateHash()
+        public string CalculateHash()
         {
             string hash;
             do{

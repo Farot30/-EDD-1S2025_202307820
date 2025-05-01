@@ -4,6 +4,9 @@ using System.IO;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Linq;
 using Programa;
 using Logiarse;
 using INterfacesAdmin.CargasMasivas;
@@ -17,7 +20,9 @@ using Listas.AVLRepuestos;
 using Listas.BinarioServicio;
 using ListasArboles.ArbolMerkles;
 using ListasArboles.GrafoNodiri;
+using ListasArboles.CompresionHUffman;
 using GeneracionGrafica;
+
 
 namespace INterfacesAdmin.Menu
 {
@@ -179,21 +184,26 @@ namespace INterfacesAdmin.Menu
                 string usuariosJson = blockchainUsuarios.GenerarJson(); // Método que genera el JSON de usuarios
                 File.WriteAllText(usuariosJsonPath, usuariosJson);
                 Console.WriteLine($"Backup de usuarios generado en: {usuariosJsonPath}");
-/*
+
                 // 2. Generar archivo .edd para Vehículos
-                string vehiculosPath = Path.Combine(backupPath, "Vehiculos.edd");
+                string vehiculosEddPath = System.IO.Path.Combine(backupPath, "Vehiculos.edd");
+                string treeFile = System.IO.Path.Combine(backupPath, "huffman_vehiculo.json");
                 string vehiculosData = listaVehiculos.GenerarTextoPlano(); // Método que genera el texto plano de vehículos
-                string vehiculosComprimido = ComprimirHuffman(vehiculosData); // Método para comprimir con Huffman
-                File.WriteAllText(vehiculosPath, vehiculosComprimido);
-                Console.WriteLine($"Backup comprimido de vehículos generado en: {vehiculosPath}");
+                var (vehiculosComprimido, vehiculosRaiz) = CompresionHuffman.ComprimirTextoHuffman(vehiculosData); // Comprimir con Huffman
+                File.WriteAllText(vehiculosEddPath, vehiculosComprimido);
+                File.WriteAllText(treeFile, JsonSerializer.Serialize(vehiculosRaiz));
+                Console.WriteLine($"Backup comprimido de vehículos generado en: {vehiculosEddPath}");
+                
 
                 // 3. Generar archivo .edd para Repuestos
-                string repuestosPath = Path.Combine(backupPath, "Repuestos.edd");
+                string repuestosEddPath = System.IO.Path.Combine(backupPath, "Repuestos.edd");
+                string treeFileRepuestos = System.IO.Path.Combine(backupPath, "huffman_repuesto.json");
                 string repuestosData = avlTreeRepuestos.GenerarTextoPlano(); // Método que genera el texto plano de repuestos
-                string repuestosComprimido = ComprimirHuffman(repuestosData); // Método para comprimir con Huffman
-                File.WriteAllText(repuestosPath, repuestosComprimido);
-                Console.WriteLine($"Backup comprimido de repuestos generado en: {repuestosPath}");
-*/
+                var (repuestosComprimido, repuestosRaiz) = CompresionHuffman.ComprimirTextoHuffman(repuestosData); // Comprimir con Huffman
+                File.WriteAllText(repuestosEddPath, repuestosComprimido);
+                File.WriteAllText(treeFileRepuestos, JsonSerializer.Serialize(repuestosRaiz));
+                Console.WriteLine($"Backup comprimido de repuestos generado en: {repuestosEddPath}");
+
                 MostrarMensaje("Backup generado exitosamente.");
             }
             catch (Exception ex)

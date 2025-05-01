@@ -105,7 +105,8 @@ namespace INterfacesAdmin.CargasMasivas
                             {
                                 if (!blockchainUsuarios.VerificarCorreo(usuarioTemp.Correo))
                                 {
-                                    Usuario usuario = new Usuario(usuarioTemp.ID, usuarioTemp.Nombres, usuarioTemp.Apellidos, usuarioTemp.Correo, usuarioTemp.Edad, usuarioTemp.Contrasenia);
+                                    string contrasenaEncriptada = Blockchain.EncriptacionSHa256(usuarioTemp.Contrasenia);
+                                    Usuario usuario = new Usuario(usuarioTemp.ID, usuarioTemp.Nombres, usuarioTemp.Apellidos, usuarioTemp.Correo, usuarioTemp.Edad, contrasenaEncriptada);
                                     blockchainUsuarios.AddBlock(usuario); // Agregar usuario como bloque en la blockchain
                                 }
                                 else
@@ -191,7 +192,7 @@ namespace INterfacesAdmin.CargasMasivas
                                     {
                                         Servicio servicio = new Servicio(servicioTemp.Id, servicioTemp.Id_repuesto, servicioTemp.Id_vehiculo, servicioTemp.Detalles, servicioTemp.Costo, servicioTemp.MetodoPago);
                                         binarioServicio.Insertar(servicio);
-                                        binarioServicio.Mostrar();
+
                                         grafoNodiri.AgregarVehiculoConRepuesto(servicioTemp.Id_vehiculo, servicioTemp.Id_repuesto);
                                         string MetodoPago = servicioTemp.MetodoPago;
                                         int IdServicio = servicioTemp.Id;
@@ -271,10 +272,10 @@ namespace INterfacesAdmin.CargasMasivas
             listaVehiculos.Mostrar();
 
             Console.WriteLine("Repuestos:");
-            avlTreeRepuestos.Mostrar();
+            avlTreeRepuestos.Mostrar();*/
 
             Console.WriteLine("Servicios:");
-            binarioServicio.Mostrar();*/
+            binarioServicio.Mostrar();
 
             Console.WriteLine("Facturas:");
             ListaFacturas.MostrarFacturas();

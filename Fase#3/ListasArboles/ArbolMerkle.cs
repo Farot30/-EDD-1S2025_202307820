@@ -93,6 +93,11 @@ namespace ListasArboles.ArbolMerkles
             RaizArbol = currentLevel[0]; // La raíz es el único nodo que queda
         }
 
+        public List<NodoFacturas> ObtenerNodosHojas()
+        {
+            return nodosHojas;
+        }
+
         public string GenerateDot()
         {
             StringBuilder dot = new StringBuilder();

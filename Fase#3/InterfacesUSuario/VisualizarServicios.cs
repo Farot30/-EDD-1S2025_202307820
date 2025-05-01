@@ -38,13 +38,13 @@ namespace InterfacesUsuario.VisualizarServicios
             grafoNodiri = Grafo;
             IdUsuario = idUsuario;
             
-            SetDefaultSize(425, 400);
+            SetDefaultSize(450, 400);
             SetPosition(WindowPosition.Center);
 
             Fixed fixeds = new Fixed();
 
             EventBox label = CreateStyledLabel("Visualizar Servicios", "Arial 20");
-            fixeds.Put(label, 120, 50);
+            fixeds.Put(label, 130, 50);
 
             Pre_Orden = new Button("Pre-Orden");
             Pre_Orden.Clicked += PreOrden;
@@ -71,13 +71,14 @@ namespace InterfacesUsuario.VisualizarServicios
             treeView.AppendColumn("Vehiculo", new CellRendererText(), "text", 2);
             treeView.AppendColumn("Detalle", new CellRendererText(), "text", 3);
             treeView.AppendColumn("Costo", new CellRendererText(), "text", 4);
+            treeView.AppendColumn("Metodo de Pago", new CellRendererText(), "text", 5);
 
-            listStore = new ListStore(typeof(string), typeof(string), typeof(string), typeof(string), typeof(double));
+            listStore = new ListStore(typeof(string), typeof(string), typeof(string), typeof(string), typeof(double), typeof(string));
             treeView.Model = listStore;
 
             ScrolledWindow scrolledWindow = new ScrolledWindow();
             scrolledWindow.Add(treeView);
-            scrolledWindow.SetSizeRequest(350, 200);
+            scrolledWindow.SetSizeRequest(380, 200);
             fixeds.Put(scrolledWindow, 50, 150);
 
             Add(fixeds);

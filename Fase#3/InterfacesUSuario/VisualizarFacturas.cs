@@ -55,10 +55,53 @@ namespace InterfacesUsuario.VisualizarFacturas
 
             ScrolledWindow scrolledWindow = new ScrolledWindow();
             scrolledWindow.Add(treeView);
-            scrolledWindow.SetSizeRequest(380, 325);
+            scrolledWindow.SetSizeRequest(365, 310);
             fixeds.Put(scrolledWindow, 50, 100);
 
             Add(fixeds);
+
+            // Llenar el TreeView con las facturas del usuario logueado
+            CargarFacturasUsuario();
+        }
+
+        private void CargarFacturasUsuario()
+        {
+            // Limpiar el ListStore
+            listStore.Clear();
+
+            // Recorrer las facturas en el árbol de Merkle
+            foreach (var nodo in ListaFacturas.ObtenerNodosHojas())
+            {
+                if (nodo.Factura != null)
+                {
+                    // Obtener el ID del servicio de la factura
+                    int idServicio = nodo.Factura.Value.ID_servicio;
+
+                    // Buscar el servicio en la lista de servicios
+                    var servicio = ListaServicios.BuscarServicioPorId(idServicio);
+
+                    if (servicio != null)
+                    {
+                        // Obtener el ID del vehículo asociado al servicio
+                        int idVehiculo = servicio.Value.ID_vehiculo;
+
+                        // Buscar el vehículo en la lista de vehículos
+                        var vehiculo = ListaDobleVehiculos.BuscarVehiculoPorId(idVehiculo);
+
+                        if (vehiculo != null && vehiculo.Value.IdUsuario == IdUsuario)
+                        {
+                            // Si el vehículo pertenece al usuario logueado, agregar la factura al TreeView
+                            listStore.AppendValues(
+                                nodo.Factura.Value.ID.ToString(),
+                                nodo.Factura.Value.ID_servicio.ToString(),
+                                nodo.Factura.Value.Total,
+                                nodo.Factura.Value.Fecha,
+                                nodo.Factura.Value.Metodo_pago
+                            );
+                        }
+                    }
+                }
+            }
         }
 
         private void MostrarMensaje(string mensaje)
