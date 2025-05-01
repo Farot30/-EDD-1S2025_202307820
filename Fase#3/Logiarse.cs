@@ -185,7 +185,15 @@ namespace Logiarse
                             int modelo = int.Parse(datos[3]);
                             string placa = datos[4];
 
-                            ListaDobleVehiculos.Insertar(new Vehiculos(id, idUsuario, marca, modelo, placa));
+                            if(blockchainUsuarios.BuscarUsuarioPorId(idUsuario) != null)
+                            {
+                                ListaDobleVehiculos.Insertar(new Vehiculos(id, idUsuario, marca, modelo, placa));
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Error: El usuario con ID {idUsuario} no existe.");
+                                MostrarMensaje($"Error: El usuario con ID {idUsuario} no existe.");
+                            }   
                         }
                     }
                     ListaDobleVehiculos.Mostrar();
@@ -238,7 +246,6 @@ namespace Logiarse
                     }
                     Console.WriteLine("Texto Descomprimido");
                     Console.WriteLine(repuestosDescomprimido);
-                    listaRepuesto.Mostrar();
                 }
                 else
                 {
